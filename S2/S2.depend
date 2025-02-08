@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1739009475 source:c:\users\megav\desktop\universidad\primero\programas\s2\main.c
+	<stdio.h>
+	<math.h>
+	<time.h>
+	<stdlib.h>
+
