@@ -49,8 +49,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Pantalla.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="main2.cpp" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
