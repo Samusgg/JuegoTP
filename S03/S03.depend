@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1738838419 source:c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.c
+1739129111 source:c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.c
 	"Pantalla.h"
 	<stdlib.h>
 	<signal.h>
 	<stdio.h>
 	<math.h>
 
-1738838428 c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.h
+1739129265 c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.h
 	"SDL2/SDL.h"
 
 1739016133 c:\sdl2-devel-2.26.2-mingw\sdl2-2.26.2\x86_64-w64-mingw32\include\sdl2\sdl.h
@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1739116420 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1739129888 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	"Pantalla.h"
 	<time.h>
 	<stdlib.h>

@@ -40,7 +40,7 @@ typedef struct ImagenRep *Imagen;
 /**
   \brief Crea, configura y activa una ventana gráfica en donde aparecerá el resultado de las distintas primitivas gráficas que se vayan aplicando.
 
-  Debe ser ejecutada antes que ninguna otra primitiva gráfica, especialmente las que se encargan de leer imágenes de disco. 
+  Debe ser ejecutada antes que ninguna otra primitiva gráfica, especialmente las que se encargan de leer imágenes de disco.
   Una vez creada no es posible crear otra pantalla antes de destruir la primera y cualquier llamada posterior no tendrá efecto.
 
   \param titulo Título de la ventana.

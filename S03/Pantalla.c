@@ -74,7 +74,7 @@ void software_update() {
 
 }
 
-void hardware_update() {    
+void hardware_update() {
     SDL_RenderPresent( pantalla.renderer );
 }
 
@@ -136,9 +136,9 @@ void crea_pantalla(char titulo[], int w, int h)
 
 void activa_pantalla_completa() {
     if ( !pantalla.active ) return;
-    SDL_SetWindowFullscreen(pantalla.window, SDL_WINDOW_FULLSCREEN_DESKTOP); 
-    SDL_DisplayMode dm; 
-    SDL_GetWindowDisplayMode(pantalla.window, &dm);  
+    SDL_SetWindowFullscreen(pantalla.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_DisplayMode dm;
+    SDL_GetWindowDisplayMode(pantalla.window, &dm);
     pantalla.fullscreen = 1;
     pantalla.fsWidth = dm.w;
     pantalla.fsHeight = dm.h;
@@ -146,7 +146,7 @@ void activa_pantalla_completa() {
 
 void desactiva_pantalla_completa() {
     if ( !pantalla.active ) return;
-    SDL_SetWindowFullscreen(pantalla.window, 0);  
+    SDL_SetWindowFullscreen(pantalla.window, 0);
     pantalla.fullscreen = 0;
 }
 
@@ -207,7 +207,7 @@ int x_raton()
         return xi;
     }
 }
- 
+
 int y_raton()
 {
     int xi,yi;
@@ -254,7 +254,7 @@ void dibuja_linea(int x1, int y1, int x2, int y2)
 }
 
 void dibuja_triangulo(int x1, int y1, int x2, int y2, int x3, int y3) {
-    pantalla.dibuja_triangulo(x1,y1,x2,y2,x3,y3);    
+    pantalla.dibuja_triangulo(x1,y1,x2,y2,x3,y3);
 }
 
 void dibuja_triangulo_slow(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -538,7 +538,7 @@ void dibuja_texto(char *st, int x, int y)
 #define MAX(a,b) (a>b?a:b)
 
 char *lee_texto(char *titulo) {
-    
+
     int x = pantalla.width/4;
     int y = pantalla.height/2 - 10;
     int max = 1024;
@@ -656,7 +656,7 @@ char *lee_texto(char *titulo) {
 		color_trazo(0,0,0, 255);
 
 		dibuja_texto(msg, x+4,y+22);
-        
+
 		tick++;
 		if (tick < 20) {
 			dibuja_linea(x + 4 + (cursor-msg_start)*9 , y + 33 + 1, x + 4 + (cursor-msg_start)*9 , y + 23 );

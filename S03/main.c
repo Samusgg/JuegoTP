@@ -2,36 +2,25 @@
 #include <time.h>
 #include <stdlib.h>
 
-/**
-Estructura para
-indicar el color a utilizar.
-*/
-struct Color{
-int r;
-int g;
-int b;
-int alfa;
-};
 
 /**
 Estructura de datos que modela un ente
 de mi videojuego.
 */
-struct Ente {
+typedef struct {
   int x;
   int y;
   int vidas;
   int wt; //width
   int ht; //height
-  struct Color color;
-};
+  char imagen[40];
+}Ente;
 
 /**
 Metodo para dibujar entes.
 */
-void dibujarEnte (struct Ente ente){
-    color_trazo(ente.color.r,ente.color.g,ente.color.b,ente.color.alfa);
-    dibuja_rectangulo(ente.x,ente.y,ente.wt,ente.ht);//Ente
+void dibujarEnte (Ente * ente){
+    dibuja_imagen(lee_imagen(ente -> imagen,0),ente -> x,ente -> y,ente -> wt,ente -> ht);//Ente
     actualiza_pantalla();
 }
 
@@ -48,7 +37,7 @@ int solapeRectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, i
     }
 }
 
-void dibujarFondo(struct Ente tesoro, int puntos){
+void dibujarFondo(Ente * tesoro, int puntos){
     char texto[4];
     sprintf(texto,"%d",puntos);
 
@@ -63,19 +52,15 @@ void dibujarFondo(struct Ente tesoro, int puntos){
 int main(int argc, char *argv[]){
     srand(time(NULL));//Establecemos semilla aleatoria.
 
-    struct Color rojo = {.r = 255, .g = 0, .b = 0, .alfa = 255};
-    struct Color verde = {.r = 0, .g = 255, .b = 0, .alfa = 255};
-    struct Color azul = {.r = 0, .g = 0, .b = 255, .alfa = 255};
-
-    struct Ente heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .color = rojo};
-    struct Ente tesoro = {.x = 749, .y = 429, .vidas = -1, .wt = 50, .ht = 50, .color = azul};
-    struct Ente enemigo = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .color = verde};
-
+    Ente heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  "./imagenes/steve.bmp"};
+    Ente tesoro = {.x = 749, .y = 429, .vidas = -1, .wt = 50, .ht = 50, .imagen = "./imagenes/esmerald.bmp"};
+    Ente enemigo = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = "./imagenes/criper.bmp"};
 
     int puntuacion = 0, fin = 0;
 
     crea_pantalla("Ejemplo 1",800,480);
     while(pantalla_activa() && !fin){
+
         if(tecla_pulsada(SDL_SCANCODE_UP) && heroe.y>0){
             heroe.y = heroe.y-5;
         }
@@ -88,8 +73,8 @@ int main(int argc, char *argv[]){
         if(tecla_pulsada(SDL_SCANCODE_RIGHT) && heroe.x+heroe.wt<799){
             heroe.x = heroe.x+5;
         }
-    dibujarFondo(tesoro,puntuacion);
-    dibujarEnte(heroe);//Heroe
+    dibujarFondo(&tesoro,puntuacion);
+    dibujarEnte(&heroe);//Heroe
 
     //Se encarga de modificar el movimiento del enemigo.
     if(heroe.x/2>enemigo.x/2){
@@ -102,7 +87,7 @@ int main(int argc, char *argv[]){
     }else{
         enemigo.y = enemigo.y - 2;
     };
-    dibujarEnte(enemigo);//Heroe
+    dibujarEnte(&enemigo);//Heroe
 
 
     //Colision con tesoro.
@@ -124,6 +109,9 @@ int main(int argc, char *argv[]){
 
     espera(40);
 }
+libera_imagen(heroe.imagen);
+libera_imagen(tesoro.imagen);
+libera_imagen(enemigo.imagen);
 libera_pantalla();
 
 return 0;
