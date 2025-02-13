@@ -14,6 +14,7 @@ typedef struct {
     int wt; //width
     int ht; //height
     Imagen imagen;
+    int v; //Velocidad
 } Ente;
 
 /**
@@ -49,31 +50,34 @@ void dibujarFondo(Ente * fondo, Ente * tesoro, int puntos) {
     dibujarEnte(tesoro);
 }
 
+void moverHeroe(Ente * heroe){
+  if(tecla_pulsada(SDL_SCANCODE_UP) && heroe->y>0) {
+            heroe->y = heroe->y - heroe->v;
+        }
+        if(tecla_pulsada(SDL_SCANCODE_DOWN) && heroe->y+heroe->ht<479) {
+            heroe->y = heroe->y + heroe->v;
+        }
+        if(tecla_pulsada(SDL_SCANCODE_LEFT) && heroe->x>0) {
+            heroe->x = heroe->x - heroe->v;
+        }
+        if(tecla_pulsada(SDL_SCANCODE_RIGHT) && heroe->x+heroe->wt<799) {
+            heroe->x = heroe->x + heroe->v;
+        }
+}
 
 int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
     crea_pantalla("Ejemplo 1",800,480);
-    Ente heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0)};
-    Ente fondo = {.x = 0, .y = 0, .vidas = -1, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0) };
-    Ente tesoro = {.x = 749, .y = 429, .vidas = -1, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1) };
-    Ente enemigo = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/criper.bmp",0)};
+    Ente heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5};
+    Ente fondo = {.x = 0, .y = 0, .vidas = -1, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0), .v = -1};
+    Ente tesoro = {.x = 749, .y = 429, .vidas = -1, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1), .v = -1};
+    Ente enemigo = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/criper.bmp",0), .v = 4};
 
     int puntuacion = 0, fin = 0;
     while(pantalla_activa() && !fin) {
 
-        if(tecla_pulsada(SDL_SCANCODE_UP) && heroe.y>0) {
-            heroe.y = heroe.y-5;
-        }
-        if(tecla_pulsada(SDL_SCANCODE_DOWN) && heroe.y+heroe.ht<479) {
-            heroe.y = heroe.y+5;
-        }
-        if(tecla_pulsada(SDL_SCANCODE_LEFT) && heroe.x>0) {
-            heroe.x = heroe.x-5;
-        }
-        if(tecla_pulsada(SDL_SCANCODE_RIGHT) && heroe.x+heroe.wt<799) {
-            heroe.x = heroe.x+5;
-        }
+        moverHeroe(&heroe);
         dibujarFondo(&fondo,&tesoro,puntuacion);
         dibujarEnte(&heroe);//Heroe
 
@@ -113,6 +117,7 @@ int main(int argc, char *argv[]) {
     libera_imagen(heroe.imagen);
     libera_imagen(tesoro.imagen);
     libera_imagen(enemigo.imagen);
+    libera_imagen(fondo.imagen);
     libera_pantalla();
 
     return 0;
