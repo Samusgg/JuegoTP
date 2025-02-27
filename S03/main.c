@@ -8,10 +8,10 @@
     FONDO
 */
 struct FondoStr{
-    int x;
-    int y;
-    int wt; //width
-    int ht; //height
+    int x;  //Eje x
+    int y;  //Eje Y
+    int wt; //Anchura
+    int ht; //Altura
     Imagen imagen;
 };
 typedef struct FondoStr * Fondo;
@@ -20,10 +20,10 @@ typedef struct FondoStr * Fondo;
     TESORO
 */
 struct TesoroStr{
-    int x;
-    int y;
-    int wt; //width
-    int ht; //height
+    int x;  //Eje x
+    int y;  //Eje Y
+    int wt; //Anchura
+    int ht; //Altura
     Imagen imagen;
 };
 typedef struct TesoroStr * Tesoro;
@@ -33,11 +33,11 @@ typedef struct TesoroStr * Tesoro;
     HEROE
 */
 struct HeroeStr{
-    int x;
-    int y;
+    int x;  //Eje x
+    int y;  //Eje Y
+    int wt; //Anchura
+    int ht; //Altura
     int vidas;
-    int wt; //width
-    int ht; //height
     Imagen imagen;
     int v; //Velocidad
     int puntos;
@@ -49,28 +49,29 @@ typedef struct HeroeStr * Heroe;
     ENEMIGO
 */
 typedef struct {
-    int x;
-    int y;
+    int x;  //Eje x
+    int y;  //Eje Y
+    int wt; //Anchura
+    int ht; //Altura
     int vidas;
-    int wt; //width
-    int ht; //height
     Imagen imagen;
     int v; //Velocidad
-    int activo;
-    int dir; //Direccion
+    int activo; //0 si "no hay enemigo", 1 si lo hay.
+    int dir; //Dirección
 } EnemigoRep;
 
 /**
     BALA
 */
 typedef struct {
-    int x;
-    int y;
-    int wt; //width
-    int ht; //height
+    int x;  //Eje x
+    int y;  //Eje Y
+    int wt; //Anchura
+    int ht; //Altura
     Imagen imagen;
     int vx; //Velocidad
     int vy; //Velocidad
+    int dir; //Dirección
 } BalaRep;
 typedef BalaRep * Bala;
 
@@ -86,7 +87,16 @@ typedef FILE * Archivo;
 
 
 /**
-Comprueba si dos rectangulos colisionan entre si.
+    \brief Comprueba si dos rectangulos colisionan entre si.
+    \param x1 Coordenada horizontal de la esquina superior izquierda del primer rectángulo.
+    \param y1 Coordenada vertical de la esquina superior izquierda del primer rectángulo.
+    \param w1 Anchura del primer rectangulo a dibujar.
+    \param h1 Altura del primer rectangulo a dibujar.
+    \param x2 Coordenada horizontal de la esquina superior izquierda del segundo rectángulo.
+    \param y2 Coordenada vertical de la esquina superior izquierda del segundo rectángulo.
+    \param w2 Anchura del segundo rectangulo a dibujar.
+    \param h2 Altura del segundo rectangulo a dibujar.
+    \return 1 Si hay solape, 0 en caso contrario.
 */
 int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 ) {
     if(((x1<=x2 && x1+w1>=x2)||(x1<=x2+w2 && x1+w1 >= x2+w2))&&
@@ -98,8 +108,8 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
 }
 
 /**
-Dibuja el fondo
-
+    \brief Dibuja el fondo.
+    \param fondo Puntero a la estructura FondoStr.
 */
 void dibuja_fondo(Fondo fondo) {
     //Dibuja fondo
@@ -107,7 +117,9 @@ void dibuja_fondo(Fondo fondo) {
 }
 
 /**
-Dibuja informacion sobre los puntos y las vidas.
+    \brief Dibuja informacion sobre los puntos y las vidas.
+    \param puntos Puntuacion.
+    \param vidas Vidas del heroe restantes.
 */
 void dibuja_info(int puntos, int vidas){
     char textoV[32] = "Vidas: ";
@@ -123,6 +135,10 @@ void dibuja_info(int puntos, int vidas){
     dibuja_texto(textoP,200,0);
 }
 
+/**
+    \brief Dibuja el tesoro.
+    \param tesoro Puntero a estructura TesoroStr.
+*/
 void dibuja_tesoro(Tesoro tesoro) {
     //Dibuja tesoro
     dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
@@ -134,7 +150,8 @@ void dibuja_tesoro(Tesoro tesoro) {
 
 
 /**
-Mueve al heroe.
+    \brief Mueve al heroe.
+    \param heroe Puntero a estructura HeroeStr.
 */
 void mover_heroe(Heroe heroe) {
     if(tecla_pulsada(SDL_SCANCODE_UP) && heroe->y>0) {
@@ -159,7 +176,12 @@ void mover_heroe(Heroe heroe) {
 
 
 /**
-Es una funcion dedicada a crear balas para el heroe.
+    \brief Es una funcion dedicada a crear balas para el heroe.
+    \param x Coordenada horizontal de la esquina superior izquierda de la bala.
+    \param y Coordenada vertical de la esquina superior izquierda de la bala.
+    \param vx Velocidad de la bala en el eje x.
+    \param vy Velocidad de la bala en el eje y.
+    \return Puntero de la nueva bala.
 */
 Bala crea_bala (int x, int y, int vx, int vy) {
     Bala miBala = malloc(sizeof(BalaRep));
@@ -173,28 +195,63 @@ Bala crea_bala (int x, int y, int vx, int vy) {
     return miBala;
 }
 
+/**
+    \brief Libera de memoria la bala.
+    \param b Puntero a BalaRep
+
+*/
 void libera_bala(Bala b) {
     free(b->imagen);
     free(b);
 }
 
+/**
+    \brief Mueve la bala modificando su posición.
+    \param b Puntero a BalaRep
+
+*/
 void mueve_bala(Bala b) {
     b->y = b->y - b->vy;
 }
 
-void dibuja_bala(Bala b) {
+/**
+    \brief Dibuja la bala.
+    \param b Puntero a BalaRep
+    \param angulo Angulo de inclinación bala en sentido horario.
+
+*/
+void dibuja_bala(Bala b, double angulo) {
     //Dibuja Bala
-    dibuja_imagen(b -> imagen,b -> x,b -> y,b -> wt,b -> ht);
+    dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,angulo,SDL_FLIP_NONE);
 }
 
+/**
+    \brief Obtiene posicion en x de la bala.
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición en x de la bala.
+*/
 int get_x_bala(Bala b) {
     return b->x;
 }
 
+/**
+    \brief Obtiene posicion en y de la bala.
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición en y de la bala.
+*/
 int get_y_bala(Bala b) {
     return b->y;
 }
 
+/**
+    \brief Obtiene posicion en x de la bala.
+    \param  bala Puntero a estructura BalaRep.
+    \param x Coordenada horizontal de la esquina superior izquierda de la bala.
+    \param y Coordenada vertical de la esquina superior izquierda de la bala.
+    \param w Anchura de la bala.
+    \param h Altura de la bala.
+    \return 1 si hay colisión, 0 en caso contrario.
+*/
 int colision_bala (Bala bala, int x, int y, int w, int h) {
     if(solape_rectangulos(x,y,w,h,bala->x,bala->y,bala->wt,bala->ht)) {
         return 1;
@@ -202,6 +259,14 @@ int colision_bala (Bala bala, int x, int y, int w, int h) {
     return 0;
 }
 
+/**
+    \brief Detecta la colisión entre los enemigos y la bala.
+    \param enemigo Array de punteros a enemigos.
+    \param n Longitud del array de enemigos.
+    \param bala Puntero a estructura de BalaRep.
+    \return 1 si existe colision, 0 en caso contrario.
+
+*/
 int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
     for(int i = 0; i<n; i++) {
         if(colision_bala(bala,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
@@ -221,8 +286,10 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
 //*****************************************
 
 /**
-Esta funcion mueve a los enemigos activos respecto al heroe.
-
+    \brief Esta funcion mueve a los enemigos activos respecto al heroe.
+    \param enemigo Array de punteros a enemigos.
+    \param n Longitud del array de enemigos.
+    \param heroe Puntero a estructura de HeroeStr.
 */
 void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
     for(int i = 0; i<n; i++) {
@@ -255,8 +322,13 @@ void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
 
 
 /**
-Funcion que sirve para ver la colision del enemigo con objeto.
-
+    \brief Funcion que sirve para ver si hay colision entre los enemigos con un objeto.
+    \param n Longitud del array de enemigos.
+    \param x Coordenada horizontal de la esquina superior izquierda del objeto.
+    \param y Coordenada vertical de la esquina superior izquierda del objeto.
+    \param w Anchura del objeto.
+    \param h Altura del objeto.
+    \return 1 si existe colision, 0 si no.
 */
 int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int w, int h) {
     for(int i = 0; i<n; i++) {
@@ -330,7 +402,7 @@ int main(int argc, char *argv[]) {
         }
         if(bala!=NULL) {
             mueve_bala(bala);
-            dibuja_bala(bala);
+            dibuja_bala(bala,-45);
             if(get_y_bala(bala)<-51) {
                 libera_bala(bala);
                 bala = NULL;
