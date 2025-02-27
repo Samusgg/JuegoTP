@@ -13,7 +13,6 @@ typedef struct {
     int wt; //width
     int ht; //height
     Imagen imagen;
-    int puntos;
 } Fondo;
 
 /**
@@ -39,6 +38,7 @@ typedef struct {
     int ht; //height
     Imagen imagen;
     int v; //Velocidad
+    int puntos;
     int activo;
 } Heroe;
 
@@ -98,27 +98,32 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
 Dibuja el fondo
 
 */
-void dibuja_fondo(Fondo * fondo, Tesoro * tesoro, int vidas) {
+void dibuja_fondo(Fondo * fondo) {
+    //Dibuja fondo
+    dibuja_imagen(fondo -> imagen,fondo -> x,fondo -> y,fondo -> wt,fondo -> ht);
+}
+
+/**
+Dibuja informacion sobre los puntos y las vidas.
+*/
+void dibuja_info(int puntos, int vidas){
     char textoV[32] = "Vidas: ";
     char textoP[32] = "Puntos: ";
     char aux[12];
     sprintf(aux,"%d",vidas); //Transforma el entero a un array de caracteres.
     strcat(textoV, aux);     //Concatena los arrays de caracteres
-    sprintf(aux,"%d",fondo->puntos);
+    sprintf(aux,"%d",puntos);
     strcat(textoP, aux);
-
-    rellena_fondo(255,255,255,255);
-    //Dibuja fondo
-    dibuja_imagen(fondo -> imagen,fondo -> x,fondo -> y,fondo -> wt,fondo -> ht);
 
     color_trazo(255,0,0,255);
     dibuja_texto(textoV,399,0);
     dibuja_texto(textoP,200,0);
-
-    //Dibuja Tesoro
-    dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
 }
 
+void dibuja_tesoro(Tesoro * tesoro) {
+    //Dibuja tesoro
+    dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
+}
 
 //*****************************************
 //          Funciones HEROE
@@ -282,9 +287,9 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
     crea_pantalla("Ejemplo 1",800,480);
-    Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0),.puntos = 0};
+    Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
     Tesoro tesoro = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
-    Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .activo = 1};
+    Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .puntos = 0,.activo = 1};
     Bala bala = NULL;
     Archivo archi = fopen("./puntos.txt", "r+");
 
@@ -307,7 +312,11 @@ int main(int argc, char *argv[]) {
     int fin = 0, iteracion = 0;
     while(pantalla_activa() && !fin) {
 
-        dibuja_fondo(&fondo,&tesoro,heroe.vidas);
+        dibuja_fondo(&fondo);
+        dibuja_info(heroe.puntos,heroe.vidas);
+        //Dibuja Tesoro
+        dibuja_tesoro(&tesoro);
+
         //PROGRAMAS DE LA BALA
         if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
             bala = crea_bala(heroe.x,heroe.y,5,5);
@@ -326,7 +335,7 @@ int main(int argc, char *argv[]) {
 
         //Colision con tesoro.
         if(solape_rectangulos(heroe.x,heroe.y,heroe.wt,heroe.ht,tesoro.x,tesoro.y,tesoro.wt,tesoro.ht)) {
-            fondo.puntos ++;
+            heroe.puntos ++;
             tesoro.x = rand()%751;
             tesoro.y = rand()%431;
         }
@@ -334,7 +343,7 @@ int main(int argc, char *argv[]) {
         //Colision enemigo bala
         if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
             libera_bala(bala);
-            fondo.puntos++;
+            heroe.puntos++;
             bala = NULL;
         }
 
@@ -392,13 +401,13 @@ int main(int argc, char *argv[]) {
     //WHILE PARA DIBUJAR EL FONDO DEL RECORD.
     int record = 0;
     fscanf(archi, "%d", &record);
-    if(record < fondo.puntos){
+    if(record < heroe.puntos){
         rewind(archi);
-        fprintf(archi, "%d", fondo.puntos);
+        fprintf(archi, "%d", heroe.puntos);
     }
     libera_imagen(fondo.imagen);
     fondo.imagen =  lee_imagen("./imagenes/floor.bmp",0);
-    dibuja_fondo(&fondo,&tesoro,heroe.vidas);
+    dibuja_fondo(&fondo);
     actualiza_pantalla();
     while(pantalla_activa()) {}
 
