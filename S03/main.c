@@ -7,30 +7,32 @@
 /**
     FONDO
 */
-typedef struct {
+struct FondoStr{
     int x;
     int y;
     int wt; //width
     int ht; //height
     Imagen imagen;
-} Fondo;
+};
+typedef struct FondoStr * Fondo;
 
 /**
     TESORO
 */
-typedef struct {
+struct TesoroStr{
     int x;
     int y;
     int wt; //width
     int ht; //height
     Imagen imagen;
-} Tesoro;
+};
+typedef struct TesoroStr * Tesoro;
 
 
 /**
     HEROE
 */
-typedef struct {
+struct HeroeStr{
     int x;
     int y;
     int vidas;
@@ -40,7 +42,8 @@ typedef struct {
     int v; //Velocidad
     int puntos;
     int activo;
-} Heroe;
+};
+typedef struct HeroeStr * Heroe;
 
 /**
     ENEMIGO
@@ -98,7 +101,7 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
 Dibuja el fondo
 
 */
-void dibuja_fondo(Fondo * fondo) {
+void dibuja_fondo(Fondo fondo) {
     //Dibuja fondo
     dibuja_imagen(fondo -> imagen,fondo -> x,fondo -> y,fondo -> wt,fondo -> ht);
 }
@@ -120,7 +123,7 @@ void dibuja_info(int puntos, int vidas){
     dibuja_texto(textoP,200,0);
 }
 
-void dibuja_tesoro(Tesoro * tesoro) {
+void dibuja_tesoro(Tesoro tesoro) {
     //Dibuja tesoro
     dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
 }
@@ -133,7 +136,7 @@ void dibuja_tesoro(Tesoro * tesoro) {
 /**
 Mueve al heroe.
 */
-void mover_heroe(Heroe * heroe) {
+void mover_heroe(Heroe heroe) {
     if(tecla_pulsada(SDL_SCANCODE_UP) && heroe->y>0) {
         heroe->y = heroe->y - heroe->v;
     }
@@ -221,7 +224,7 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
 Esta funcion mueve a los enemigos activos respecto al heroe.
 
 */
-void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe * heroe ) {
+void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
     for(int i = 0; i<n; i++) {
         if(enemigo[i]->activo == 1) {
             switch(enemigo[i]->dir) {
@@ -287,9 +290,13 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
     crea_pantalla("Ejemplo 1",800,480);
-    Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
-    Tesoro tesoro = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
-    Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .puntos = 0,.activo = 1};
+    struct FondoStr fondoStr = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
+    struct TesoroStr tesoroStr = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
+    struct HeroeStr heroeStr = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .puntos = 0,.activo = 1};
+    Fondo fondo = &fondoStr;
+    Tesoro tesoro = &tesoroStr;
+    Heroe heroe = &heroeStr;
+
     Bala bala = NULL;
     Archivo archi = fopen("./puntos.txt", "r+");
 
@@ -312,14 +319,14 @@ int main(int argc, char *argv[]) {
     int fin = 0, iteracion = 0;
     while(pantalla_activa() && !fin) {
 
-        dibuja_fondo(&fondo);
-        dibuja_info(heroe.puntos,heroe.vidas);
+        dibuja_fondo(fondo);
+        dibuja_info(heroe->puntos,heroe->vidas);
         //Dibuja Tesoro
-        dibuja_tesoro(&tesoro);
+        dibuja_tesoro(tesoro);
 
         //PROGRAMAS DE LA BALA
         if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
-            bala = crea_bala(heroe.x,heroe.y,5,5);
+            bala = crea_bala(heroe->x,heroe->y,5,5);
         }
         if(bala!=NULL) {
             mueve_bala(bala);
@@ -329,31 +336,31 @@ int main(int argc, char *argv[]) {
                 bala = NULL;
             }
         }
-        mover_heroe(&heroe);
-        mover_enemigos(enemigos, nEnemigos, &heroe);
+        mover_heroe(heroe);
+        mover_enemigos(enemigos, nEnemigos, heroe);
 
 
         //Colision con tesoro.
-        if(solape_rectangulos(heroe.x,heroe.y,heroe.wt,heroe.ht,tesoro.x,tesoro.y,tesoro.wt,tesoro.ht)) {
-            heroe.puntos ++;
-            tesoro.x = rand()%751;
-            tesoro.y = rand()%431;
+        if(solape_rectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht)) {
+            heroe->puntos ++;
+            tesoro->x = rand()%751;
+            tesoro->y = rand()%431;
         }
 
         //Colision enemigo bala
         if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
             libera_bala(bala);
-            heroe.puntos++;
+            heroe->puntos++;
             bala = NULL;
         }
 
 
         //Se encarga de controlar la vida del heroe en funcion de las colisiones.
-        if(colision_enemigos_objeto(enemigos,10,heroe.x,heroe.y,heroe.wt,heroe.ht)) {
-            heroe.vidas --;
-            if(heroe.vidas>0) {
-                heroe.x = rand()%751;
-                heroe.y = rand()%431;
+        if(colision_enemigos_objeto(enemigos,10,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
+            heroe->vidas --;
+            if(heroe->vidas>0) {
+                heroe->x = rand()%751;
+                heroe->y = rand()%431;
             } else {
                 fin = 1;
             }
@@ -401,23 +408,23 @@ int main(int argc, char *argv[]) {
     //WHILE PARA DIBUJAR EL FONDO DEL RECORD.
     int record = 0;
     fscanf(archi, "%d", &record);
-    if(record < heroe.puntos){
+    if(record < heroe->puntos){
         rewind(archi);
-        fprintf(archi, "%d", heroe.puntos);
+        fprintf(archi, "%d", heroe->puntos);
     }
-    libera_imagen(fondo.imagen);
-    fondo.imagen =  lee_imagen("./imagenes/floor.bmp",0);
-    dibuja_fondo(&fondo);
+    libera_imagen(fondo->imagen);
+    fondo->imagen =  lee_imagen("./imagenes/floor.bmp",0);
+    dibuja_fondo(fondo);
     actualiza_pantalla();
     while(pantalla_activa()) {}
 
 
     //Final del programa.
     fclose(archi);
-    libera_imagen(heroe.imagen);
-    libera_imagen(tesoro.imagen);
+    libera_imagen(heroe->imagen);
+    libera_imagen(tesoro->imagen);
     libera_imagen(imagenEnemigo);
-    libera_imagen(fondo.imagen);
+    libera_imagen(fondo->imagen);
     libera_pantalla();
 
     return 0;
