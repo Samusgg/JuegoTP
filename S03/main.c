@@ -7,7 +7,7 @@
 /**
     FONDO
 */
-struct FondoStr{
+struct FondoStr {
     int x;  //Eje x
     int y;  //Eje Y
     int wt; //Anchura
@@ -19,7 +19,7 @@ typedef struct FondoStr * Fondo;
 /**
     TESORO
 */
-struct TesoroStr{
+struct TesoroStr {
     int x;  //Eje x
     int y;  //Eje Y
     int wt; //Anchura
@@ -32,7 +32,7 @@ typedef struct TesoroStr * Tesoro;
 /**
     HEROE
 */
-struct HeroeStr{
+struct HeroeStr {
     int x;  //Eje x
     int y;  //Eje Y
     int wt; //Anchura
@@ -121,7 +121,7 @@ void dibuja_fondo(Fondo fondo) {
     \param puntos Puntuacion.
     \param vidas Vidas del heroe restantes.
 */
-void dibuja_info(int puntos, int vidas){
+void dibuja_info(int puntos, int vidas) {
     char textoV[32] = "Vidas: ";
     char textoP[32] = "Puntos: ";
     char aux[12];
@@ -211,7 +211,25 @@ void libera_bala(Bala b) {
 
 */
 void mueve_bala(Bala b) {
-    b->y = b->y - b->vy;
+    switch(b->dir) {
+    case 0: {
+        b->y = b->y - b->vy;
+        break;
+    }
+    case 1: {
+        b->x = b->x - b->vx;
+        break;
+    }
+    case 2: {
+        b->x = b->x + b->vx;
+        break;
+    }
+    case 3: {
+        b->y = b->y + b->vy;
+        break;
+    }
+    }
+
 }
 
 /**
@@ -220,9 +238,26 @@ void mueve_bala(Bala b) {
     \param angulo Angulo de inclinación bala en sentido horario.
 
 */
-void dibuja_bala(Bala b, double angulo) {
+void dibuja_bala(Bala b, int dir) {
     //Dibuja Bala
-    dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,angulo,SDL_FLIP_NONE);
+    switch(dir) {
+    case 0: {
+        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-45.0,SDL_FLIP_NONE);
+        break;
+    }
+    case 1: {
+        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-135.0,SDL_FLIP_NONE);
+        break;
+    }
+    case 2: {
+        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-315.0,SDL_FLIP_NONE);
+        break;
+    }
+    case 3: {
+        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-225.0,SDL_FLIP_NONE);
+        break;
+    }
+    }
 }
 
 /**
@@ -287,6 +322,9 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
 
 /**
     \brief Esta funcion mueve a los enemigos activos respecto al heroe.
+           El enemigo se mueve siempre siguiendo al héroe.
+           Su atributo "dir", gestiona si se mueve en el eje x (En caso de ser 0)
+           O en el eje y (En caso de ser 1).
     \param enemigo Array de punteros a enemigos.
     \param n Longitud del array de enemigos.
     \param heroe Puntero a estructura de HeroeStr.
@@ -296,7 +334,7 @@ void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
         if(enemigo[i]->activo == 1) {
             switch(enemigo[i]->dir) {
             case 0: {
-                if(heroe->x/2>enemigo[i]->x/2) {
+                if(heroe->x>enemigo[i]->x) {
                     enemigo[i]->x = enemigo[i]->x + enemigo[i]->v;
                 } else {
                     enemigo[i]->x = enemigo[i]->x - enemigo[i]->v;
@@ -305,7 +343,7 @@ void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
             }
 
             case 1: {
-                if(heroe->y/2>enemigo[i]->y/2) {
+                if(heroe->y>enemigo[i]->y) {
                     enemigo[i]->y = enemigo[i]->y + enemigo[i]->v;
                 } else {
                     enemigo[i]->y = enemigo[i]->y - enemigo[i]->v;
@@ -397,13 +435,30 @@ int main(int argc, char *argv[]) {
         dibuja_tesoro(tesoro);
 
         //PROGRAMAS DE LA BALA
-        if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
-            bala = crea_bala(heroe->x,heroe->y,5,5);
+        if(bala==NULL) {
+            if(tecla_pulsada(SDL_SCANCODE_W)) {
+                bala = crea_bala(heroe->x,heroe->y,7,7);
+                bala->dir = 0;
+            }
+            if(tecla_pulsada(SDL_SCANCODE_A)) {
+                bala = crea_bala(heroe->x,heroe->y,7,7);
+                bala->dir = 1;
+            }
+            if(tecla_pulsada(SDL_SCANCODE_D)) {
+                bala = crea_bala(heroe->x,heroe->y,7,7);
+                bala->dir = 2;
+            }
+            if(tecla_pulsada(SDL_SCANCODE_S)) {
+                bala = crea_bala(heroe->x,heroe->y,7,7);
+                bala->dir = 3;
+            }
         }
         if(bala!=NULL) {
             mueve_bala(bala);
-            dibuja_bala(bala,-45);
-            if(get_y_bala(bala)<-51) {
+            dibuja_bala(bala,bala->dir);
+
+            if(bala->y < -51 || bala->y > 531 ||
+                    bala->x < -51 || bala->x > 851) {
                 libera_bala(bala);
                 bala = NULL;
             }
@@ -480,7 +535,7 @@ int main(int argc, char *argv[]) {
     //WHILE PARA DIBUJAR EL FONDO DEL RECORD.
     int record = 0;
     fscanf(archi, "%d", &record);
-    if(record < heroe->puntos){
+    if(record < heroe->puntos) {
         rewind(archi);
         fprintf(archi, "%d", heroe->puntos);
     }
