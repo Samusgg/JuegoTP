@@ -55,6 +55,7 @@ typedef struct {
     Imagen imagen;
     int v; //Velocidad
     int activo;
+    int dir; //Direccion
 } EnemigoRep;
 
 /**
@@ -162,7 +163,7 @@ void libera_bala(Bala b) {
 }
 
 void mueve_bala(Bala b) {
-        b->y = b->y - b->vy;
+    b->y = b->y - b->vy;
 }
 
 void dibuja_bala(Bala b) {
@@ -178,6 +179,26 @@ int get_y_bala(Bala b) {
     return b->y;
 }
 
+int colision_bala (Bala bala, int x, int y, int w, int h) {
+    if(solape_rectangulos(x,y,w,h,bala->x,bala->y,bala->wt,bala->ht)) {
+        return 1;
+    }
+    return 0;
+}
+
+int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
+    for(int i = 0; i<n; i++) {
+        if(colision_bala(bala,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
+            enemigo[i]->activo = 0;
+            enemigo[i]->x = rand()%751;
+            enemigo[i]->y = rand()%431;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
 
 //*****************************************
 //          Funciones ENEMIGOS
@@ -190,16 +211,25 @@ Esta funcion mueve a los enemigos activos respecto al heroe.
 void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe * heroe ) {
     for(int i = 0; i<n; i++) {
         if(enemigo[i]->activo == 1) {
-            if(heroe->x/2>enemigo[i]->x/2) {
-                enemigo[i]->x = enemigo[i]->x + enemigo[i]->v;
-            } else {
-                enemigo[i]->x = enemigo[i]->x - enemigo[i]->v;
-            };
-            if(heroe->y/2>enemigo[i]->y/2) {
-                enemigo[i]->y = enemigo[i]->y + enemigo[i]->v;
-            } else {
-                enemigo[i]->y = enemigo[i]->y - enemigo[i]->v;
-            };
+            switch(enemigo[i]->dir) {
+            case 0: {
+                if(heroe->x/2>enemigo[i]->x/2) {
+                    enemigo[i]->x = enemigo[i]->x + enemigo[i]->v;
+                } else {
+                    enemigo[i]->x = enemigo[i]->x - enemigo[i]->v;
+                };
+                break;
+            }
+
+            case 1: {
+                if(heroe->y/2>enemigo[i]->y/2) {
+                    enemigo[i]->y = enemigo[i]->y + enemigo[i]->v;
+                } else {
+                    enemigo[i]->y = enemigo[i]->y - enemigo[i]->v;
+                };
+                break;
+            }
+            }
             dibuja_imagen(enemigo[i] -> imagen,enemigo[i] -> x,enemigo[i] -> y,enemigo[i] -> wt,enemigo[i] -> ht);
         }
 
@@ -214,7 +244,7 @@ Funcion que sirve para ver la colision del enemigo con objeto.
 */
 int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int w, int h) {
     for(int i = 0; i<n; i++) {
-        if(solape_rectangulos(x,y,w,h,enemigo[i]->x,enemigo[i]->y,enemigo[i]->wt,enemigo[i]->ht)) {
+        if(enemigo[i]->activo==1 && solape_rectangulos(x,y,w,h,enemigo[i]->x,enemigo[i]->y,enemigo[i]->wt,enemigo[i]->ht)) {
             return 1;
         }
     }
@@ -251,17 +281,17 @@ int main(int argc, char *argv[]) {
 
     //TODO: Refactorizar enemigos para inicializar en alguna funcion.
     Imagen imagenEnemigo = lee_imagen("./imagenes/criper.bmp",0);
-    EnemigoRep ene1 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1};
-    EnemigoRep ene2 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1};
-    EnemigoRep ene3 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1};
-    EnemigoRep ene4 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene5 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene6 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene7 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene8 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene9 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-    EnemigoRep ene10 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0};
-
+    EnemigoRep ene1 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
+    EnemigoRep ene2 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
+    EnemigoRep ene3 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
+    EnemigoRep ene4 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene5 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene6 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene7 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene8 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene9 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    EnemigoRep ene10 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
+    int nEnemigos = 10;
     EnemigoRep * enemigos [10] = {&ene1,&ene2,&ene3,&ene4,&ene5,&ene6,&ene7,&ene8,&ene9,&ene10};
     //**
 
@@ -269,11 +299,9 @@ int main(int argc, char *argv[]) {
     while(pantalla_activa() && !fin) {
 
         dibuja_fondo(&fondo,&tesoro,0,heroe.vidas);
-        mover_heroe(&heroe);
-
-        //Parte de la bala.
+        //PROGRAMAS DE LA BALA
         if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
-            bala = crea_bala(heroe.x,heroe.y,4,4);
+            bala = crea_bala(heroe.x,heroe.y,5,5);
         }
         if(bala!=NULL) {
             mueve_bala(bala);
@@ -283,9 +311,8 @@ int main(int argc, char *argv[]) {
                 bala = NULL;
             }
         }
-
-
-        mover_enemigos(enemigos, 10, &heroe);
+        mover_heroe(&heroe);
+        mover_enemigos(enemigos, nEnemigos, &heroe);
 
 
         //Colision con tesoro.
@@ -293,6 +320,12 @@ int main(int argc, char *argv[]) {
             puntuacion ++;
             tesoro.x = rand()%751;
             tesoro.y = rand()%431;
+        }
+
+        //Colision enemigo bala
+        if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
+            libera_bala(bala);
+            bala = NULL;
         }
 
 
@@ -306,6 +339,8 @@ int main(int argc, char *argv[]) {
                 fin = 1;
             }
         }
+
+
         actualiza_pantalla();
         espera(40);
 
@@ -313,10 +348,23 @@ int main(int argc, char *argv[]) {
         //Add nuevos enemigos.
         if(iteracion >= 25) {
             int i = 0;
-            while(i<9 && enemigos[i]->activo != 0) {
+            while(i<nEnemigos-1 && enemigos[i]->activo != 0) {
                 i++;
             }
             enemigos[i]->activo = 1;
+
+            //Modifica direccion aleatoriamente.
+            int toggle = rand()%10;
+            switch(enemigos[toggle]->dir) {
+            case 0:
+                enemigos[toggle]->dir = 1;
+                break;
+            case 1:
+                enemigos[toggle]->dir = 0;
+                break;
+            }
+
+
             iteracion = 0;
         } else {
             iteracion++;
