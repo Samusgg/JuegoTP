@@ -75,6 +75,15 @@ typedef struct {
 } BalaRep;
 typedef BalaRep * Bala;
 
+/**
+   NODO LISTA DE BALAS
+*/
+typedef struct {
+    BalaRep miBala;
+    struct Nodo sig;
+} Nodo;
+typedef Nodo * NodoPtr;
+
 typedef FILE * Archivo;
 /*
 ******************************************************************
@@ -314,6 +323,21 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
     return 0;
 }
 
+//---------------------------------
+//   Funciones de lista de balas
+//---------------------------------
+
+NodoPtr crea_lista_balas(){
+
+
+}
+
+void libera_lista_balas ( NodoPtr cabecera );
+
+void mueve_lista_balas ( NodoPtr cabecera );
+
+void dibuja_lista_balas ( NodoPtr cabecera );
+
 
 
 //*****************************************
@@ -396,6 +420,11 @@ int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int 
 ******************************************************************
 */
 //  CODIGO PRINCIPAL
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TODO: INFORMAR AL USUARIO DE LOS RECORDS
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
