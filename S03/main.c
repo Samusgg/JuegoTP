@@ -66,8 +66,8 @@ typedef struct {
     int wt; //width
     int ht; //height
     Imagen imagen;
-    int v; //Velocidad
-    int activo;
+    int vx; //Velocidad
+    int vy; //Velocidad
 } BalaRep;
 typedef BalaRep * Bala;
 
@@ -112,7 +112,7 @@ void dibuja_fondo(Fondo * fondo, Tesoro * tesoro, int puntos, int vidas) {
 
 
 //*****************************************
-//          Funciones heroe.
+//          Funciones HEROE
 //*****************************************
 
 
@@ -136,36 +136,51 @@ void mover_heroe(Heroe * heroe) {
 
 }
 
+//*****************************************
+//          Funciones BALAS.
+//*****************************************
+
+
 /**
 Es una funcion dedicada a crear balas para el heroe.
 */
-
-Bala crea_bala (int x, int y, int vx, int vy){
-     return malloc(sizeof(BalaRep));
+Bala crea_bala (int x, int y, int vx, int vy) {
+    Bala miBala = malloc(sizeof(BalaRep));
+    miBala->x = x;
+    miBala->y = y;
+    miBala->wt =50;
+    miBala->ht = 50;
+    miBala->imagen = lee_imagen("./imagenes/arrow.bmp",1);
+    miBala->vx = vx;
+    miBala->vy = vy;
+    return miBala;
 }
 
-void libera_bala(Bala b){
-   free(b->imagen);
-   free(b);
+void libera_bala(Bala b) {
+    free(b->imagen);
+    free(b);
 }
 
-void mueve_bala(Bala b){
-
+void mueve_bala(Bala b) {
+        b->y = b->y - b->vy;
 }
 
-void dibuja_bala(Bala b){
+void dibuja_bala(Bala b) {
+    //Dibuja Bala
+    dibuja_imagen(b -> imagen,b -> x,b -> y,b -> wt,b -> ht);
 }
 
-int get_x_bala(Bala b){
-
+int get_x_bala(Bala b) {
+    return b->x;
 }
 
-int get_y_bala(Bala b){
+int get_y_bala(Bala b) {
+    return b->y;
 }
 
 
 //*****************************************
-//          Funciones enemigos.
+//          Funciones ENEMIGOS
 //*****************************************
 
 /**
@@ -232,7 +247,7 @@ int main(int argc, char *argv[]) {
     Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
     Tesoro tesoro = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
     Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .activo = 1};
-    Bala = NULL;
+    Bala bala = NULL;
 
     //TODO: Refactorizar enemigos para inicializar en alguna funcion.
     Imagen imagenEnemigo = lee_imagen("./imagenes/criper.bmp",0);
@@ -255,6 +270,21 @@ int main(int argc, char *argv[]) {
 
         dibuja_fondo(&fondo,&tesoro,0,heroe.vidas);
         mover_heroe(&heroe);
+
+        //Parte de la bala.
+        if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
+            bala = crea_bala(heroe.x,heroe.y,4,4);
+        }
+        if(bala!=NULL) {
+            mueve_bala(bala);
+            dibuja_bala(bala);
+            if(get_y_bala(bala)<-51) {
+                libera_bala(bala);
+                bala = NULL;
+            }
+        }
+
+
         mover_enemigos(enemigos, 10, &heroe);
 
 
