@@ -4,8 +4,6 @@
 #include <stdio.h>
 
 
-
-
 /**
     FONDO
 */
@@ -15,6 +13,7 @@ typedef struct {
     int wt; //width
     int ht; //height
     Imagen imagen;
+    int puntos;
 } Fondo;
 
 /**
@@ -72,6 +71,7 @@ typedef struct {
 } BalaRep;
 typedef BalaRep * Bala;
 
+typedef FILE * Archivo;
 /*
 ******************************************************************
 ******************************************************************
@@ -79,6 +79,8 @@ typedef BalaRep * Bala;
 ******************************************************************
 ******************************************************************
 */
+
+
 
 /**
 Comprueba si dos rectangulos colisionan entre si.
@@ -96,16 +98,22 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
 Dibuja el fondo
 
 */
-void dibuja_fondo(Fondo * fondo, Tesoro * tesoro, int puntos, int vidas) {
-    char texto[4];
-    sprintf(texto,"%d",vidas);
+void dibuja_fondo(Fondo * fondo, Tesoro * tesoro, int vidas) {
+    char textoV[32] = "Vidas: ";
+    char textoP[32] = "Puntos: ";
+    char aux[12];
+    sprintf(aux,"%d",vidas); //Transforma el entero a un array de caracteres.
+    strcat(textoV, aux);     //Concatena los arrays de caracteres
+    sprintf(aux,"%d",fondo->puntos);
+    strcat(textoP, aux);
 
     rellena_fondo(255,255,255,255);
     //Dibuja fondo
     dibuja_imagen(fondo -> imagen,fondo -> x,fondo -> y,fondo -> wt,fondo -> ht);
 
     color_trazo(255,0,0,255);
-    dibuja_texto(texto,399,0);
+    dibuja_texto(textoV,399,0);
+    dibuja_texto(textoP,200,0);
 
     //Dibuja Tesoro
     dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
@@ -274,12 +282,13 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
     crea_pantalla("Ejemplo 1",800,480);
-    Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
+    Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0),.puntos = 0};
     Tesoro tesoro = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
     Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .activo = 1};
     Bala bala = NULL;
+    Archivo archi = fopen("./puntos.txt", "r+");
 
-    //TODO: Refactorizar enemigos para inicializar en alguna funcion.
+    //ENEMIGOS
     Imagen imagenEnemigo = lee_imagen("./imagenes/criper.bmp",0);
     EnemigoRep ene1 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
     EnemigoRep ene2 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
@@ -295,10 +304,10 @@ int main(int argc, char *argv[]) {
     EnemigoRep * enemigos [10] = {&ene1,&ene2,&ene3,&ene4,&ene5,&ene6,&ene7,&ene8,&ene9,&ene10};
     //**
 
-    int puntuacion = 0, fin = 0, iteracion = 0;
+    int fin = 0, iteracion = 0;
     while(pantalla_activa() && !fin) {
 
-        dibuja_fondo(&fondo,&tesoro,0,heroe.vidas);
+        dibuja_fondo(&fondo,&tesoro,heroe.vidas);
         //PROGRAMAS DE LA BALA
         if(bala==NULL && tecla_pulsada(SDL_SCANCODE_SPACE)) {
             bala = crea_bala(heroe.x,heroe.y,5,5);
@@ -317,7 +326,7 @@ int main(int argc, char *argv[]) {
 
         //Colision con tesoro.
         if(solape_rectangulos(heroe.x,heroe.y,heroe.wt,heroe.ht,tesoro.x,tesoro.y,tesoro.wt,tesoro.ht)) {
-            puntuacion ++;
+            fondo.puntos ++;
             tesoro.x = rand()%751;
             tesoro.y = rand()%431;
         }
@@ -325,6 +334,7 @@ int main(int argc, char *argv[]) {
         //Colision enemigo bala
         if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
             libera_bala(bala);
+            fondo.puntos++;
             bala = NULL;
         }
 
@@ -372,6 +382,29 @@ int main(int argc, char *argv[]) {
 
     }//Termina While = 1
 
+
+    //*************************************
+    //*************************************
+    // ZONA DE RECORD
+    //*************************************
+
+
+    //WHILE PARA DIBUJAR EL FONDO DEL RECORD.
+    int record = 0;
+    fscanf(archi, "%d", &record);
+    if(record < fondo.puntos){
+        rewind(archi);
+        fprintf(archi, "%d", fondo.puntos);
+    }
+    libera_imagen(fondo.imagen);
+    fondo.imagen =  lee_imagen("./imagenes/floor.bmp",0);
+    dibuja_fondo(&fondo,&tesoro,heroe.vidas);
+    actualiza_pantalla();
+    while(pantalla_activa()) {}
+
+
+    //Final del programa.
+    fclose(archi);
     libera_imagen(heroe.imagen);
     libera_imagen(tesoro.imagen);
     libera_imagen(imagenEnemigo);
@@ -379,4 +412,4 @@ int main(int argc, char *argv[]) {
     libera_pantalla();
 
     return 0;
-}
+}//--
