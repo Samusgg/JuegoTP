@@ -4,18 +4,10 @@
 #include <stdio.h>
 
 
-/*
-******************************************************************
-******************************************************************
-                        BANCO DE FUNCIONES
-******************************************************************
-******************************************************************
-*/
 
 
 /**
-Modela un Ente Muerto
-de mi videojuego.
+    FONDO
 */
 typedef struct {
     int x;
@@ -23,15 +15,22 @@ typedef struct {
     int wt; //width
     int ht; //height
     Imagen imagen;
-} EnteMuerto;
-typedef EnteMuerto Fondo;
-typedef EnteMuerto Tesoro;
+} Fondo;
 
 /**
-Modela un Ente Vivo.
+    TESORO
+*/
+typedef struct {
+    int x;
+    int y;
+    int wt; //width
+    int ht; //height
+    Imagen imagen;
+} Tesoro;
 
-TODO: Separa los structs en varios.
-Asi que sí, se más fiel a la hoja.
+
+/**
+    HEROE
 */
 typedef struct {
     int x;
@@ -42,17 +41,48 @@ typedef struct {
     Imagen imagen;
     int v; //Velocidad
     int activo;
-} EnteVivo;
+} Heroe;
 
-typedef EnteVivo Heroe;
-typedef EnteVivo EnemigoRep;
-typedef EnteVivo Bala;
+/**
+    ENEMIGO
+*/
+typedef struct {
+    int x;
+    int y;
+    int vidas;
+    int wt; //width
+    int ht; //height
+    Imagen imagen;
+    int v; //Velocidad
+    int activo;
+} EnemigoRep;
 
+/**
+    BALA
+*/
+typedef struct {
+    int x;
+    int y;
+    int wt; //width
+    int ht; //height
+    Imagen imagen;
+    int v; //Velocidad
+    int activo;
+} BalaRep;
+typedef BalaRep * Bala;
+
+/*
+******************************************************************
+******************************************************************
+                        BANCO DE FUNCIONES
+******************************************************************
+******************************************************************
+*/
 
 /**
 Comprueba si dos rectangulos colisionan entre si.
 */
-int solapeRectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 ) {
+int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 ) {
     if(((x1<=x2 && x1+w1>=x2)||(x1<=x2+w2 && x1+w1 >= x2+w2))&&
             ((y1<=y2 && y1+h1>=y2)||(y1<=y2+h2 && y1+h1 >= y2+h2))) {
         return 1;
@@ -65,7 +95,7 @@ int solapeRectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, i
 Dibuja el fondo
 
 */
-void dibujarFondo(EnteMuerto * fondo, EnteMuerto * tesoro, int puntos, int vidas) {
+void dibuja_fondo(Fondo * fondo, Tesoro * tesoro, int puntos, int vidas) {
     char texto[4];
     sprintf(texto,"%d",vidas);
 
@@ -80,10 +110,16 @@ void dibujarFondo(EnteMuerto * fondo, EnteMuerto * tesoro, int puntos, int vidas
     dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
 }
 
+
+//*****************************************
+//          Funciones heroe.
+//*****************************************
+
+
 /**
 Mueve al heroe.
 */
-void moverHeroe(EnteVivo * heroe) {
+void mover_heroe(Heroe * heroe) {
     if(tecla_pulsada(SDL_SCANCODE_UP) && heroe->y>0) {
         heroe->y = heroe->y - heroe->v;
     }
@@ -103,23 +139,41 @@ void moverHeroe(EnteVivo * heroe) {
 /**
 Es una funcion dedicada a crear balas para el heroe.
 */
-Bala crearBala (int x, int y, int vx, int vy){
+
+Bala crea_bala (int x, int y, int vx, int vy){
+     return malloc(sizeof(BalaRep));
+}
+
+void libera_bala(Bala b){
+   free(b->imagen);
+   free(b);
+}
+
+void mueve_bala(Bala b){
 
 }
 
-void liberarBala(){
+void dibuja_bala(Bala b){
+}
+
+int get_x_bala(Bala b){
 
 }
+
+int get_y_bala(Bala b){
+}
+
 
 //*****************************************
 //          Funciones enemigos.
 //*****************************************
+
 /**
 Esta funcion mueve a los enemigos activos respecto al heroe.
 
 */
-void moverEnemigos(EnteVivo * enemigo[], EnteVivo * heroe) {
-    for(int i = 0; i<10; i++) {
+void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe * heroe ) {
+    for(int i = 0; i<n; i++) {
         if(enemigo[i]->activo == 1) {
             if(heroe->x/2>enemigo[i]->x/2) {
                 enemigo[i]->x = enemigo[i]->x + enemigo[i]->v;
@@ -133,27 +187,25 @@ void moverEnemigos(EnteVivo * enemigo[], EnteVivo * heroe) {
             };
             dibuja_imagen(enemigo[i] -> imagen,enemigo[i] -> x,enemigo[i] -> y,enemigo[i] -> wt,enemigo[i] -> ht);
         }
+
     }
+
 }
 
+
 /**
-Comprueba la colision de los enemigos activos.
+Funcion que sirve para ver la colision del enemigo con objeto.
+
 */
-int colisionEnemigos(EnteVivo * enemigo[], EnteVivo * heroe) {
-    for(int i = 0; i<10; i++) {
-        //Colision con enemigo.
-        if(enemigo[i]->activo == 1 && solapeRectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,enemigo[i]->x,enemigo[i]->y,enemigo[i]->wt,enemigo[i]->ht)) {
-            heroe->vidas --;
-            if(heroe->vidas <= 0) {
-                return 1;
-            } else {
-                heroe->x = rand()%751;
-                heroe->y = rand()%431;
-                return 0;
-            }
+int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int w, int h) {
+    for(int i = 0; i<n; i++) {
+        if(solape_rectangulos(x,y,w,h,enemigo[i]->x,enemigo[i]->y,enemigo[i]->wt,enemigo[i]->ht)) {
+            return 1;
         }
     }
+    return 0;
 }
+
 /*
 ******************************************************************
 ******************************************************************
@@ -180,6 +232,7 @@ int main(int argc, char *argv[]) {
     Fondo fondo = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
     Tesoro tesoro = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
     Heroe heroe = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .activo = 1};
+    Bala = NULL;
 
     //TODO: Refactorizar enemigos para inicializar en alguna funcion.
     Imagen imagenEnemigo = lee_imagen("./imagenes/criper.bmp",0);
@@ -200,20 +253,29 @@ int main(int argc, char *argv[]) {
     int puntuacion = 0, fin = 0, iteracion = 0;
     while(pantalla_activa() && !fin) {
 
-        dibujarFondo(&fondo,&tesoro,0,heroe.vidas);
-        moverHeroe(&heroe);
-        moverEnemigos(enemigos, &heroe);
+        dibuja_fondo(&fondo,&tesoro,0,heroe.vidas);
+        mover_heroe(&heroe);
+        mover_enemigos(enemigos, 10, &heroe);
 
 
         //Colision con tesoro.
-        if(solapeRectangulos(heroe.x,heroe.y,heroe.wt,heroe.ht,tesoro.x,tesoro.y,tesoro.wt,tesoro.ht)) {
+        if(solape_rectangulos(heroe.x,heroe.y,heroe.wt,heroe.ht,tesoro.x,tesoro.y,tesoro.wt,tesoro.ht)) {
             puntuacion ++;
             tesoro.x = rand()%751;
             tesoro.y = rand()%431;
         }
 
 
-        fin = colisionEnemigos(enemigos,&heroe);
+        //Se encarga de controlar la vida del heroe en funcion de las colisiones.
+        if(colision_enemigos_objeto(enemigos,10,heroe.x,heroe.y,heroe.wt,heroe.ht)) {
+            heroe.vidas --;
+            if(heroe.vidas>0) {
+                heroe.x = rand()%751;
+                heroe.y = rand()%431;
+            } else {
+                fin = 1;
+            }
+        }
         actualiza_pantalla();
         espera(40);
 
