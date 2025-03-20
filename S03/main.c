@@ -62,16 +62,6 @@ typedef struct {
     int dir; //Dirección
 } EnemigoRep;
 
-/**
-   NODO LISTA DE BALAS
-*/
-struct Nodo {
-    Bala miBala;
-    struct Nodo * sig;
-};
-typedef struct Nodo NodoBala;
-typedef NodoBala * NodoBPtr;
-
 
 typedef FILE * Archivo;
 /*
@@ -120,6 +110,7 @@ void dibuja_tesoro(Tesoro tesoro) {
     dibuja_imagen(tesoro -> imagen,tesoro -> x,tesoro -> y,tesoro -> wt,tesoro -> ht);
 }
 
+
 //*****************************************
 //          Funciones HEROE
 //*****************************************
@@ -145,158 +136,7 @@ void mover_heroe(Heroe heroe) {
     dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
 
 }
-//*****************************************
-//        Funciones LISTA DE BALAS
-//*****************************************
 
-
-/**
-    \brief Crea una lista de balas.
-    \return Puntero cabecera lista de balas.
-*/
-NodoBPtr crea_lista_balas() {
-    NodoBPtr cabecera = malloc(sizeof(NodoBala));
-    cabecera->sig = NULL;
-    cabecera->miBala = NULL;
-    return cabecera;
-
-}
-
-/**
-    \brief Inserta una bala en una lista de balas.
-    \param cabecera Puntero cabecera de una lista de balas.
-    \param b Struct de la bala a insertar.
-
-*/
-void inserta_lista_balas ( NodoBPtr cabecera, Bala b ) {
-
-    NodoBPtr nodoBuscado = cabecera;
-
-    while(nodoBuscado->sig != NULL) {
-        nodoBuscado = nodoBuscado->sig;
-    }//Busca el nodo al final de la lista.
-
-
-    NodoBala * nuevoNodo = malloc(sizeof(NodoBala));
-    nuevoNodo->sig = NULL;
-    nuevoNodo->miBala = b;
-    nodoBuscado->sig = nuevoNodo;
-}
-
-/**
-    \brief Libera de memoria una lista de balas.
-    \param cabecera Puntero cabecera de una lista de balas.
-*/
-void libera_lista_balas ( NodoBPtr cabecera ) {
-    NodoBPtr nodoLibre;
-    while(cabecera->sig != NULL) {
-        nodoLibre = cabecera->sig;
-        cabecera->sig = nodoLibre->sig;
-        libera_bala(nodoLibre->miBala);
-        free(nodoLibre);
-    }
-    free(cabecera);
-}
-
-/**
-    \brief Mueve todas las balas de una lista.
-    \param cabecera Puntero cabecera de una lista de balas.
-*/
-void mueve_lista_balas ( NodoBPtr nodoActivo ) {
-    NodoBPtr nodoAnterior = nodoActivo;
-    NodoBPtr aux = NULL;
-    while(nodoActivo->sig != NULL) {
-        mueve_bala(nodoActivo->sig->miBala);
-
-        // TODO: TERMINAR LIMITES BALA
-        //Nota: Se debe mantener el nodo anterior.
-        //Osea:
-        /*
-        1. Muevo mi bala
-        2. Compruebo mi bala
-        3. Si mi bala sale por encima, me borro a mi mismo. Y cambio
-        el siguiente de mi anterior nodo.
-        */
-        if(get_x_bala(nodoActivo->sig->miBala)<-50 ||
-                get_x_bala(nodoActivo->sig->miBala)>850 ||
-                get_y_bala(nodoActivo->sig->miBala)<-50 ||
-                get_y_bala(nodoActivo->sig->miBala)>530
-          ) {
-            aux =  nodoActivo->sig;
-            nodoActivo->sig = nodoActivo->sig->sig;
-            libera_bala( aux->miBala);
-            free(aux);
-        } else {
-            nodoAnterior = nodoActivo;
-            nodoActivo = nodoActivo->sig;
-        }
-    }
-}
-
-/**
-    \brief Dibuja todas las balas de una lista.
-    \param cabecera Puntero cabecera de una lista de balas.
-*/
-void dibuja_lista_balas ( NodoBPtr cabecera ) {
-    NodoBPtr nodoActivo = cabecera;
-    while(nodoActivo->sig != NULL) {
-        nodoActivo = nodoActivo->sig;
-        dibuja_bala(nodoActivo->miBala);
-    }
-    //Porque puede ser que no haya balas
-    //Y solo tengamos la cabecera.
-    if(nodoActivo->miBala!=NULL) {
-        dibuja_bala(nodoActivo->miBala);
-    }
-}
-
-
-/**
-    \brief Funcion que sirve para ver si hay colision entre los enemigos con una bala.
-    \param n Longitud del array de enemigos.
-    \param xe Coordenada horizontal de la esquina superior izquierda del enemigo.
-    \param ye Coordenada vertical de la esquina superior izquierda del enemigo.
-    \param we Anchura del enemigo.
-    \param he Altura del enemigo.
-    \return 1 si existe colision, 0 si no.
-*/
-int colision_lista_balas(NodoBPtr cabecera, int xe, int ye, int we, int he) {
-
-    NodoBPtr nodoActivo = cabecera;
-    NodoBPtr aux = NULL;
-    while(nodoActivo->sig != NULL) {
-        if(solape_rectangulos(get_x_bala(nodoActivo->sig->miBala),get_y_bala(nodoActivo->sig->miBala),get_wt_bala(nodoActivo->sig->miBala),get_ht_bala(nodoActivo->sig->miBala),xe,ye,we,he)) {
-            libera_bala(nodoActivo->sig->miBala);
-            aux = nodoActivo->sig;
-            nodoActivo->sig = aux->sig;
-            free(aux);
-            return 1;
-        } else {
-            nodoActivo = nodoActivo->sig;
-        }
-    }
-    return 0;
-}
-
-/**
-    \brief Detecta la colisión entre los enemigos y la bala.
-    \param enemigo Array de punteros a enemigos.
-    \param n Longitud del array de enemigos.
-    \param bala Puntero a estructura de BalaRep.
-    \return 1 si existe colision, 0 en caso contrario.
-
-*/
-int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, NodoBPtr listaBalas) {
-    for(int i = 0; i<n; i++) {
-        if(enemigo[i]->activo == 1 && colision_lista_balas(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
-            enemigo[i]->activo = 0;
-            enemigo[i]->x = rand()%751;
-            enemigo[i]->y = rand()%431;
-            return 1;
-        }
-    }
-    return 0;
-}
 
 //*****************************************
 //          Funciones ENEMIGOS
@@ -359,6 +199,27 @@ int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int 
     return 0;
 }
 
+
+/**
+    \brief Detecta la colisión entre los enemigos y la bala.
+    \param enemigo Array de punteros a enemigos.
+    \param n Longitud del array de enemigos.
+    \param bala Puntero a estructura de BalaRep.
+    \return 1 si existe colision, 0 en caso contrario.
+
+*/
+int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, NodoBala * listaBalas) {
+    for(int i = 0; i<n; i++) {
+        if(enemigo[i]->activo == 1 && colision_lista_balas(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
+            enemigo[i]->activo = 0;
+            enemigo[i]->x = rand()%751;
+            enemigo[i]->y = rand()%431;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /*
 ******************************************************************
 ******************************************************************
@@ -394,7 +255,7 @@ int main(int argc, char *argv[]) {
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
-    NodoBPtr listaBalas = crea_lista_balas();
+    NodoBala * listaBalas = crea_lista_balas();
     Bala bAux = NULL;
     Archivo archi = fopen("./puntos.txt", "r+");
 
