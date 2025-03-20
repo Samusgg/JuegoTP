@@ -1,4 +1,6 @@
 #include "Pantalla.h"
+#include "Colisiones.h"
+#include "Bala.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -61,21 +63,6 @@ typedef struct {
 } EnemigoRep;
 
 /**
-    BALA
-*/
-typedef struct {
-    int x;  //Eje x
-    int y;  //Eje Y
-    int wt; //Anchura
-    int ht; //Altura
-    Imagen imagen;
-    int vx; //Velocidad
-    int vy; //Velocidad
-    int dir; //Dirección
-} BalaRep;
-typedef BalaRep * Bala;
-
-/**
    NODO LISTA DE BALAS
 */
 typedef struct {
@@ -83,6 +70,7 @@ typedef struct {
     struct NodoBala * sig;
 } NodoBala;
 typedef NodoBala * NodoBPtr;
+
 
 typedef FILE * Archivo;
 /*
@@ -93,28 +81,6 @@ typedef FILE * Archivo;
 ******************************************************************
 */
 
-
-
-/**
-    \brief Comprueba si dos rectangulos colisionan entre si.
-    \param x1 Coordenada horizontal de la esquina superior izquierda del primer rectángulo.
-    \param y1 Coordenada vertical de la esquina superior izquierda del primer rectángulo.
-    \param w1 Anchura del primer rectangulo a dibujar.
-    \param h1 Altura del primer rectangulo a dibujar.
-    \param x2 Coordenada horizontal de la esquina superior izquierda del segundo rectángulo.
-    \param y2 Coordenada vertical de la esquina superior izquierda del segundo rectángulo.
-    \param w2 Anchura del segundo rectangulo a dibujar.
-    \param h2 Altura del segundo rectangulo a dibujar.
-    \return 1 Si hay solape, 0 en caso contrario.
-*/
-int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 ) {
-    if(((x1<=x2 && x1+w1>=x2)||(x1<=x2+w2 && x1+w1 >= x2+w2))&&
-            ((y1<=y2 && y1+h1>=y2)||(y1<=y2+h2 && y1+h1 >= y2+h2))) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
 
 /**
     \brief Dibuja el fondo.
@@ -178,130 +144,9 @@ void mover_heroe(Heroe heroe) {
     dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
 
 }
-
 //*****************************************
-//          Funciones BALAS.
+//        Funciones LISTA DE BALAS
 //*****************************************
-
-
-/**
-    \brief Es una funcion dedicada a crear balas para el heroe.
-    \param x Coordenada horizontal de la esquina superior izquierda de la bala.
-    \param y Coordenada vertical de la esquina superior izquierda de la bala.
-    \param vx Velocidad de la bala en el eje x.
-    \param vy Velocidad de la bala en el eje y.
-    \return Puntero de la nueva bala.
-*/
-Bala crea_bala (int x, int y, int vx, int vy) {
-    Bala miBala = malloc(sizeof(BalaRep));
-    miBala->x = x;
-    miBala->y = y;
-    miBala->wt =50;
-    miBala->ht = 50;
-    miBala->imagen = lee_imagen("./imagenes/arrow.bmp",1);
-    miBala->vx = vx;
-    miBala->vy = vy;
-    return miBala;
-}
-
-/**
-    \brief Libera de memoria la bala.
-    \param b Puntero a BalaRep
-
-*/
-void libera_bala(Bala b) {
-    free(b->imagen);
-    free(b);
-}
-
-/**
-    \brief Mueve la bala modificando su posición.
-    \param b Puntero a BalaRep
-
-*/
-void mueve_bala(Bala b) {
-    switch(b->dir) {
-    case 0: {
-        b->y = b->y - b->vy;
-        break;
-    }
-    case 1: {
-        b->x = b->x - b->vx;
-        break;
-    }
-    case 2: {
-        b->x = b->x + b->vx;
-        break;
-    }
-    case 3: {
-        b->y = b->y + b->vy;
-        break;
-    }
-    }
-
-}
-
-/**
-    \brief Dibuja la bala.
-    \param b Puntero a BalaRep
-    \param angulo Angulo de inclinación bala en sentido horario.
-
-*/
-void dibuja_bala(Bala b) {
-    //Dibuja Bala
-    switch(b->dir) {
-    case 0: {
-        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-45.0,SDL_FLIP_NONE);
-        break;
-    }
-    case 1: {
-        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-135.0,SDL_FLIP_NONE);
-        break;
-    }
-    case 2: {
-        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-315.0,SDL_FLIP_NONE);
-        break;
-    }
-    case 3: {
-        dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-225.0,SDL_FLIP_NONE);
-        break;
-    }
-    }
-}
-
-/**
-    \brief Obtiene posicion en x de la bala.
-    \param b Puntero a BalaRep.
-    \return Número entero de la posición en x de la bala.
-*/
-int get_x_bala(Bala b) {
-    return b->x;
-}
-
-/**
-    \brief Obtiene posicion en y de la bala.
-    \param b Puntero a BalaRep.
-    \return Número entero de la posición en y de la bala.
-*/
-int get_y_bala(Bala b) {
-    return b->y;
-}
-
-/**
-    \brief Obtiene posicion en x de la bala.
-    \param  bala Puntero a estructura BalaRep.
-    \param x Coordenada horizontal de la esquina superior izquierda de la bala.
-    \param y Coordenada vertical de la esquina superior izquierda de la bala.
-    \param w Anchura de la bala.
-    \param h Altura de la bala.
-    \return 1 si hay colisión, 0 en caso contrario.
-*/
-int colision_bala (Bala bala, int x, int y, int w, int h) {
-    if(solape_rectangulos(x,y,w,h,bala->x,bala->y,bala->wt,bala->ht)) {
-        return 1;
-    }
-    return 0;
-}
 
 /**
     \brief Detecta la colisión entre los enemigos y la bala.
@@ -323,9 +168,6 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
     return 0;
 }
 
-//---------------------------------
-//   Funciones de lista de balas
-//---------------------------------
 
 /**
     \brief Crea una lista de balas.
@@ -369,6 +211,7 @@ void libera_lista_balas ( NodoBPtr cabecera ) {
     while(cabecera->sig != NULL) {
         nodoLibre = cabecera->sig;
         cabecera->sig = nodoLibre->sig;
+        libera_bala(nodoLibre->miBala);
         free(nodoLibre);
     }
     free(cabecera);
@@ -539,59 +382,27 @@ int main(int argc, char *argv[]) {
         //PROGRAMAS LISTA DE BALAS.
         if(tecla_pulsada(SDL_SCANCODE_W)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-            bAux->dir = 0;
+            setDir(bAux,0);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_A)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-            bAux->dir = 1;
+                        setDir(bAux,1);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_D)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-            bAux->dir = 2;
+                                  setDir(bAux,2);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_S)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-            bAux->dir = 3;
+                              setDir(bAux,3);
             inserta_lista_balas(listaBalas,bAux);
         }
 
         mueve_lista_balas(listaBalas);
         dibuja_lista_balas(listaBalas);
-
-        /*
-        //PROGRAMAS DE LA BALA
-        if(bala==NULL) {
-            if(tecla_pulsada(SDL_SCANCODE_W)) {
-                bala = crea_bala(heroe->x,heroe->y,7,7);
-                bala->dir = 0;
-            }
-            if(tecla_pulsada(SDL_SCANCODE_A)) {
-                bala = crea_bala(heroe->x,heroe->y,7,7);
-                bala->dir = 1;
-            }
-            if(tecla_pulsada(SDL_SCANCODE_D)) {
-                bala = crea_bala(heroe->x,heroe->y,7,7);
-                bala->dir = 2;
-            }
-            if(tecla_pulsada(SDL_SCANCODE_S)) {
-                bala = crea_bala(heroe->x,heroe->y,7,7);
-                bala->dir = 3;
-            }
-        }
-        if(bala!=NULL) {
-            mueve_bala(bala);
-            dibuja_bala(bala,bala->dir);
-
-            if(bala->y < -51 || bala->y > 531 ||
-                    bala->x < -51 || bala->x > 851) {
-                libera_bala(bala);
-                bala = NULL;
-            }
-        }
-        */
 
         mover_heroe(heroe);
         mover_enemigos(enemigos, nEnemigos, heroe);
