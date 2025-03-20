@@ -231,22 +231,6 @@ void mueve_lista_balas ( NodoBPtr nodoActivo ) {
             nodoActivo = nodoActivo->sig;
         }
     }
-    //Porque puede ser que no haya balas
-    //Y solo tengamos la cabecera.
-    if(nodoActivo->miBala!=NULL) {
-        mueve_bala(nodoActivo->miBala);
-
-        if(get_x_bala(nodoActivo->miBala)<-50 ||
-                get_x_bala(nodoActivo->miBala)>850 ||
-                get_y_bala(nodoActivo->miBala)<-50 ||
-                get_y_bala(nodoActivo->miBala)>530
-          ) {
-            nodoAnterior->sig = NULL;
-            libera_bala(nodoActivo->miBala);
-            free(nodoActivo);
-        }
-    }
-
 }
 
 /**
@@ -437,7 +421,6 @@ int main(int argc, char *argv[]) {
         dibuja_info(heroe->puntos,heroe->vidas);
         //Dibuja Tesoro
         dibuja_tesoro(tesoro);
-
 
         //PROGRAMAS LISTA DE BALAS.
         if(tecla_pulsada(SDL_SCANCODE_W)) {
