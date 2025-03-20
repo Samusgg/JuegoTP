@@ -44,6 +44,32 @@ void dibuja_bala(Bala b);
 */
 int get_x_bala(Bala b);
 
+/**
+    \brief Devuelve la anchura de la bala.
+    \param b Puntero a BalaRep.
+    \return Anchura de la bala.
+*/
+int get_wt_bala(Bala b);
+
+/**
+    \brief Devuelve la altura de la bala.
+    \param b Puntero a BalaRep.
+    \return Altura de la bala.
+*/
+int get_ht_bala(Bala b);
+
+/**
+    \brief Cambia la dirección de la bala.
+    \param b Puntero a BalaRep.
+*/
+void set_dir_bala(Bala b, int i);
+
+/**
+    \brief Devuelve la dirección de la bala.
+    \param b Puntero a BalaRep.
+    \return Dirección de la bala.
+*/
+int get_dir_bala(Bala b);
 
 /**
     \brief Obtiene posicion en y de la bala.

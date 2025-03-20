@@ -127,13 +127,32 @@ int get_y_bala(Bala b) {
     return b->y;
 }
 
+/**
+    \brief Devuelve la anchura de la bala.
+    \param b Puntero a BalaRep.
+    \return Anchura de la bala.
+*/
+int get_wt_bala(Bala b){
+return b->wt;
+}
+
+
+/**
+    \brief Devuelve la altura de la bala.
+    \param b Puntero a BalaRep.
+    \return Altura de la bala.
+*/
+int get_ht_bala(Bala b){
+return b->ht;
+}
+
 
 /**
     \brief Devuelve la dirección de la bala.
     \param b Puntero a BalaRep.
     \return Dirección de la bala.
 */
-int getDir(Bala b){
+int get_dir_bala(Bala b){
     return b->dir;
 }
 
@@ -142,7 +161,7 @@ int getDir(Bala b){
     \brief Cambia la dirección de la bala.
     \param b Puntero a BalaRep.
 */
-void setDir(Bala b, int i){
+void set_dir_bala(Bala b, int i){
     b->dir = i;
 }
 

@@ -65,10 +65,11 @@ typedef struct {
 /**
    NODO LISTA DE BALAS
 */
-typedef struct {
+struct Nodo {
     Bala miBala;
-    struct NodoBala * sig;
-} NodoBala;
+    struct Nodo * sig;
+};
+typedef struct Nodo NodoBala;
 typedef NodoBala * NodoBPtr;
 
 
@@ -148,26 +149,6 @@ void mover_heroe(Heroe heroe) {
 //        Funciones LISTA DE BALAS
 //*****************************************
 
-/**
-    \brief Detecta la colisión entre los enemigos y la bala.
-    \param enemigo Array de punteros a enemigos.
-    \param n Longitud del array de enemigos.
-    \param bala Puntero a estructura de BalaRep.
-    \return 1 si existe colision, 0 en caso contrario.
-
-*/
-int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
-    for(int i = 0; i<n; i++) {
-        if(colision_bala(bala,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
-            enemigo[i]->activo = 0;
-            enemigo[i]->x = rand()%751;
-            enemigo[i]->y = rand()%431;
-            return 1;
-        }
-    }
-    return 0;
-}
-
 
 /**
     \brief Crea una lista de balas.
@@ -221,16 +202,49 @@ void libera_lista_balas ( NodoBPtr cabecera ) {
     \brief Mueve todas las balas de una lista.
     \param cabecera Puntero cabecera de una lista de balas.
 */
-void mueve_lista_balas ( NodoBPtr cabecera ) {
-    NodoBPtr nodoActivo = cabecera;
+void mueve_lista_balas ( NodoBPtr nodoActivo ) {
+    NodoBPtr nodoAnterior = nodoActivo;
+    NodoBPtr aux = NULL;
     while(nodoActivo->sig != NULL) {
-        nodoActivo = nodoActivo->sig;
-        mueve_bala(nodoActivo->miBala);
+        mueve_bala(nodoActivo->sig->miBala);
+
+        // TODO: TERMINAR LIMITES BALA
+        //Nota: Se debe mantener el nodo anterior.
+        //Osea:
+        /*
+        1. Muevo mi bala
+        2. Compruebo mi bala
+        3. Si mi bala sale por encima, me borro a mi mismo. Y cambio
+        el siguiente de mi anterior nodo.
+        */
+        if(get_x_bala(nodoActivo->sig->miBala)<-50 ||
+                get_x_bala(nodoActivo->sig->miBala)>850 ||
+                get_y_bala(nodoActivo->sig->miBala)<-50 ||
+                get_y_bala(nodoActivo->sig->miBala)>530
+          ) {
+            aux =  nodoActivo->sig;
+            nodoActivo->sig = nodoActivo->sig->sig;
+            libera_bala( aux->miBala);
+            free(aux);
+        } else {
+            nodoAnterior = nodoActivo;
+            nodoActivo = nodoActivo->sig;
+        }
     }
     //Porque puede ser que no haya balas
     //Y solo tengamos la cabecera.
     if(nodoActivo->miBala!=NULL) {
         mueve_bala(nodoActivo->miBala);
+
+        if(get_x_bala(nodoActivo->miBala)<-50 ||
+                get_x_bala(nodoActivo->miBala)>850 ||
+                get_y_bala(nodoActivo->miBala)<-50 ||
+                get_y_bala(nodoActivo->miBala)>530
+          ) {
+            nodoAnterior->sig = NULL;
+            libera_bala(nodoActivo->miBala);
+            free(nodoActivo);
+        }
     }
 
 }
@@ -253,6 +267,52 @@ void dibuja_lista_balas ( NodoBPtr cabecera ) {
 }
 
 
+/**
+    \brief Funcion que sirve para ver si hay colision entre los enemigos con una bala.
+    \param n Longitud del array de enemigos.
+    \param xe Coordenada horizontal de la esquina superior izquierda del enemigo.
+    \param ye Coordenada vertical de la esquina superior izquierda del enemigo.
+    \param we Anchura del enemigo.
+    \param he Altura del enemigo.
+    \return 1 si existe colision, 0 si no.
+*/
+int colision_lista_balas(NodoBPtr cabecera, int xe, int ye, int we, int he) {
+
+    NodoBPtr nodoActivo = cabecera;
+    NodoBPtr aux = NULL;
+    while(nodoActivo->sig != NULL) {
+        if(solape_rectangulos(get_x_bala(nodoActivo->sig->miBala),get_y_bala(nodoActivo->sig->miBala),get_wt_bala(nodoActivo->sig->miBala),get_ht_bala(nodoActivo->sig->miBala),xe,ye,we,he)) {
+            libera_bala(nodoActivo->sig->miBala);
+            aux = nodoActivo->sig;
+            nodoActivo->sig = aux->sig;
+            free(aux);
+            return 1;
+        } else {
+            nodoActivo = nodoActivo->sig;
+        }
+    }
+    return 0;
+}
+
+/**
+    \brief Detecta la colisión entre los enemigos y la bala.
+    \param enemigo Array de punteros a enemigos.
+    \param n Longitud del array de enemigos.
+    \param bala Puntero a estructura de BalaRep.
+    \return 1 si existe colision, 0 en caso contrario.
+
+*/
+int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, NodoBPtr listaBalas) {
+    for(int i = 0; i<n; i++) {
+        if(enemigo[i]->activo == 1 && colision_lista_balas(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
+            enemigo[i]->activo = 0;
+            enemigo[i]->x = rand()%751;
+            enemigo[i]->y = rand()%431;
+            return 1;
+        }
+    }
+    return 0;
+}
 
 //*****************************************
 //          Funciones ENEMIGOS
@@ -382,22 +442,22 @@ int main(int argc, char *argv[]) {
         //PROGRAMAS LISTA DE BALAS.
         if(tecla_pulsada(SDL_SCANCODE_W)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-            setDir(bAux,0);
+            set_dir_bala(bAux,0);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_A)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-                        setDir(bAux,1);
+            set_dir_bala(bAux,1);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_D)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-                                  setDir(bAux,2);
+            set_dir_bala(bAux,2);
             inserta_lista_balas(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_S)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
-                              setDir(bAux,3);
+            set_dir_bala(bAux,3);
             inserta_lista_balas(listaBalas,bAux);
         }
 
@@ -413,6 +473,10 @@ int main(int argc, char *argv[]) {
             heroe->puntos ++;
             tesoro->x = rand()%751;
             tesoro->y = rand()%431;
+        }
+
+        if(colision_enemigos_lista_balas(enemigos, nEnemigos,listaBalas)) {
+            heroe->puntos++;
         }
 
         /*
@@ -435,7 +499,7 @@ int main(int argc, char *argv[]) {
                 fin = 1;
             }
         }
-*/
+        */
 
         actualiza_pantalla();
         espera(40);
