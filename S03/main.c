@@ -79,10 +79,10 @@ typedef BalaRep * Bala;
    NODO LISTA DE BALAS
 */
 typedef struct {
-    BalaRep miBala;
-    struct Nodo sig;
-} Nodo;
-typedef Nodo * NodoPtr;
+    Bala miBala;
+    struct NodoBala * sig;
+} NodoBala;
+typedef NodoBala * NodoBPtr;
 
 typedef FILE * Archivo;
 /*
@@ -247,9 +247,9 @@ void mueve_bala(Bala b) {
     \param angulo Angulo de inclinación bala en sentido horario.
 
 */
-void dibuja_bala(Bala b, int dir) {
+void dibuja_bala(Bala b) {
     //Dibuja Bala
-    switch(dir) {
+    switch(b->dir) {
     case 0: {
         dibuja_imagen_transformada(b->imagen,b->x,b->y,b->wt,b->ht,-45.0,SDL_FLIP_NONE);
         break;
@@ -327,16 +327,87 @@ int colision_enemigos_bala (EnemigoRep * enemigo [], int n, Bala bala) {
 //   Funciones de lista de balas
 //---------------------------------
 
-NodoPtr crea_lista_balas(){
-
+/**
+    \brief Crea una lista de balas.
+    \return Puntero cabecera lista de balas.
+*/
+NodoBPtr crea_lista_balas() {
+    NodoBPtr cabecera = malloc(sizeof(NodoBala));
+    cabecera->sig = NULL;
+    cabecera->miBala = NULL;
+    return cabecera;
 
 }
 
-void libera_lista_balas ( NodoPtr cabecera );
+/**
+    \brief Inserta una bala en una lista de balas.
+    \param cabecera Puntero cabecera de una lista de balas.
+    \param b Struct de la bala a insertar.
 
-void mueve_lista_balas ( NodoPtr cabecera );
+*/
+void inserta_lista_balas ( NodoBPtr cabecera, Bala b ) {
 
-void dibuja_lista_balas ( NodoPtr cabecera );
+    NodoBPtr nodoBuscado = cabecera;
+
+    while(nodoBuscado->sig != NULL) {
+        nodoBuscado = nodoBuscado->sig;
+    }//Busca el nodo al final de la lista.
+
+
+    NodoBala * nuevoNodo = malloc(sizeof(NodoBala));
+    nuevoNodo->sig = NULL;
+    nuevoNodo->miBala = b;
+    nodoBuscado->sig = nuevoNodo;
+}
+
+/**
+    \brief Libera de memoria una lista de balas.
+    \param cabecera Puntero cabecera de una lista de balas.
+*/
+void libera_lista_balas ( NodoBPtr cabecera ) {
+    NodoBPtr nodoLibre;
+    while(cabecera->sig != NULL) {
+        nodoLibre = cabecera->sig;
+        cabecera->sig = nodoLibre->sig;
+        free(nodoLibre);
+    }
+    free(cabecera);
+}
+
+/**
+    \brief Mueve todas las balas de una lista.
+    \param cabecera Puntero cabecera de una lista de balas.
+*/
+void mueve_lista_balas ( NodoBPtr cabecera ) {
+    NodoBPtr nodoActivo = cabecera;
+    while(nodoActivo->sig != NULL) {
+        nodoActivo = nodoActivo->sig;
+        mueve_bala(nodoActivo->miBala);
+    }
+    //Porque puede ser que no haya balas
+    //Y solo tengamos la cabecera.
+    if(nodoActivo->miBala!=NULL) {
+        mueve_bala(nodoActivo->miBala);
+    }
+
+}
+
+/**
+    \brief Dibuja todas las balas de una lista.
+    \param cabecera Puntero cabecera de una lista de balas.
+*/
+void dibuja_lista_balas ( NodoBPtr cabecera ) {
+    NodoBPtr nodoActivo = cabecera;
+    while(nodoActivo->sig != NULL) {
+        nodoActivo = nodoActivo->sig;
+        dibuja_bala(nodoActivo->miBala);
+    }
+    //Porque puede ser que no haya balas
+    //Y solo tengamos la cabecera.
+    if(nodoActivo->miBala!=NULL) {
+        dibuja_bala(nodoActivo->miBala);
+    }
+}
 
 
 
@@ -436,7 +507,8 @@ int main(int argc, char *argv[]) {
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
-    Bala bala = NULL;
+    NodoBPtr listaBalas = crea_lista_balas();
+    Bala bAux = NULL;
     Archivo archi = fopen("./puntos.txt", "r+");
 
     //ENEMIGOS
@@ -463,6 +535,33 @@ int main(int argc, char *argv[]) {
         //Dibuja Tesoro
         dibuja_tesoro(tesoro);
 
+
+        //PROGRAMAS LISTA DE BALAS.
+        if(tecla_pulsada(SDL_SCANCODE_W)) {
+            bAux = crea_bala(heroe->x,heroe->y,7,7);
+            bAux->dir = 0;
+            inserta_lista_balas(listaBalas,bAux);
+        }
+        if(tecla_pulsada(SDL_SCANCODE_A)) {
+            bAux = crea_bala(heroe->x,heroe->y,7,7);
+            bAux->dir = 1;
+            inserta_lista_balas(listaBalas,bAux);
+        }
+        if(tecla_pulsada(SDL_SCANCODE_D)) {
+            bAux = crea_bala(heroe->x,heroe->y,7,7);
+            bAux->dir = 2;
+            inserta_lista_balas(listaBalas,bAux);
+        }
+        if(tecla_pulsada(SDL_SCANCODE_S)) {
+            bAux = crea_bala(heroe->x,heroe->y,7,7);
+            bAux->dir = 3;
+            inserta_lista_balas(listaBalas,bAux);
+        }
+
+        mueve_lista_balas(listaBalas);
+        dibuja_lista_balas(listaBalas);
+
+        /*
         //PROGRAMAS DE LA BALA
         if(bala==NULL) {
             if(tecla_pulsada(SDL_SCANCODE_W)) {
@@ -492,6 +591,8 @@ int main(int argc, char *argv[]) {
                 bala = NULL;
             }
         }
+        */
+
         mover_heroe(heroe);
         mover_enemigos(enemigos, nEnemigos, heroe);
 
@@ -503,14 +604,16 @@ int main(int argc, char *argv[]) {
             tesoro->y = rand()%431;
         }
 
+        /*
         //Colision enemigo bala
         if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
             libera_bala(bala);
             heroe->puntos++;
             bala = NULL;
         }
+        */
 
-
+        /*
         //Se encarga de controlar la vida del heroe en funcion de las colisiones.
         if(colision_enemigos_objeto(enemigos,10,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
             heroe->vidas --;
@@ -521,7 +624,7 @@ int main(int argc, char *argv[]) {
                 fin = 1;
             }
         }
-
+*/
 
         actualiza_pantalla();
         espera(40);
@@ -576,6 +679,7 @@ int main(int argc, char *argv[]) {
 
 
     //Final del programa.
+    libera_lista_balas(listaBalas);
     fclose(archi);
     libera_imagen(heroe->imagen);
     libera_imagen(tesoro->imagen);
