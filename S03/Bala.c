@@ -16,7 +16,6 @@ struct BalaRep{
     int vy; //Velocidad
     int dir; //Dirección
 };
-typedef struct BalaRep * Bala;
 
 
 //*****************************************

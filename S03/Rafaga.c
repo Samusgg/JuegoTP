@@ -1,18 +1,27 @@
 #include "Bala.h"
+#include "Rafaga.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO: VER COMO ADAPTAR LA CUENTA DEL NUMERO DE BALAS
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//Principalmente en las funciones: "mueve_rafaga" y "colision_rafaga"
 
 /**
    NODO LISTA DE BALAS
 */
-typedef struct {
+struct Nodo{
     Bala miBala;
     struct Nodo * sig;
-} NodoBala;
+};
+typedef struct Nodo NodoBala;
 
 
 /**
    Constuctor del tipo del TDA
 */
-struct Rafaga {
+struct TDARafaga {
      NodoBala * listaBalas;
      int nBalas;
 };
@@ -70,13 +79,14 @@ void libera_lista_balas ( NodoBala * cabecera ) {
     free(cabecera);
 }
 
-
 /**
     \brief Mueve todas las balas de una estructura enlazada (lista).
     \param cabecera Puntero cabecera de una lista de balas.
+    \return int Número de balas menos.
 */
-void mueve_lista_balas ( NodoBala * nodoActivo ) {
-    NodoBala * nodoAnterior = nodoActivo;
+int mueve_lista_balas ( NodoBala * nodoActivo ) {
+    int nMenos = 0;
+
     NodoBala * aux = NULL;
     while(nodoActivo->sig != NULL) {
         mueve_bala(nodoActivo->sig->miBala);
@@ -89,11 +99,12 @@ void mueve_lista_balas ( NodoBala * nodoActivo ) {
             nodoActivo->sig = nodoActivo->sig->sig;
             libera_bala(aux->miBala);
             free(aux);
+            nMenos++;
         } else {
-            nodoAnterior = nodoActivo;
             nodoActivo = nodoActivo->sig;
         }
     }
+    return nMenos;
 }
 
 /**
@@ -164,7 +175,9 @@ int colision_lista_balas(NodoBala * cabecera, int xe, int ye, int we, int he) {
     \return Rafaga Lista de balas vacía.
 */
 Rafaga crea_rafaga(){
-   struct Rafaga listaRafaga = {.listaBalas =  crea_lista_balas(), .nBalas = 0};
+   Rafaga listaRafaga = malloc(sizeof(struct TDARafaga));
+   listaRafaga -> listaBalas = crea_lista_balas();
+   listaRafaga -> nBalas = 0;
    return listaRafaga;
 };
 
@@ -174,8 +187,8 @@ Rafaga crea_rafaga(){
     \param r TDA Rafaga de balas
 */
 void libera_rafaga(Rafaga r){
-    libera_lista_balas(r.listaBalas);
-    r.nBalas = 0;
+    libera_lista_balas(r->listaBalas);
+    r->nBalas = 0;
 };
 
 /**
@@ -184,20 +197,19 @@ void libera_rafaga(Rafaga r){
     \param b Bala a insertar en r
 */
 void inserta_rafaga(Rafaga r, Bala b){
-    r.nBalas++;
-    inserta_lista_balas(r.listaBalas,b);
+    r->nBalas++;
+    inserta_lista_balas(r->listaBalas,b);
 };
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO: VER COMO ADAPTAR LA CUENTA DEL NUMERO DE BALAS.
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 /**
     \brief Esta función mueve todas las balas contenidas en la ráfaga r
     y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
     \param r TDA Rafaga de balas
 */
 void mueve_rafaga(Rafaga r){
-    mueve_lista_balas(r.listaBalas);
+    int nBalasMenos = mueve_lista_balas(r->listaBalas);
+    r->nBalas = r->nBalas - nBalasMenos;
 };
 
 /**
@@ -205,7 +217,7 @@ void mueve_rafaga(Rafaga r){
     \param r TDA Rafaga de balas
 */
 void dibuja_rafaga(Rafaga r){
-    dibuja_lista_balas(r.listaBalas);
+    dibuja_lista_balas(r->listaBalas);
 };
 
 /**
@@ -214,13 +226,10 @@ void dibuja_rafaga(Rafaga r){
     \return int Longitud rafaga
 */
 int longitud_rafaga(Rafaga r){
-    return r.nBalas;
+    return r->nBalas;
 };
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO: HACER QUE SEA ESTA FUNCION LA QUE ELIMINA LA PRIMERA BALA ENCONTRADA
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 /**
     \brief Esta función busca y elimina la primera bala incluida en la ráfaga r que se solape
      con el rectángulo con esquina superior izquierda en (x,y), anchura w y altura h. La
@@ -232,5 +241,10 @@ int longitud_rafaga(Rafaga r){
     \param h Altura del rectángulo.
 */
 int colision_rafaga(Rafaga r, int x, int y, int w, int h){
-    colision_lista_balas(r.listaBalas,x,y,w,h);
+    if(colision_lista_balas(r->listaBalas,x,y,w,h)){
+        r->nBalas--;
+        return 1;
+    }else{
+        return 0;
+    }
 };

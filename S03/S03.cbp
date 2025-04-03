@@ -45,13 +45,26 @@
 		<ExtraCommands>
 			<Add after="XCOPY $(#sdl2)\bin\*.dll $(TARGET_OUTPUT_DIR) /D /Y" />
 		</ExtraCommands>
+		<Unit filename="Bala.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Bala.h" />
+		<Unit filename="Colisiones.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Colisiones.h" />
 		<Unit filename="Pantalla.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Pantalla.h" />
+		<Unit filename="Rafaga.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Rafaga.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="puntos.txt" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

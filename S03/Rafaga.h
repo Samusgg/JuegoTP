@@ -1,6 +1,8 @@
 #ifndef __Rafaga_h__
 #define __Rafaga_h__
 
+typedef struct TDARafaga * Rafaga;
+
 /**
     \brief Esta función devuelve una nueva ráfaga vacía, es decir,
     sin ninguna bala, pero lista para almacenar cualquier número de balas.

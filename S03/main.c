@@ -1,6 +1,7 @@
 #include "Pantalla.h"
 #include "Colisiones.h"
 #include "Bala.h"
+#include "Rafaga.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -208,9 +209,9 @@ int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int 
     \return 1 si existe colision, 0 en caso contrario.
 
 */
-int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, NodoBala * listaBalas) {
+int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, Rafaga listaBalas) {
     for(int i = 0; i<n; i++) {
-        if(enemigo[i]->activo == 1 && colision_lista_balas(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
+        if(enemigo[i]->activo == 1 && colision_rafaga(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
             enemigo[i]->activo = 0;
             enemigo[i]->x = rand()%751;
             enemigo[i]->y = rand()%431;
@@ -255,7 +256,7 @@ int main(int argc, char *argv[]) {
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
-    NodoBala * listaBalas = crea_lista_balas();
+    Rafaga listaBalas = crea_rafaga();
     Bala bAux = NULL;
     Archivo archi = fopen("./puntos.txt", "r+");
 
@@ -283,30 +284,32 @@ int main(int argc, char *argv[]) {
         //Dibuja Tesoro
         dibuja_tesoro(tesoro);
 
+
         //PROGRAMAS LISTA DE BALAS.
         if(tecla_pulsada(SDL_SCANCODE_W)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
             set_dir_bala(bAux,0);
-            inserta_lista_balas(listaBalas,bAux);
+            inserta_rafaga(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_A)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
             set_dir_bala(bAux,1);
-            inserta_lista_balas(listaBalas,bAux);
+            inserta_rafaga(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_D)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
             set_dir_bala(bAux,2);
-            inserta_lista_balas(listaBalas,bAux);
+            inserta_rafaga(listaBalas,bAux);
         }
         if(tecla_pulsada(SDL_SCANCODE_S)) {
             bAux = crea_bala(heroe->x,heroe->y,7,7);
             set_dir_bala(bAux,3);
-            inserta_lista_balas(listaBalas,bAux);
+            inserta_rafaga(listaBalas,bAux);
         }
 
-        mueve_lista_balas(listaBalas);
-        dibuja_lista_balas(listaBalas);
+        mueve_rafaga(listaBalas);
+        dibuja_rafaga(listaBalas);
+
 
         mover_heroe(heroe);
         mover_enemigos(enemigos, nEnemigos, heroe);
@@ -318,6 +321,7 @@ int main(int argc, char *argv[]) {
             tesoro->x = rand()%751;
             tesoro->y = rand()%431;
         }
+
 
         if(colision_enemigos_lista_balas(enemigos, nEnemigos,listaBalas)) {
             heroe->puntos++;
@@ -332,7 +336,7 @@ int main(int argc, char *argv[]) {
         }
         */
 
-        /*
+
         //Se encarga de controlar la vida del heroe en funcion de las colisiones.
         if(colision_enemigos_objeto(enemigos,10,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
             heroe->vidas --;
@@ -343,7 +347,7 @@ int main(int argc, char *argv[]) {
                 fin = 1;
             }
         }
-        */
+
 
         actualiza_pantalla();
         espera(40);
