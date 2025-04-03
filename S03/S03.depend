@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1743674419 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1743675453 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	"Pantalla.h"
 	"Colisiones.h"
 	"Bala.h"
@@ -435,7 +435,7 @@
 
 1743671935 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
 
-1743674276 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
+1743674579 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
 	"Bala.h"
 	"Rafaga.h"
 	<stdlib.h>

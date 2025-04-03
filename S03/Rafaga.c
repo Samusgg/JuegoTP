@@ -3,11 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TODO: VER COMO ADAPTAR LA CUENTA DEL NUMERO DE BALAS
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//Principalmente en las funciones: "mueve_rafaga" y "colision_rafaga"
-
 /**
    NODO LISTA DE BALAS
 */

@@ -88,18 +88,19 @@ void dibuja_fondo(Fondo fondo) {
     \param puntos Puntuacion.
     \param vidas Vidas del heroe restantes.
 */
-void dibuja_info(int puntos, int vidas) {
-    char textoV[32] = "Vidas: ";
-    char textoP[32] = "Puntos: ";
-    char aux[12];
-    sprintf(aux,"%d",vidas); //Transforma el entero a un array de caracteres.
-    strcat(textoV, aux);     //Concatena los arrays de caracteres
-    sprintf(aux,"%d",puntos);
-    strcat(textoP, aux);
+void dibuja_info(int puntos, int vidas, int nBalas) {
+    char textoV[36];
+    char textoP[40];
+    char textoB[36];
+    snprintf(textoV, 36, "Vidas: %d", vidas); //Transforma el entero a character y concatena.
+    snprintf(textoP, 40, "Puntos: %d", puntos);
+    snprintf(textoB, 36, "Balas: %d", nBalas);
 
-    color_trazo(255,0,0,255);
-    dibuja_texto(textoV,399,0);
-    dibuja_texto(textoP,200,0);
+
+    color_trazo(255,255,255,255);
+    dibuja_texto(textoV,0,0);
+    dibuja_texto(textoP,100,0);
+    dibuja_texto(textoB,200,0);
 }
 
 /**
@@ -280,7 +281,7 @@ int main(int argc, char *argv[]) {
     while(pantalla_activa() && !fin) {
 
         dibuja_fondo(fondo);
-        dibuja_info(heroe->puntos,heroe->vidas);
+        dibuja_info(heroe->puntos,heroe->vidas,longitud_rafaga(listaBalas));
         //Dibuja Tesoro
         dibuja_tesoro(tesoro);
 
