@@ -147,14 +147,10 @@ void mover_heroe(Heroe heroe) {
 */
 //  CODIGO PRINCIPAL
 
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODO: INFORMAR AL USUARIO DE LOS RECORDS
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-int main(int argc, char *argv[]) {
-    srand(time(NULL));//Establecemos semilla aleatoria.
-
-    crea_pantalla("Ejemplo 1",800,480);
+/**
+    \brief Partida principal del juegador.
+*/
+int partida () {
     struct FondoStr fondoStr = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
     struct TesoroStr tesoroStr = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
     struct HeroeStr heroeStr = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .puntos = 0,.activo = 1};
@@ -217,10 +213,7 @@ int main(int argc, char *argv[]) {
             tesoro->y = rand()%431;
         }
 
-
-        if(colision_ejercito_rafaga(enemigos,listaBalas)) {
-            heroe->puntos++;
-        }
+        heroe->puntos = heroe->puntos + colision_ejercito_rafaga(enemigos,listaBalas);
 
         //Se encarga de controlar la vida del heroe en funcion de las colisiones.
         if(colision_ejercito_objeto(enemigos,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
@@ -262,12 +255,6 @@ int main(int argc, char *argv[]) {
         rewind(archi);
         fprintf(archi, "%d", heroe->puntos);
     }
-    libera_imagen(fondo->imagen);
-    fondo->imagen =  lee_imagen("./imagenes/floor.bmp",0);
-    dibuja_fondo(fondo);
-    actualiza_pantalla();
-    while(pantalla_activa()) {}
-
 
     //Final del programa.
     libera_rafaga(listaBalas);
@@ -276,7 +263,107 @@ int main(int argc, char *argv[]) {
     libera_imagen(tesoro->imagen);
     libera_imagen(fondo->imagen);
     libera_ejercito(enemigos);
+    return heroe->puntos;
+}
+
+/**
+    \brief Muestra una imagen con la explicación del juego.
+*/
+void ayuda() {
+
+    Imagen ayudaImagen =  lee_imagen("./imagenes/floor.bmp",0);
+
+    int fin = 0;
+    while(pantalla_activa() && !fin) {
+        dibuja_imagen(ayudaImagen,0,0,800,480);
+        if(tecla_pulsada(SDL_SCANCODE_SPACE)) {
+            fin = 1;
+        }
+        espera(40);
+        actualiza_pantalla();
+    }
+    libera_imagen(ayudaImagen);
+}
+
+//*****************
+//*****************
+/**
+    \brief Sirve para controlar el dibujado del boton.
+    \param boton Imagen del boton.
+    \param x Coordenada horizontal del boton.
+    \param y Coordenada vertical del boton.
+    \param h Altura del boton.
+    \param w Anchura del boton.
+*/
+void dibujar_boton(Imagen boton,int dentro,int x, int y, int h, int w) {
+    if(dentro) {
+        dibuja_imagen(boton,x-2,y-1,w+4,h+2);
+    } else {
+        dibuja_imagen(boton,x,y,w,h);
+    }
+}
+
+
+/**
+    \brief Muestra un menú del juego con las diferentes opciones.
+    \return Opción elegida.
+*/
+int menu() {
+
+    Imagen menuImagen =  lee_imagen("./imagenes/menu.bmp",0);
+    Imagen boton =  lee_imagen("./imagenes/boton.bmp",0);
+
+    int fin = 0, opcion = 0, dBoton1 = 0, dBoton2 = 0;
+    while(pantalla_activa() && !fin) {
+        dibuja_imagen(menuImagen,0,0,800,480);
+
+        //Boton 1
+        dBoton1 = dentroRectangulo(300,240,50,200,x_raton(),y_raton());
+        dibujar_boton(boton,dBoton1,300,240,50,200);
+        if(dBoton1 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+            opcion = 1;
+            fin = 1;
+        }
+
+        //Boton 2
+        dBoton2 = dentroRectangulo(300,310,50,200,x_raton(),y_raton());
+        dibujar_boton(boton,dBoton2,300,311,50,200);
+        if(dBoton2 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+            opcion = 2;
+            fin = 1;
+        }
+
+
+        actualiza_pantalla();
+        espera(40);
+    }
+    libera_imagen(menuImagen);
+    return opcion;
+};
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TODO: INFORMAR AL USUARIO DE LOS RECORDS
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+int main(int argc, char *argv[]) {
+    srand(time(NULL));//Establecemos semilla aleatoria.
+
+    crea_pantalla("Ejemplo 1",800,480);
+    while(pantalla_activa()) {
+        int opcion = menu();
+        switch(opcion) {
+        case 1:
+            partida();
+            break;
+
+        case 2:
+            ayuda();
+            break;
+        }
+    }
     libera_pantalla();
 
     return 0;
 }//--
+
