@@ -407,14 +407,15 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1743675453 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1743953420 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+	<time.h>
+	<stdlib.h>
+	<stdio.h>
 	"Pantalla.h"
 	"Colisiones.h"
 	"Bala.h"
 	"Rafaga.h"
-	<time.h>
-	<stdlib.h>
-	<stdio.h>
+	"Ejercito.h"
 
 1742478693 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
 	"Colisiones.h"
@@ -433,11 +434,21 @@
 	<stdio.h>
 	"Pantalla.h"
 
-1743671935 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
+1743693652 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
+	"Bala.h"
 
-1743674579 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
+1743684389 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
 	"Bala.h"
 	"Rafaga.h"
 	<stdlib.h>
 	<stdio.h>
+
+1743693705 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
+	"Rafaga.h"
+
+1743953280 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
+	"Rafaga.h"
+	"Ejercito.h"
+	"Pantalla.h"
+	"Colisiones.h"
 

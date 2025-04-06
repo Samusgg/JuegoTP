@@ -22,7 +22,7 @@ struct TDARafaga {
 };
 
 //*****************************************
-//        Funciones LISTA DE BALAS
+//        Funciones BALAS
 //*****************************************
 
 

@@ -1,11 +1,12 @@
-#include "Pantalla.h"
-#include "Colisiones.h"
-#include "Bala.h"
-#include "Rafaga.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "Pantalla.h"
+#include "Colisiones.h"
+#include "Bala.h"
+#include "Rafaga.h"
+#include "Ejercito.h"
 
 /**
     FONDO
@@ -47,22 +48,6 @@ struct HeroeStr {
     int activo;
 };
 typedef struct HeroeStr * Heroe;
-
-/**
-    ENEMIGO
-*/
-typedef struct {
-    int x;  //Eje x
-    int y;  //Eje Y
-    int wt; //Anchura
-    int ht; //Altura
-    int vidas;
-    Imagen imagen;
-    int v; //Velocidad
-    int activo; //0 si "no hay enemigo", 1 si lo hay.
-    int dir; //Dirección
-} EnemigoRep;
-
 
 typedef FILE * Archivo;
 /*
@@ -140,87 +125,7 @@ void mover_heroe(Heroe heroe) {
 }
 
 
-//*****************************************
-//          Funciones ENEMIGOS
-//*****************************************
 
-/**
-    \brief Esta funcion mueve a los enemigos activos respecto al heroe.
-           El enemigo se mueve siempre siguiendo al héroe.
-           Su atributo "dir", gestiona si se mueve en el eje x (En caso de ser 0)
-           O en el eje y (En caso de ser 1).
-    \param enemigo Array de punteros a enemigos.
-    \param n Longitud del array de enemigos.
-    \param heroe Puntero a estructura de HeroeStr.
-*/
-void mover_enemigos(EnemigoRep * enemigo[], int n, Heroe heroe ) {
-    for(int i = 0; i<n; i++) {
-        if(enemigo[i]->activo == 1) {
-            switch(enemigo[i]->dir) {
-            case 0: {
-                if(heroe->x>enemigo[i]->x) {
-                    enemigo[i]->x = enemigo[i]->x + enemigo[i]->v;
-                } else {
-                    enemigo[i]->x = enemigo[i]->x - enemigo[i]->v;
-                };
-                break;
-            }
-
-            case 1: {
-                if(heroe->y>enemigo[i]->y) {
-                    enemigo[i]->y = enemigo[i]->y + enemigo[i]->v;
-                } else {
-                    enemigo[i]->y = enemigo[i]->y - enemigo[i]->v;
-                };
-                break;
-            }
-            }
-            dibuja_imagen(enemigo[i] -> imagen,enemigo[i] -> x,enemigo[i] -> y,enemigo[i] -> wt,enemigo[i] -> ht);
-        }
-
-    }
-
-}
-
-
-/**
-    \brief Funcion que sirve para ver si hay colision entre los enemigos con un objeto.
-    \param n Longitud del array de enemigos.
-    \param x Coordenada horizontal de la esquina superior izquierda del objeto.
-    \param y Coordenada vertical de la esquina superior izquierda del objeto.
-    \param w Anchura del objeto.
-    \param h Altura del objeto.
-    \return 1 si existe colision, 0 si no.
-*/
-int colision_enemigos_objeto (EnemigoRep * enemigo [], int n, int x, int y, int w, int h) {
-    for(int i = 0; i<n; i++) {
-        if(enemigo[i]->activo==1 && solape_rectangulos(x,y,w,h,enemigo[i]->x,enemigo[i]->y,enemigo[i]->wt,enemigo[i]->ht)) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-
-/**
-    \brief Detecta la colisión entre los enemigos y la bala.
-    \param enemigo Array de punteros a enemigos.
-    \param n Longitud del array de enemigos.
-    \param bala Puntero a estructura de BalaRep.
-    \return 1 si existe colision, 0 en caso contrario.
-
-*/
-int colision_enemigos_lista_balas (EnemigoRep * enemigo [], int n, Rafaga listaBalas) {
-    for(int i = 0; i<n; i++) {
-        if(enemigo[i]->activo == 1 && colision_rafaga(listaBalas,enemigo[i]->x, enemigo[i]->y, enemigo[i]->wt, enemigo[i]->ht)) {
-            enemigo[i]->activo = 0;
-            enemigo[i]->x = rand()%751;
-            enemigo[i]->y = rand()%431;
-            return 1;
-        }
-    }
-    return 0;
-}
 
 /*
 ******************************************************************
@@ -262,19 +167,8 @@ int main(int argc, char *argv[]) {
     Archivo archi = fopen("./puntos.txt", "r+");
 
     //ENEMIGOS
-    Imagen imagenEnemigo = lee_imagen("./imagenes/criper.bmp",0);
-    EnemigoRep ene1 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
-    EnemigoRep ene2 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
-    EnemigoRep ene3 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 1,.dir = rand()%2};
-    EnemigoRep ene4 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene5 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene6 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene7 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene8 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene9 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    EnemigoRep ene10 = {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imagenEnemigo, .v = 1, .activo = 0,.dir = rand()%2};
-    int nEnemigos = 10;
-    EnemigoRep * enemigos [10] = {&ene1,&ene2,&ene3,&ene4,&ene5,&ene6,&ene7,&ene8,&ene9,&ene10};
+    Ejercito enemigos = crea_ejercito();
+
     //**
 
     int fin = 0, iteracion = 0;
@@ -313,8 +207,8 @@ int main(int argc, char *argv[]) {
 
 
         mover_heroe(heroe);
-        mover_enemigos(enemigos, nEnemigos, heroe);
-
+        mueve_ejercito(enemigos,heroe->x,heroe->y);
+        dibuja_ejercito(enemigos);
 
         //Colision con tesoro.
         if(solape_rectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht)) {
@@ -324,22 +218,12 @@ int main(int argc, char *argv[]) {
         }
 
 
-        if(colision_enemigos_lista_balas(enemigos, nEnemigos,listaBalas)) {
+        if(colision_ejercito_rafaga(enemigos,listaBalas)) {
             heroe->puntos++;
         }
-
-        /*
-        //Colision enemigo bala
-        if(bala!=NULL && colision_enemigos_bala(enemigos, nEnemigos,bala)) {
-            libera_bala(bala);
-            heroe->puntos++;
-            bala = NULL;
-        }
-        */
-
 
         //Se encarga de controlar la vida del heroe en funcion de las colisiones.
-        if(colision_enemigos_objeto(enemigos,10,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
+        if(colision_ejercito_objeto(enemigos,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
             heroe->vidas --;
             if(heroe->vidas>0) {
                 heroe->x = rand()%751;
@@ -353,27 +237,10 @@ int main(int argc, char *argv[]) {
         actualiza_pantalla();
         espera(40);
 
-
         //Add nuevos enemigos.
         if(iteracion >= 25) {
-            int i = 0;
-            while(i<nEnemigos-1 && enemigos[i]->activo != 0) {
-                i++;
-            }
-            enemigos[i]->activo = 1;
-
-            //Modifica direccion aleatoriamente.
-            int toggle = rand()%10;
-            switch(enemigos[toggle]->dir) {
-            case 0:
-                enemigos[toggle]->dir = 1;
-                break;
-            case 1:
-                enemigos[toggle]->dir = 0;
-                break;
-            }
-
-
+            inserta_enemigo(enemigos);
+            mod_aleatoria(enemigos);
             iteracion = 0;
         } else {
             iteracion++;
@@ -403,12 +270,12 @@ int main(int argc, char *argv[]) {
 
 
     //Final del programa.
-    libera_lista_balas(listaBalas);
+    libera_rafaga(listaBalas);
     fclose(archi);
     libera_imagen(heroe->imagen);
     libera_imagen(tesoro->imagen);
-    libera_imagen(imagenEnemigo);
     libera_imagen(fondo->imagen);
+    libera_ejercito(enemigos);
     libera_pantalla();
 
     return 0;

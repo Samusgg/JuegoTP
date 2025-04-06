@@ -1,5 +1,6 @@
 #ifndef __Rafaga_h__
 #define __Rafaga_h__
+#include "Bala.h"
 
 typedef struct TDARafaga * Rafaga;
 
