@@ -6,9 +6,11 @@
 /**
    NODO LISTA DE BALAS
 */
-struct Nodo{
+struct Nodo {
     Bala miBala;
     struct Nodo * sig;
+    int xRef;
+    int yRef;
 };
 typedef struct Nodo NodoBala;
 
@@ -17,8 +19,8 @@ typedef struct Nodo NodoBala;
    Constuctor del tipo del TDA
 */
 struct TDARafaga {
-     NodoBala * listaBalas;
-     int nBalas;
+    NodoBala * listaBalas;
+    int nBalas;
 };
 
 //*****************************************
@@ -54,6 +56,8 @@ void inserta_lista_balas ( NodoBala * cabecera, Bala b ) {
 
 
     NodoBala * nuevoNodo = malloc(sizeof(NodoBala));
+    nuevoNodo->xRef = get_x_bala(b);
+    nuevoNodo->yRef = get_y_bala(b);
     nuevoNodo->sig = NULL;
     nuevoNodo->miBala = b;
     nodoBuscado->sig = nuevoNodo;
@@ -75,6 +79,28 @@ void libera_lista_balas ( NodoBala * cabecera ) {
 }
 
 /**
+
+*/
+int fueraPantalla(Bala miBala) {
+    int x = get_x_bala(miBala);
+    int y = get_y_bala(miBala);
+    if(x < -50 || x > 850 || y < -50 || y >530) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int fueraAlcance(Bala miBala, int xRef, int yRef){
+    int x = get_x_bala(miBala);
+    int y = get_y_bala(miBala);
+    if(x < xRef-150 || x > xRef+150 || y < yRef-150 || y > yRef+150) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+/**
     \brief Mueve todas las balas de una estructura enlazada (lista).
     \param cabecera Puntero cabecera de una lista de balas.
     \return int Número de balas menos.
@@ -85,11 +111,8 @@ int mueve_lista_balas ( NodoBala * nodoActivo ) {
     NodoBala * aux = NULL;
     while(nodoActivo->sig != NULL) {
         mueve_bala(nodoActivo->sig->miBala);
-        if(get_x_bala(nodoActivo->sig->miBala)<-50 ||
-                get_x_bala(nodoActivo->sig->miBala)>850 ||
-                get_y_bala(nodoActivo->sig->miBala)<-50 ||
-                get_y_bala(nodoActivo->sig->miBala)>530
-          ) {
+        if(fueraPantalla(nodoActivo->sig->miBala) ||
+           fueraAlcance(nodoActivo->sig->miBala,nodoActivo->sig->xRef,nodoActivo->sig->yRef)) {
             aux =  nodoActivo->sig;
             nodoActivo->sig = nodoActivo->sig->sig;
             libera_bala(aux->miBala);
@@ -169,11 +192,11 @@ int colision_lista_balas(NodoBala * cabecera, int xe, int ye, int we, int he) {
     sin ninguna bala, pero lista para almacenar cualquier número de balas.
     \return Rafaga Lista de balas vacía.
 */
-Rafaga crea_rafaga(){
-   Rafaga listaRafaga = malloc(sizeof(struct TDARafaga));
-   listaRafaga -> listaBalas = crea_lista_balas();
-   listaRafaga -> nBalas = 0;
-   return listaRafaga;
+Rafaga crea_rafaga() {
+    Rafaga listaRafaga = malloc(sizeof(struct TDARafaga));
+    listaRafaga -> listaBalas = crea_lista_balas();
+    listaRafaga -> nBalas = 0;
+    return listaRafaga;
 };
 
 /**
@@ -181,7 +204,7 @@ Rafaga crea_rafaga(){
     y las balas que contenga.
     \param r TDA Rafaga de balas
 */
-void libera_rafaga(Rafaga r){
+void libera_rafaga(Rafaga r) {
     libera_lista_balas(r->listaBalas);
     r->nBalas = 0;
 };
@@ -191,7 +214,7 @@ void libera_rafaga(Rafaga r){
     \param r TDA Rafaga de balas
     \param b Bala a insertar en r
 */
-void inserta_rafaga(Rafaga r, Bala b){
+void inserta_rafaga(Rafaga r, Bala b) {
     r->nBalas++;
     inserta_lista_balas(r->listaBalas,b);
 };
@@ -202,7 +225,7 @@ void inserta_rafaga(Rafaga r, Bala b){
     y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
     \param r TDA Rafaga de balas
 */
-void mueve_rafaga(Rafaga r){
+void mueve_rafaga(Rafaga r) {
     int nBalasMenos = mueve_lista_balas(r->listaBalas);
     r->nBalas = r->nBalas - nBalasMenos;
 };
@@ -211,7 +234,7 @@ void mueve_rafaga(Rafaga r){
     \brief Esta función muestra todas las balas contenidas en la ráfaga r.
     \param r TDA Rafaga de balas
 */
-void dibuja_rafaga(Rafaga r){
+void dibuja_rafaga(Rafaga r) {
     dibuja_lista_balas(r->listaBalas);
 };
 
@@ -220,7 +243,7 @@ void dibuja_rafaga(Rafaga r){
     \param r TDA Rafaga de balas
     \return int Longitud rafaga
 */
-int longitud_rafaga(Rafaga r){
+int longitud_rafaga(Rafaga r) {
     return r->nBalas;
 };
 
@@ -235,11 +258,11 @@ int longitud_rafaga(Rafaga r){
     \param w Anchura del rectángulo.
     \param h Altura del rectángulo.
 */
-int colision_rafaga(Rafaga r, int x, int y, int w, int h){
-    if(colision_lista_balas(r->listaBalas,x,y,w,h)){
+int colision_rafaga(Rafaga r, int x, int y, int w, int h) {
+    if(colision_lista_balas(r->listaBalas,x,y,w,h)) {
         r->nBalas--;
         return 1;
-    }else{
+    } else {
         return 0;
     }
 };

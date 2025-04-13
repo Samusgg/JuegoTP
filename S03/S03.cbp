@@ -53,6 +53,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Colisiones.h" />
+		<Unit filename="Ejercito.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Ejercito.h" />
 		<Unit filename="Pantalla.c">
 			<Option compilerVar="CC" />
 		</Unit>
