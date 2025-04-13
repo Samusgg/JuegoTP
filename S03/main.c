@@ -147,6 +147,40 @@ void mover_heroe(Heroe heroe) {
 */
 //  CODIGO PRINCIPAL
 
+void pantalla_record(int record){
+    Imagen imaRecord1 =  lee_imagen("./imagenes/fondoRecord1.bmp",0);
+     Imagen imaRecord2 =  lee_imagen("./imagenes/fondoRecord2.bmp",0);
+    color_trazo(255,255,255,255);
+    char puntos[5];
+    snprintf(puntos, 4, "%d", record);
+
+    int fin = 0, contador = 0, animacion = 0;
+    while(pantalla_activa() && !fin) {
+            if(animacion){
+                dibuja_imagen(imaRecord2,0,0,800,480);
+            }else{
+                 dibuja_imagen(imaRecord1,0,0,800,480);
+            }
+        dibuja_texto("PUNTOS:",360,280);
+        dibuja_texto(puntos,430,280);
+
+        //Boton 1
+        if(tecla_pulsada(SDL_SCANCODE_SPACE)){
+            fin = 1;
+        }
+        espera(40);
+        actualiza_pantalla();
+
+        if(contador >= 15){
+            animacion = !animacion;
+            contador = 0;
+        }
+        contador++;
+    }
+    libera_imagen(imaRecord1);
+     libera_imagen(imaRecord2);
+}
+
 /**
     \brief Partida principal del juegador.
 */
@@ -160,7 +194,6 @@ int partida () {
 
     Rafaga listaBalas = crea_rafaga();
     Bala bAux = NULL;
-    Archivo archi = fopen("./puntos.txt", "r+");
 
     //ENEMIGOS
     Ejercito enemigos = crea_ejercito();
@@ -242,23 +275,8 @@ int partida () {
     }//Termina While = 1
 
 
-    //*************************************
-    //*************************************
-    // ZONA DE RECORD
-    //*************************************
-
-
-    //WHILE PARA DIBUJAR EL FONDO DEL RECORD.
-    int record = 0;
-    fscanf(archi, "%d", &record);
-    if(record < heroe->puntos) {
-        rewind(archi);
-        fprintf(archi, "%d", heroe->puntos);
-    }
-
-    //Final del programa.
+    //Final Partida.
     libera_rafaga(listaBalas);
-    fclose(archi);
     libera_imagen(heroe->imagen);
     libera_imagen(tesoro->imagen);
     libera_imagen(fondo->imagen);
@@ -271,11 +289,13 @@ int partida () {
 */
 void ayuda() {
 
-    Imagen ayudaImagen =  lee_imagen("./imagenes/floor.bmp",0);
+    Imagen ayudaImagen =  lee_imagen("./imagenes/controles.bmp",0);
+
 
     int fin = 0;
     while(pantalla_activa() && !fin) {
         dibuja_imagen(ayudaImagen,0,0,800,480);
+
         if(tecla_pulsada(SDL_SCANCODE_SPACE)) {
             fin = 1;
         }
@@ -311,32 +331,44 @@ void dibujar_boton(Imagen boton,int dentro,int x, int y, int h, int w) {
 int menu() {
 
     Imagen menuImagen =  lee_imagen("./imagenes/menu.bmp",0);
-    Imagen boton =  lee_imagen("./imagenes/boton.bmp",0);
+    Imagen boton1 =  lee_imagen("./imagenes/botonJugar.bmp",0);
+    Imagen boton2 =  lee_imagen("./imagenes/botonAyuda.bmp",0);
+    Imagen boton3 =  lee_imagen("./imagenes/botonSalir.bmp",0);
 
-    int fin = 0, opcion = 0, dBoton1 = 0, dBoton2 = 0;
+    int fin = 0, opcion = 0, dBoton1 = 0, dBoton2 = 0, dBoton3 = 0;
     while(pantalla_activa() && !fin) {
         dibuja_imagen(menuImagen,0,0,800,480);
 
         //Boton 1
-        dBoton1 = dentroRectangulo(300,240,50,200,x_raton(),y_raton());
-        dibujar_boton(boton,dBoton1,300,240,50,200);
+        dBoton1 = dentroRectangulo(300,220,50,200,x_raton(),y_raton());
+        dibujar_boton(boton1,dBoton1,300,220,50,200);
         if(dBoton1 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
             opcion = 1;
             fin = 1;
         }
 
         //Boton 2
-        dBoton2 = dentroRectangulo(300,310,50,200,x_raton(),y_raton());
-        dibujar_boton(boton,dBoton2,300,311,50,200);
+        dBoton2 = dentroRectangulo(300,290,50,200,x_raton(),y_raton());
+        dibujar_boton(boton2,dBoton2,300,290,50,200);
         if(dBoton2 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
             opcion = 2;
             fin = 1;
         }
 
+        //Boton 3
+        dBoton3 = dentroRectangulo(300,360,50,200,x_raton(),y_raton());
+        dibujar_boton(boton3,dBoton3,300,360,50,200);
+        if(dBoton3 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+            opcion = 3;
+            fin = 1;
+        }
 
         actualiza_pantalla();
         espera(40);
     }
+    libera_imagen(boton1);
+    libera_imagen(boton2);
+    libera_imagen(boton3);
     libera_imagen(menuImagen);
     return opcion;
 };
@@ -350,18 +382,38 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
     crea_pantalla("Ejemplo 1",800,480);
-    while(pantalla_activa()) {
+    Archivo archi = fopen("./puntos.txt", "r+");
+
+    int puntos = 0, record = 0, fin = 0;
+    while(pantalla_activa() && !fin) {
         int opcion = menu();
         switch(opcion) {
         case 1:
-            partida();
+           puntos = partida();
             break;
 
         case 2:
             ayuda();
             break;
+        case 3:
+            fin = 1;
+            break;
+        }
+
+    //*************************************
+    //*************************************
+    // ZONA DE RECORD
+    //*************************************
+
+        fscanf(archi, "%d", &record);
+        if(record < puntos) {
+            rewind(archi);
+            fprintf(archi, "%d", puntos);
+            pantalla_record(puntos);
         }
     }
+
+    fclose(archi);
     libera_pantalla();
 
     return 0;
