@@ -9,6 +9,12 @@
 #include "Ejercito.h"
 
 /**
+AMPLIACIONES REALIZADAS:
+1. #Alcance
+**/
+
+
+/**
     FONDO
 */
 struct FondoStr {
