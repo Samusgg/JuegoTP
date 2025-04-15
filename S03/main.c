@@ -116,13 +116,13 @@ void mover_heroe(Heroe heroe, Escenario e) {
     }
     if(tecla_pulsada(SDL_SCANCODE_LEFT) &&
             !colH_lateral(e,x - heroe->v,y,x - heroe->v,yH,1)&&
-            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,2)) {
+            !colH_lateral(e,x - heroe->v,y,x - heroe->v,yH,2)) {
         heroe->x = heroe->x - heroe->v;
     }
 
     if(tecla_pulsada(SDL_SCANCODE_RIGHT) &&
             !colH_lateral(e,xW + heroe->v,y,xW + heroe->v,yH,1)&&
-            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,2)) {
+            !colH_lateral(e,xW + heroe->v,y,xW + heroe->v,yH,2)) {
         heroe->x = heroe->x + heroe->v;
     }
     dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
@@ -148,7 +148,7 @@ void iniciar_obstaculos(Escenario fondo) {
     inserta_obstaculo(fondo,1,16*TBloque,9*TBloque,4*TBloque,TBloque);
 
     //Lava
-    inserta_obstaculo(fondo,1,12*TBloque,5*TBloque,TBloque,5*TBloque);
+    inserta_obstaculo(fondo,2,12*TBloque,5*TBloque,TBloque,5*TBloque);
 }
 
 
@@ -260,7 +260,7 @@ int partida () {
         dibuja_rafaga(listaBalas);
 
         mover_heroe(heroe, fondo);
-        mueve_ejercito(enemigos,heroe->x,heroe->y,fondo);
+        mueve_ejercito(enemigos,fondo);
         dibuja_ejercito(enemigos);
 
         //Colision con tesoro.
@@ -296,6 +296,8 @@ int partida () {
         //Add nuevos enemigos.
         if(iteracion >= 25) {
             inserta_enemigo(enemigos,fondo);
+            mod_aleatoria(enemigos);
+            mod_aleatoria(enemigos);
             mod_aleatoria(enemigos);
             iteracion = 0;
         } else {

@@ -29,7 +29,7 @@ void inserta_enemigo (Ejercito e, Escenario fondo);
     \param xR Eje X de referencia.
     \param yR Eje y de referencia.
 **/
-void mueve_ejercito(Ejercito e,int xR, int yR, Escenario fondo);
+void mueve_ejercito(Ejercito e, Escenario fondo);
 
 /**
     \brief Muestra todos los enemigos contenidos en el ejército e.

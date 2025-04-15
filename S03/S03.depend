@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1744687802 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1744689712 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	<time.h>
 	<stdlib.h>
 	<stdio.h>
@@ -446,10 +446,10 @@
 	<stdlib.h>
 	<stdio.h>
 
-1744687835 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
+1744688544 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
 	"Rafaga.h"
 
-1744687815 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
+1744689811 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
 	"Rafaga.h"
 	"Ejercito.h"
 	"Pantalla.h"
