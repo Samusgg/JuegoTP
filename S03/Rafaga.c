@@ -1,5 +1,6 @@
 #include "Bala.h"
 #include "Rafaga.h"
+#include "Escenario.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -105,14 +106,17 @@ int fueraAlcance(Bala miBala, int xRef, int yRef){
     \param cabecera Puntero cabecera de una lista de balas.
     \return int Número de balas menos.
 */
-int mueve_lista_balas ( NodoBala * nodoActivo ) {
+int mueve_lista_balas ( NodoBala * nodoActivo, Escenario e) {
     int nMenos = 0;
 
     NodoBala * aux = NULL;
+    Bala bala = NULL;
     while(nodoActivo->sig != NULL) {
-        mueve_bala(nodoActivo->sig->miBala);
-        if(fueraPantalla(nodoActivo->sig->miBala) ||
-           fueraAlcance(nodoActivo->sig->miBala,nodoActivo->sig->xRef,nodoActivo->sig->yRef)) {
+        bala = nodoActivo->sig->miBala;
+        mueve_bala(bala);
+        if(fueraPantalla(bala) ||
+           fueraAlcance(bala,nodoActivo->sig->xRef,nodoActivo->sig->yRef)||
+           dentro_bloque(e,get_x_bala(bala),get_y_bala(bala),get_wt_bala(bala),get_ht_bala(bala),1)) {
             aux =  nodoActivo->sig;
             nodoActivo->sig = nodoActivo->sig->sig;
             libera_bala(aux->miBala);
@@ -225,8 +229,8 @@ void inserta_rafaga(Rafaga r, Bala b) {
     y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
     \param r TDA Rafaga de balas
 */
-void mueve_rafaga(Rafaga r) {
-    int nBalasMenos = mueve_lista_balas(r->listaBalas);
+void mueve_rafaga(Rafaga r, Escenario e) {
+    int nBalasMenos = mueve_lista_balas(r->listaBalas, e);
     r->nBalas = r->nBalas - nBalasMenos;
 };
 

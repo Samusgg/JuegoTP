@@ -30,8 +30,7 @@ void inserta_rafaga(Rafaga r, Bala b);
     y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
     \param r Lista de balas
 */
-void mueve_rafaga(Rafaga r);
-
+void mueve_rafaga(Rafaga r, Escenario e);
 /**
     \brief Esta función muestra todas las balas contenidas en la ráfaga r.
     \param r Lista de balas

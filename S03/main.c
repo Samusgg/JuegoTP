@@ -12,6 +12,9 @@
 /**
 AMPLIACIONES REALIZADAS:
 1. #Alcance
+2. #MasEnemigos
+3. #Escenario
+
 **/
 
 #define TBloque 32 //Tamaño de bloques de los escenarios.
@@ -256,7 +259,7 @@ int partida () {
             inserta_rafaga(listaBalas,bAux);
         }
 
-        mueve_rafaga(listaBalas);
+        mueve_rafaga(listaBalas,fondo);
         dibuja_rafaga(listaBalas);
 
         mover_heroe(heroe, fondo);
@@ -406,10 +409,6 @@ int menu() {
 };
 
 
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// TODO: INFORMAR AL USUARIO DE LOS RECORDS
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 
@@ -423,7 +422,6 @@ int main(int argc, char *argv[]) {
         case 1:
             puntos = partida();
             break;
-
         case 2:
             ayuda();
             break;
@@ -442,6 +440,7 @@ int main(int argc, char *argv[]) {
             rewind(archi);
             fprintf(archi, "%d", puntos);
             pantalla_record(puntos);
+            record = puntos;
         }
     }
 
