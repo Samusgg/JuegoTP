@@ -1,6 +1,7 @@
 #include "Colisiones.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "Escenario.h"
 
 /**
     \brief Comprueba si un punto está dentro de un rectángulo.
@@ -72,3 +73,24 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
         return 0;
     }
 }
+
+
+int colH_lateral(Escenario e, int x, int y, int x2, int y2,int tipoB) {
+     if(tipo_bloque(e,x,y)== tipoB || tipo_bloque(e,x2,y2)== tipoB)
+        return 1;
+    return 0;
+}
+
+
+int dentro_bloque(Escenario e, int x, int y, int wt, int ht, int tipoB) {
+     if(colH_lateral(e,x,y,x+wt,y,tipoB) ||
+        colH_lateral(e,x+wt,y,x+wt,y+wt,tipoB) ||
+        colH_lateral(e,x+wt,y+wt,x,y+wt,tipoB) ||
+        colH_lateral(e,x,y+wt,x,y,tipoB)
+        ){
+        return 1;
+    }
+    return 0;
+}
+
+

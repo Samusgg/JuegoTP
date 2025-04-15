@@ -41,14 +41,23 @@ struct EjercitoTDA {
     \param x Eje xR de referencia al que acercarse.
     \param x Eje yR de referencia al que acercarse.
 */
-void mover_enemigos(EnemigoRep enemigo[], int n, int xR, int yR ) {
+void mover_enemigos(EnemigoRep enemigo[], int n, int xR, int yR, Escenario e) {
+   int x = 0, y = 0, xW = 0, yH = 0;
+
     for(int i = 0; i<n; i++) {
+        x = enemigo[i].x ;
+        y = enemigo[i].y;
+        xW = (enemigo[i].x+enemigo[i].wt);
+        yH = (enemigo[i].y+enemigo[i].ht);
+
         if(enemigo[i].activo == 1) {
             switch(enemigo[i].dir) {
             case 0: {
                 if(xR>enemigo[i].x) {
+                    if(!colH_lateral(e,x,yH + enemigo[i].v,xW,yH + enemigo[i].v,1))
                     enemigo[i].x = enemigo[i].x + enemigo[i].v;
                 } else {
+                    if(!colH_lateral(e,x,y - enemigo[i].v,xW,y - enemigo[i].v,1))
                     enemigo[i].x = enemigo[i].x - enemigo[i].v;
                 };
                 break;
@@ -56,8 +65,10 @@ void mover_enemigos(EnemigoRep enemigo[], int n, int xR, int yR ) {
 
             case 1: {
                 if(yR>enemigo[i].y) {
+                    if(!colH_lateral(e,xW + enemigo[i].v,y,xW + enemigo[i].v,yH,1))
                     enemigo[i].y = enemigo[i].y + enemigo[i].v;
                 } else {
+                    if(!colH_lateral(e,x - enemigo[i].v,y,x - enemigo[i].v,yH,1))
                     enemigo[i].y = enemigo[i].y - enemigo[i].v;
                 };
                 break;
@@ -115,8 +126,6 @@ int colision_enemigos_lista_balas (EnemigoRep enemigo [], int n, Rafaga listaBal
     for(int i = 0; i<n; i++) {
         if(enemigo[i].activo == 1 && colision_rafaga(listaBalas,enemigo[i].x, enemigo[i].y, enemigo[i].wt, enemigo[i].ht)) {
             enemigo[i].activo = 0;
-            enemigo[i].x = rand()%751;
-            enemigo[i].y = rand()%431;
             contador++;
         }
     }
@@ -142,34 +151,46 @@ int colision_enemigos_lista_balas (EnemigoRep enemigo [], int n, Rafaga listaBal
     con capacidad para almacenar hasta N enemigos. Decide y fija tú el valor de N.
     \return Ejercito de enemigos.
     **/
-Ejercito crea_ejercito() {
+Ejercito crea_ejercito(Escenario fondo) {
     EnemigoRep * enemigos = malloc(sizeof(EnemigoRep)*MAX);
     Imagen imaCriper = lee_imagen("./imagenes/criper.bmp",0);
-    enemigos[0] = (EnemigoRep) {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imaCriper, .v = 1, .activo = 1,.dir = rand()%2};
-    enemigos[1] = (EnemigoRep) {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imaCriper, .v = 1, .activo = 1,.dir = rand()%2};
-    enemigos[2] = (EnemigoRep) {.x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imaCriper, .v = 1, .activo = 1,.dir = rand()%2};
+
+    for(int i = 0; i<3; i++) {
+        do {
+            enemigos[i] = (EnemigoRep) {
+                .x = rand()%737, .y = rand()%337, .vidas = 1, .wt = 32, .ht = 32, .imagen = imaCriper, .v = 1, .activo = 1,.dir = rand()%2
+            };
+        } while(dentro_bloque(fondo,enemigos[i].x,enemigos[i].y,enemigos[i].wt,enemigos[i].ht,1));
+    }
+    //Inactivos
     for(int i = 3; i<MAX; i++) {
-        enemigos[i] = (EnemigoRep) {
-            .x = rand()%751, .y = rand()%431, .vidas = 1, .wt = 50, .ht = 50, .imagen = imaCriper, .v = 1, .activo = 0,.dir = rand()%2
-        };
+        do {
+            enemigos[i] = (EnemigoRep) {
+                .x = rand()%737, .y = rand()%337, .vidas = 1, .wt = 32, .ht = 32, .imagen = imaCriper, .v = 1, .activo = 0,.dir = rand()%2
+            };
+        } while(dentro_bloque(fondo,enemigos[i].x,enemigos[i].y,enemigos[i].wt,enemigos[i].ht,1));
     }
 
     Ejercito e = malloc(sizeof(struct EjercitoTDA));
     e->enemigos = enemigos;
     return e;
-};
+}
 
 
 /**
     \brief "Inserta" un nuevo enemigo poniendolo como activo.
     \param e Ejercito de enemigos
     **/
-void inserta_enemigo (Ejercito e) {
+void inserta_enemigo (Ejercito e, Escenario fondo) {
     int i = 0;
     while(i<MAX-1 && e->enemigos[i].activo != 0) {
         i++;
     }
     e->enemigos[i].activo = 1;
+    do {
+        e->enemigos[i].x = rand()%737;
+        e->enemigos[i].x = rand()%337;
+    } while(dentro_bloque(fondo,e->enemigos[i].x,e->enemigos[i].x,e->enemigos[i].wt,e->enemigos[i].ht,1));
 };
 
 /** \brief Mueve todos los enemigos contenidos en el ejército e.
@@ -177,8 +198,8 @@ void inserta_enemigo (Ejercito e) {
     \param xR Eje X de referencia.
     \param yR Eje y de referencia.
 **/
-void mueve_ejercito(Ejercito e,int xR, int yR) {
-    mover_enemigos(e->enemigos,MAX,xR,yR);
+void mueve_ejercito(Ejercito e,int xR, int yR, Escenario fondo) {
+    mover_enemigos(e->enemigos,MAX,xR,yR,fondo);
 };
 
 /**
@@ -243,4 +264,4 @@ void libera_ejercito( Ejercito e ) {
     free(e->enemigos[0].imagen);
     free(e->enemigos);
     free(e);
-}
+};

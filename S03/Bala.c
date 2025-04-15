@@ -35,8 +35,8 @@ Bala crea_bala (int x, int y, int vx, int vy) {
     Bala miBala = malloc(sizeof(struct BalaRep));
     miBala->x = x;
     miBala->y = y;
-    miBala->wt =50;
-    miBala->ht = 50;
+    miBala->wt = 32;
+    miBala->ht = 32;
     miBala->imagen = lee_imagen("./imagenes/arrow.bmp",1);
     miBala->vx = vx;
     miBala->vy = vy;

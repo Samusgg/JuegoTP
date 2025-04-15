@@ -7,24 +7,14 @@
 #include "Bala.h"
 #include "Rafaga.h"
 #include "Ejercito.h"
+#include "Escenario.h"
 
 /**
 AMPLIACIONES REALIZADAS:
 1. #Alcance
 **/
 
-
-/**
-    FONDO
-*/
-struct FondoStr {
-    int x;  //Eje x
-    int y;  //Eje Y
-    int wt; //Anchura
-    int ht; //Altura
-    Imagen imagen;
-};
-typedef struct FondoStr * Fondo;
+#define TBloque 32 //Tamaño de bloques de los escenarios.
 
 /**
     TESORO
@@ -64,16 +54,6 @@ typedef FILE * Archivo;
 ******************************************************************
 */
 
-
-/**
-    \brief Dibuja el fondo.
-    \param fondo Puntero a la estructura FondoStr.
-*/
-void dibuja_fondo(Fondo fondo) {
-    //Dibuja fondo
-    dibuja_imagen(fondo -> imagen,fondo -> x,fondo -> y,fondo -> wt,fondo -> ht);
-}
-
 /**
     \brief Dibuja informacion sobre los puntos y las vidas.
     \param puntos Puntuacion.
@@ -109,28 +89,67 @@ void dibuja_tesoro(Tesoro tesoro) {
 //*****************************************
 
 
+
+
+
+
 /**
     \brief Mueve al heroe.
     \param heroe Puntero a estructura HeroeStr.
 */
-void mover_heroe(Heroe heroe) {
-    if(tecla_pulsada(SDL_SCANCODE_UP) && heroe->y>0) {
+void mover_heroe(Heroe heroe, Escenario e) {
+    int x = heroe->x ;
+    int y = heroe->y;
+    int xW = (heroe->x+heroe->wt);
+    int yH = (heroe->y+heroe->ht);
+
+    if(tecla_pulsada(SDL_SCANCODE_UP) &&
+            !colH_lateral(e,x,y - heroe->v,xW,y - heroe->v,1)&&
+            !colH_lateral(e,x,y - heroe->v,xW,y - heroe->v,2)) {
         heroe->y = heroe->y - heroe->v;
     }
-    if(tecla_pulsada(SDL_SCANCODE_DOWN) && heroe->y+heroe->ht<479) {
+
+    if(tecla_pulsada(SDL_SCANCODE_DOWN) &&
+            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,1)&&
+            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,2) ) {
         heroe->y = heroe->y + heroe->v;
     }
-    if(tecla_pulsada(SDL_SCANCODE_LEFT) && heroe->x>0) {
+    if(tecla_pulsada(SDL_SCANCODE_LEFT) &&
+            !colH_lateral(e,x - heroe->v,y,x - heroe->v,yH,1)&&
+            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,2)) {
         heroe->x = heroe->x - heroe->v;
     }
-    if(tecla_pulsada(SDL_SCANCODE_RIGHT) && heroe->x+heroe->wt<799) {
+
+    if(tecla_pulsada(SDL_SCANCODE_RIGHT) &&
+            !colH_lateral(e,xW + heroe->v,y,xW + heroe->v,yH,1)&&
+            !colH_lateral(e,x,yH + heroe->v,xW,yH + heroe->v,2)) {
         heroe->x = heroe->x + heroe->v;
     }
     dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
 
 }
 
+//*****************************************
+//          Funciones ESCENARIO
+//*****************************************
 
+void iniciar_obstaculos(Escenario fondo) {
+    //Obstaculos del marco
+    inserta_obstaculo(fondo,1,0,0,TBloque,480);
+    inserta_obstaculo(fondo,1,0,0,800,TBloque);
+    inserta_obstaculo(fondo,1,24*TBloque,0,TBloque,480);
+    inserta_obstaculo(fondo,1,0,14*TBloque,800,TBloque);
+
+    //Obstaculos del medio
+    inserta_obstaculo(fondo,1,5*TBloque,5*TBloque,4*TBloque,TBloque);
+    inserta_obstaculo(fondo,1,5*TBloque,9*TBloque,4*TBloque,TBloque);
+
+    inserta_obstaculo(fondo,1,16*TBloque,5*TBloque,4*TBloque,TBloque);
+    inserta_obstaculo(fondo,1,16*TBloque,9*TBloque,4*TBloque,TBloque);
+
+    //Lava
+    inserta_obstaculo(fondo,1,12*TBloque,5*TBloque,TBloque,5*TBloque);
+}
 
 
 /*
@@ -153,48 +172,48 @@ void mover_heroe(Heroe heroe) {
 */
 //  CODIGO PRINCIPAL
 
-void pantalla_record(int record){
+void pantalla_record(int record) {
     Imagen imaRecord1 =  lee_imagen("./imagenes/fondoRecord1.bmp",0);
-     Imagen imaRecord2 =  lee_imagen("./imagenes/fondoRecord2.bmp",0);
+    Imagen imaRecord2 =  lee_imagen("./imagenes/fondoRecord2.bmp",0);
     color_trazo(255,255,255,255);
     char puntos[5];
     snprintf(puntos, 4, "%d", record);
 
     int fin = 0, contador = 0, animacion = 0;
     while(pantalla_activa() && !fin) {
-            if(animacion){
-                dibuja_imagen(imaRecord2,0,0,800,480);
-            }else{
-                 dibuja_imagen(imaRecord1,0,0,800,480);
-            }
+        if(animacion) {
+            dibuja_imagen(imaRecord2,0,0,800,480);
+        } else {
+            dibuja_imagen(imaRecord1,0,0,800,480);
+        }
         dibuja_texto("PUNTOS:",360,280);
         dibuja_texto(puntos,430,280);
 
         //Boton 1
-        if(tecla_pulsada(SDL_SCANCODE_SPACE)){
+        if(tecla_pulsada(SDL_SCANCODE_SPACE)) {
             fin = 1;
         }
         espera(40);
         actualiza_pantalla();
 
-        if(contador >= 15){
+        if(contador >= 15) {
             animacion = !animacion;
             contador = 0;
         }
         contador++;
     }
     libera_imagen(imaRecord1);
-     libera_imagen(imaRecord2);
+    libera_imagen(imaRecord2);
 }
 
 /**
     \brief Partida principal del juegador.
 */
 int partida () {
-    struct FondoStr fondoStr = {.x = 0, .y = 0, .wt = 800, .ht = 480, .imagen = lee_imagen("./imagenes/map.bmp",0)};
-    struct TesoroStr tesoroStr = {.x = 749, .y = 429, .wt = 50, .ht = 50, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
-    struct HeroeStr heroeStr = {.x = 0, .y = 0, .vidas = 3, .wt = 50, .ht = 50, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 5, .puntos = 0,.activo = 1};
-    Fondo fondo = &fondoStr;
+    Escenario fondo = crea_escenario(lee_imagen("./imagenes/map.bmp",0),800,480,TBloque);
+    iniciar_obstaculos(fondo);
+    struct TesoroStr tesoroStr = {.x = 749, .y = 429, .wt = 32, .ht = 32, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
+    struct HeroeStr heroeStr = {.x = 32*2, .y = 32*2, .vidas = 3, .wt = 32, .ht = 32, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0,.activo = 1};
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
@@ -202,14 +221,14 @@ int partida () {
     Bala bAux = NULL;
 
     //ENEMIGOS
-    Ejercito enemigos = crea_ejercito();
+    Ejercito enemigos = crea_ejercito(fondo);
 
     //**
 
     int fin = 0, iteracion = 0;
     while(pantalla_activa() && !fin) {
 
-        dibuja_fondo(fondo);
+        dibuja_escenario(fondo);
         dibuja_info(heroe->puntos,heroe->vidas,longitud_rafaga(listaBalas));
         //Dibuja Tesoro
         dibuja_tesoro(tesoro);
@@ -240,16 +259,18 @@ int partida () {
         mueve_rafaga(listaBalas);
         dibuja_rafaga(listaBalas);
 
-
-        mover_heroe(heroe);
-        mueve_ejercito(enemigos,heroe->x,heroe->y);
+        mover_heroe(heroe, fondo);
+        mueve_ejercito(enemigos,heroe->x,heroe->y,fondo);
         dibuja_ejercito(enemigos);
 
         //Colision con tesoro.
         if(solape_rectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht)) {
-            heroe->puntos ++;
-            tesoro->x = rand()%751;
-            tesoro->y = rand()%431;
+            heroe->puntos = heroe->puntos + 5;
+            do {
+                tesoro->x = rand()%737;
+                tesoro->y = rand()%337;
+            } while(dentro_bloque(fondo,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht,1)||
+                    dentro_bloque(fondo,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht,2));
         }
 
         heroe->puntos = heroe->puntos + colision_ejercito_rafaga(enemigos,listaBalas);
@@ -258,8 +279,11 @@ int partida () {
         if(colision_ejercito_objeto(enemigos,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
             heroe->vidas --;
             if(heroe->vidas>0) {
-                heroe->x = rand()%751;
-                heroe->y = rand()%431;
+                do {
+                    heroe->x = rand()%737;
+                    heroe->y = rand()%337;
+                } while(dentro_bloque(fondo,heroe->x,heroe->y,heroe->wt,heroe->ht,1));
+
             } else {
                 fin = 1;
             }
@@ -271,7 +295,7 @@ int partida () {
 
         //Add nuevos enemigos.
         if(iteracion >= 25) {
-            inserta_enemigo(enemigos);
+            inserta_enemigo(enemigos,fondo);
             mod_aleatoria(enemigos);
             iteracion = 0;
         } else {
@@ -284,8 +308,8 @@ int partida () {
     //Final Partida.
     libera_rafaga(listaBalas);
     libera_imagen(heroe->imagen);
+    libera_escenario(fondo);
     libera_imagen(tesoro->imagen);
-    libera_imagen(fondo->imagen);
     libera_ejercito(enemigos);
     return heroe->puntos;
 }
@@ -395,7 +419,7 @@ int main(int argc, char *argv[]) {
         int opcion = menu();
         switch(opcion) {
         case 1:
-           puntos = partida();
+            puntos = partida();
             break;
 
         case 2:
@@ -406,10 +430,10 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-    //*************************************
-    //*************************************
-    // ZONA DE RECORD
-    //*************************************
+        //*************************************
+        //*************************************
+        // ZONA DE RECORD
+        //*************************************
 
         fscanf(archi, "%d", &record);
         if(record < puntos) {

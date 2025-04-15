@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1744549965 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1744687802 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	<time.h>
 	<stdlib.h>
 	<stdio.h>
@@ -416,19 +416,22 @@
 	"Bala.h"
 	"Rafaga.h"
 	"Ejercito.h"
+	"Escenario.h"
 
-1744549965 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
+1744686247 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
 	"Colisiones.h"
 	<stdlib.h>
 	<stdio.h>
+	"Escenario.h"
 
-1744549965 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
+1744685157 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
+	"Escenario.h"
 
 1744549965 c:\users\megav\desktop\universidad\primero\programas\s03\bala.h
 	"Colisiones.h"
 	"Pantalla.h"
 
-1744549965 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
+1744683029 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
 	"Bala.h"
 	<stdlib.h>
 	<stdio.h>
@@ -437,18 +440,27 @@
 1744549965 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
 	"Bala.h"
 
-1743684389 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
+1744557051 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
 	"Bala.h"
 	"Rafaga.h"
 	<stdlib.h>
 	<stdio.h>
 
-1744549965 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
+1744687835 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
 	"Rafaga.h"
 
-1744549965 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
+1744687815 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
 	"Rafaga.h"
 	"Ejercito.h"
 	"Pantalla.h"
 	"Colisiones.h"
+
+1744684747 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
+	"Pantalla.h"
+
+1744676150 source:c:\users\megav\desktop\universidad\primero\programas\s03\escenario.c
+	<stdlib.h>
+	<stdio.h>
+	"Pantalla.h"
+	"Escenario.h"
 

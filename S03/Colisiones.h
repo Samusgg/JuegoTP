@@ -1,5 +1,6 @@
 #ifndef __Colisiones_H__
 #define __Colisiones_H__
+#include "Escenario.h"
 
 /**
     \brief Comprueba si un punto está dentro de un rectángulo.
@@ -46,4 +47,9 @@ int colisionCirculos(int x2, int x1, int y1, int y2, int r1, int r2);
     \return 1 Si hay solape, 0 en caso contrario.
 */
 int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2 );
+
+
+int colH_lateral(Escenario e, int x, int y, int x2, int y2,int tipoB);
+
+int dentro_bloque(Escenario e, int x, int y, int wt, int ht, int tipoB);
 #endif

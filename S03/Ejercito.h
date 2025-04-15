@@ -9,7 +9,7 @@ typedef struct EjercitoTDA * Ejercito;
     con capacidad para almacenar hasta N enemigos. Decide y fija tú el valor de N.
     \return Ejercito de enemigos.
     **/
-Ejercito crea_ejercito();
+Ejercito crea_ejercito(Escenario fondo);
 
 /**
     \brief Libera toda la memoria asociada al ejército e.
@@ -22,14 +22,14 @@ void libera_ejercito( Ejercito e );
     espacio libre.
     \param e Ejercito de enemigos
     **/
-void inserta_enemigo ( Ejercito e);
+void inserta_enemigo (Ejercito e, Escenario fondo);
 
 /** \brief Mueve todos los enemigos contenidos en el ejército e.
     \param e Ejercito de enemigos.
     \param xR Eje X de referencia.
     \param yR Eje y de referencia.
 **/
-void mueve_ejercito( Ejercito e, int xR, int yR );
+void mueve_ejercito(Ejercito e,int xR, int yR, Escenario fondo);
 
 /**
     \brief Muestra todos los enemigos contenidos en el ejército e.
