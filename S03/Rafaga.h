@@ -9,9 +9,10 @@ typedef struct TDARafaga * Rafaga;
 /**
     \brief Esta función devuelve una nueva ráfaga vacía, es decir,
     sin ninguna bala, pero lista para almacenar cualquier número de balas.
+    \param alcance Alcance total en pixeles del las balas de la ráfaga.
     \return Rafaga Lista de balas vacía.
 */
-Rafaga crea_rafaga();
+Rafaga crea_rafaga(int alcance);
 
 /**
     \brief Esta función libera toda la memoria asociada a la ráfaga r

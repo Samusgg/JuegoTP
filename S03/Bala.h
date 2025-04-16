@@ -45,6 +45,20 @@ void dibuja_bala(Bala b);
 int get_x_bala(Bala b);
 
 /**
+    \brief Obtiene posicion "x" inicial de la bala..
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición "x" inicial la bala.
+*/
+int get_xRef_bala(Bala b);
+
+/**
+    \brief Obtiene posicion "y" inicial de la bala.
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición "y" inicial la bala.
+*/
+int get_yRef_bala(Bala b);
+
+/**
     \brief Devuelve la anchura de la bala.
     \param b Puntero a BalaRep.
     \return Anchura de la bala.

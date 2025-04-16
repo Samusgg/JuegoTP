@@ -8,8 +8,6 @@
 struct Nodo {
     Bala miBala;
     struct Nodo * sig;
-    int xRef;
-    int yRef;
 };
 typedef struct Nodo NodoBala;
 
@@ -20,6 +18,7 @@ typedef struct Nodo NodoBala;
 struct TDARafaga {
     NodoBala * listaBalas;
     int nBalas;
+    int alcance;
 };
 
 //*****************************************
@@ -55,8 +54,6 @@ void inserta_lista_balas ( NodoBala * cabecera, Bala b ) {
 
 
     NodoBala * nuevoNodo = malloc(sizeof(NodoBala));
-    nuevoNodo->xRef = get_x_bala(b);
-    nuevoNodo->yRef = get_y_bala(b);
     nuevoNodo->sig = NULL;
     nuevoNodo->miBala = b;
     nodoBuscado->sig = nuevoNodo;
@@ -99,10 +96,10 @@ int fueraPantalla(Bala miBala) {
     \param  yRef Coordenada Y en la que se lanzó por primera vez la bala.
     \return 1 si está fuera del alcance estimado, 0 si no.
 */
-int fueraAlcance(Bala miBala, int xRef, int yRef){
+int fueraAlcance(Bala miBala, int alcance){
     int x = get_x_bala(miBala);
     int y = get_y_bala(miBala);
-    if(x < xRef-150 || x > xRef+150 || y < yRef-150 || y > yRef+150) {
+    if(x < get_xRef_bala(miBala)-alcance || x > get_xRef_bala(miBala)+alcance || y < get_yRef_bala(miBala)-alcance || y > get_yRef_bala(miBala)+alcance) {
         return 1;
     } else {
         return 0;
@@ -112,9 +109,10 @@ int fueraAlcance(Bala miBala, int xRef, int yRef){
     \brief Mueve todas las balas de una estructura enlazada (lista).
     \param nodoActivo Puntero cabecera de una lista de balas.
     \param e Escenario sobre el cual se va an a mover las balas.
+    \param alcance Alcance máximo en píxeles que pueden moverse las balas.
     \return int Número de balas menos.
 */
-int mueve_lista_balas ( NodoBala * nodoActivo, Escenario e) {
+int mueve_lista_balas ( NodoBala * nodoActivo, Escenario e, int alcance) {
     int nMenos = 0;
 
     NodoBala * aux = NULL;
@@ -123,7 +121,7 @@ int mueve_lista_balas ( NodoBala * nodoActivo, Escenario e) {
         bala = nodoActivo->sig->miBala;
         mueve_bala(bala);
         if(fueraPantalla(bala) ||
-           fueraAlcance(bala,nodoActivo->sig->xRef,nodoActivo->sig->yRef)||
+           fueraAlcance(bala,alcance)||
            dentro_bloque(e,get_x_bala(bala),get_y_bala(bala),get_wt_bala(bala),get_ht_bala(bala),1)) {
             aux =  nodoActivo->sig;
             nodoActivo->sig = nodoActivo->sig->sig;
@@ -204,10 +202,11 @@ int colision_lista_balas(NodoBala * cabecera, int xe, int ye, int we, int he) {
     sin ninguna bala, pero lista para almacenar cualquier número de balas.
     \return Rafaga Lista de balas vacía.
 */
-Rafaga crea_rafaga() {
+Rafaga crea_rafaga(int alcance) {
     Rafaga listaRafaga = malloc(sizeof(struct TDARafaga));
     listaRafaga -> listaBalas = crea_lista_balas();
     listaRafaga -> nBalas = 0;
+    listaRafaga->alcance = alcance;
     return listaRafaga;
 };
 
@@ -239,7 +238,7 @@ void inserta_rafaga(Rafaga r, Bala b) {
     \param e Escenario sobre el cual se va an a mover las balas.
 */
 void mueve_rafaga(Rafaga r, Escenario e) {
-    int nBalasMenos = mueve_lista_balas(r->listaBalas, e);
+    int nBalasMenos = mueve_lista_balas(r->listaBalas, e, r->alcance);
     r->nBalas = r->nBalas - nBalasMenos;
 };
 

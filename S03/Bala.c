@@ -8,6 +8,8 @@
 struct BalaRep{
     int x;  //Eje x
     int y;  //Eje Y
+    int xRef; //Coordenada x inicial (Cuando se creo la bala)
+    int yRef; //Coordenada y inicial (Cuando se creo la bala)
     int wt; //Anchura
     int ht; //Altura
     Imagen imagen;
@@ -34,6 +36,8 @@ Bala crea_bala (int x, int y, int vx, int vy) {
     Bala miBala = malloc(sizeof(struct BalaRep));
     miBala->x = x;
     miBala->y = y;
+    miBala->xRef = x;
+    miBala->yRef = y;
     miBala->wt = 32;
     miBala->ht = 32;
     miBala->imagen = lee_imagen("./imagenes/arrow.bmp",1);
@@ -117,12 +121,30 @@ int get_x_bala(Bala b) {
 }
 
 /**
+    \brief Obtiene posicion "x" inicial de la bala..
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición "x" inicial la bala.
+*/
+int get_xRef_bala(Bala b) {
+    return b->xRef;
+}
+
+/**
     \brief Obtiene posicion en y de la bala.
     \param b Puntero a BalaRep.
     \return Número entero de la posición en y de la bala.
 */
 int get_y_bala(Bala b) {
     return b->y;
+}
+
+/**
+    \brief Obtiene posicion "y" inicial de la bala.
+    \param b Puntero a BalaRep.
+    \return Número entero de la posición "y" inicial la bala.
+*/
+int get_yRef_bala(Bala b) {
+    return b->yRef;
 }
 
 /**

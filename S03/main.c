@@ -232,7 +232,7 @@ int partida () {
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
-    Rafaga listaBalas = crea_rafaga();
+    Rafaga listaBalas = crea_rafaga(150);
     Bala bAux = NULL;
 
     //ENEMIGOS
@@ -452,7 +452,7 @@ int main(int argc, char *argv[]) {
 
         fscanf(archi, "%d", &record);
         if(record < puntos) {
-            rewind(archi);
+            rewind(archi); //Mueve el puntero de estritura al principio del archivo.
             fprintf(archi, "%d", puntos);
             pantalla_record(puntos);
             record = puntos;
