@@ -1,6 +1,8 @@
 #ifndef __Rafaga_h__
 #define __Rafaga_h__
 #include "Bala.h"
+#include "Colisiones.h"
+#include "Escenario.h"
 
 typedef struct TDARafaga * Rafaga;
 
@@ -32,6 +34,7 @@ void inserta_rafaga(Rafaga r, Bala b);
     \param e Escenario por el que se van a mover las balas.
 */
 void mueve_rafaga(Rafaga r, Escenario e);
+
 /**
     \brief Esta función muestra todas las balas contenidas en la ráfaga r.
     \param r Lista de balas.

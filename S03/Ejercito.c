@@ -1,7 +1,5 @@
-#include "Rafaga.h"
 #include "Ejercito.h"
-#include "Pantalla.h"
-#include "Colisiones.h"
+
 
 /**
     ENEMIGO
@@ -199,7 +197,6 @@ Ejercito crea_ejercito(Escenario fondo, int top) {
     \param e Ejercito de enemigos
     **/
 void inserta_enemigo (Ejercito e, Escenario fondo) {
-    int i = 0;
     for(int i = 0; i<e->top; i++) {
         if(e->enemigos[i].activo == 0) {
             e->enemigos[i].activo = 1;

@@ -30,6 +30,7 @@ void libera_escenario( Escenario e );
     añadido.
     \param e Escenario al cual se le va a añadir un obstáculo.
     \param tipoObstaculo
+    "0" Si no es un obstáculo.
     "1" Si no se puede traspasar por nadie.
     "2" Si solo una parte de los entes puede traspasarlo.
     \param x Coordenada horizontal superior izquierda.
@@ -58,5 +59,30 @@ int tipo_bloque(Escenario e, int x, int y);
     \param e Escenario a dibujar.
 */
 void dibuja_escenario( Escenario e );
+
+/**
+    \brief Función que comprueba la colisión de un lateral de un bloque
+    con respecto a un tipo de bloque de un escenario.
+    \param e Escenario.
+    \param x Coordenada horizontal del primer Punto.
+    \param y Coordenada vertical del primer Punto.
+    \param x2 Coordenada horizontal del segundo Punto.
+    \param y2 Coordenada vertical del segundo Punto.
+    \param tipoB Tipo de bloque del escenario.
+    \return 1 si ha habido colisión, 0 si no.
+*/
+int colH_lateral(Escenario e, int x, int y, int x2, int y2,int tipoB);
+
+/**
+    \brief Función que comprueba si un rectángulo choca en alguno de sus vertices con
+    un bloque del tipo indicado.
+    \param e Escenario.
+    \param x Coordenada horizontal del rectángulo.
+    \param y Coordenada vertical del rectángulo.
+    \param wt Anchura del rectángulo.
+    \param ht Altura del rectángulo.
+    \param tipoB Tipo de bloque del escenario.
+*/
+int dentro_bloque(Escenario e, int x, int y, int wt, int ht, int tipoB);
 
 #endif

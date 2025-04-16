@@ -418,48 +418,44 @@
 	"Ejercito.h"
 	"Escenario.h"
 
-1744696285 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
+1744834951 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
 	"Colisiones.h"
 	<stdlib.h>
 	<stdio.h>
-	"Escenario.h"
 
-1744696229 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
-	"Escenario.h"
+1744834956 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
 
 1744549965 c:\users\megav\desktop\universidad\primero\programas\s03\bala.h
 	"Colisiones.h"
 	"Pantalla.h"
 
-1744683029 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
+1744835220 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
 	"Bala.h"
 	<stdlib.h>
 	<stdio.h>
-	"Pantalla.h"
 
-1744695447 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
+1744834981 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
 	"Bala.h"
-
-1744695322 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
-	"Bala.h"
-	"Rafaga.h"
 	"Escenario.h"
+
+1744835115 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
+	"Rafaga.h"
 	<stdlib.h>
 	<stdio.h>
 
-1744695583 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
+1744835269 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
 	"Rafaga.h"
-
-1744828002 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
-	"Rafaga.h"
-	"Ejercito.h"
 	"Pantalla.h"
 	"Colisiones.h"
+	"Escenario.h"
 
-1744684747 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
+1744835638 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
+	"Ejercito.h"
+
+1744834921 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
 	"Pantalla.h"
 
-1744676150 source:c:\users\megav\desktop\universidad\primero\programas\s03\escenario.c
+1744834942 source:c:\users\megav\desktop\universidad\primero\programas\s03\escenario.c
 	<stdlib.h>
 	<stdio.h>
 	"Pantalla.h"

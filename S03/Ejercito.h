@@ -1,6 +1,9 @@
 #ifndef _Ejercito_h_
 #define _Ejercito_h_
 #include "Rafaga.h"
+#include "Pantalla.h"
+#include "Colisiones.h"
+#include "Escenario.h"
 
 typedef struct EjercitoTDA * Ejercito;
 

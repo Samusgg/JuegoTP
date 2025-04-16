@@ -1,7 +1,6 @@
 #include "Bala.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "Pantalla.h"
 
 /**
     BALA

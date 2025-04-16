@@ -1,7 +1,6 @@
 #include "Colisiones.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "Escenario.h"
 
 /**
     \brief Comprueba si un punto está dentro de un rectángulo.
@@ -73,45 +72,4 @@ int solape_rectangulos( int x1, int y1, int w1, int h1, int x2, int y2, int w2, 
         return 0;
     }
 }
-
-
-/**
-    \brief Función que comprueba la colisión de un lateral de un bloque
-    con respecto a un tipo de bloque de un escenario.
-    \param e Escenario.
-    \param x Coordenada horizontal del primer Punto.
-    \param y Coordenada vertical del primer Punto.
-    \param x2 Coordenada horizontal del segundo Punto.
-    \param y2 Coordenada vertical del segundo Punto.
-    \param tipoB Tipo de bloque del escenario.
-    \return 1 si ha habido colisión, 0 si no.
-*/
-int colH_lateral(Escenario e, int x, int y, int x2, int y2,int tipoB) {
-     if(tipo_bloque(e,x,y)== tipoB || tipo_bloque(e,x2,y2)== tipoB)
-        return 1;
-    return 0;
-}
-
-
-/**
-    \brief Función que comprueba si un rectángulo choca en alguno de sus vertices con
-    un bloque del tipo indicado.
-    \param e Escenario.
-    \param x Coordenada horizontal del rectángulo.
-    \param y Coordenada vertical del rectángulo.
-    \param wt Anchura del rectángulo.
-    \param ht Altura del rectángulo.
-    \param tipoB Tipo de bloque del escenario.
-*/
-int dentro_bloque(Escenario e, int x, int y, int wt, int ht, int tipoB) {
-     if(colH_lateral(e,x,y,x+wt,y,tipoB) ||
-        colH_lateral(e,x+wt,y,x+wt,y+wt,tipoB) ||
-        colH_lateral(e,x+wt,y+wt,x,y+wt,tipoB) ||
-        colH_lateral(e,x,y+wt,x,y,tipoB)
-        ){
-        return 1;
-    }
-    return 0;
-}
-
 

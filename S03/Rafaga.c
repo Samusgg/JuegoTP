@@ -1,6 +1,4 @@
-#include "Bala.h"
 #include "Rafaga.h"
-#include "Escenario.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -95,7 +93,7 @@ int fueraPantalla(Bala miBala) {
 }
 
 /**
-    \brief  Función que indica si una bala está fuera de la pantalla.
+    \brief  Función que indica si una bala está fuera del alcance indicado.
     \param  miBala Bala a comprobar.
     \param  xRef Coordenada X en la que se lanzó por primera vez la bala.
     \param  yRef Coordenada Y en la que se lanzó por primera vez la bala.
