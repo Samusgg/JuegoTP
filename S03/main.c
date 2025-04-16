@@ -13,8 +13,8 @@
 AMPLIACIONES REALIZADAS:
 1. #Alcance
 2. #MasEnemigos
-3. #Escenario
-
+3. #EjercitoDinámico
+4. #Escenario
 **/
 
 #define TBloque 32 //Tamaño de bloques de los escenarios.
@@ -61,6 +61,7 @@ typedef FILE * Archivo;
     \brief Dibuja informacion sobre los puntos y las vidas.
     \param puntos Puntuacion.
     \param vidas Vidas del heroe restantes.
+    \param nBalas Número de balas en activo.
 */
 void dibuja_info(int puntos, int vidas, int nBalas) {
     char textoV[36];
@@ -99,6 +100,7 @@ void dibuja_tesoro(Tesoro tesoro) {
 /**
     \brief Mueve al heroe.
     \param heroe Puntero a estructura HeroeStr.
+    \param e Escenario sobre el que se va a mover el héroe.
 */
 void mover_heroe(Heroe heroe, Escenario e) {
     int x = heroe->x ;
@@ -136,6 +138,10 @@ void mover_heroe(Heroe heroe, Escenario e) {
 //          Funciones ESCENARIO
 //*****************************************
 
+/**
+    \brief Función que inserta todos los obstáculos dentro de un escenario.
+    \param fondo Escenario sobre el cual se va a poner obstáculos.
+*/
 void iniciar_obstaculos(Escenario fondo) {
     //Obstaculos del marco
     inserta_obstaculo(fondo,1,0,0,TBloque,480);
@@ -175,6 +181,11 @@ void iniciar_obstaculos(Escenario fondo) {
 */
 //  CODIGO PRINCIPAL
 
+/**
+    \brief Función que muestra por pantalla un record conseguido por parte
+    del jugador.
+    \param record Record que se va a mostrar por pantalla.
+*/
 void pantalla_record(int record) {
     Imagen imaRecord1 =  lee_imagen("./imagenes/fondoRecord1.bmp",0);
     Imagen imaRecord2 =  lee_imagen("./imagenes/fondoRecord2.bmp",0);
@@ -210,13 +221,14 @@ void pantalla_record(int record) {
 }
 
 /**
-    \brief Partida principal del juegador.
+    \brief Partida principal del jugador.
+    \return Puntos obtenidos por el héroe.
 */
 int partida () {
     Escenario fondo = crea_escenario(lee_imagen("./imagenes/map.bmp",0),800,480,TBloque);
     iniciar_obstaculos(fondo);
-    struct TesoroStr tesoroStr = {.x = 749, .y = 429, .wt = 32, .ht = 32, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
-    struct HeroeStr heroeStr = {.x = 32*2, .y = 32*2, .vidas = 3, .wt = 32, .ht = 32, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0,.activo = 1};
+    struct TesoroStr tesoroStr = {.x = 23*TBloque, .y = 13*TBloque, .wt = TBloque, .ht = TBloque, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
+    struct HeroeStr heroeStr = {.x = 2*TBloque, .y = 2*TBloque, .vidas = 3, .wt = TBloque, .ht = TBloque, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0,.activo = 1};
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
@@ -224,7 +236,7 @@ int partida () {
     Bala bAux = NULL;
 
     //ENEMIGOS
-    Ejercito enemigos = crea_ejercito(fondo);
+    Ejercito enemigos = crea_ejercito(fondo,10);
 
     //**
 
@@ -296,12 +308,14 @@ int partida () {
         actualiza_pantalla();
         espera(40);
 
+        if(iteracion == 25) {
+            mod_aleatoria(enemigos);
+            mod_aleatoria(enemigos);
+            mod_aleatoria(enemigos);
+        }
         //Add nuevos enemigos.
-        if(iteracion >= 25) {
+        if(iteracion >= 40) {
             inserta_enemigo(enemigos,fondo);
-            mod_aleatoria(enemigos);
-            mod_aleatoria(enemigos);
-            mod_aleatoria(enemigos);
             iteracion = 0;
         } else {
             iteracion++;
@@ -345,6 +359,7 @@ void ayuda() {
 /**
     \brief Sirve para controlar el dibujado del boton.
     \param boton Imagen del boton.
+    \param dentro Si el ratón está dentro o no.
     \param x Coordenada horizontal del boton.
     \param y Coordenada vertical del boton.
     \param h Altura del boton.
@@ -432,7 +447,7 @@ int main(int argc, char *argv[]) {
 
         //*************************************
         //*************************************
-        // ZONA DE RECORD
+        //         ZONA DE RECORD
         //*************************************
 
         fscanf(archi, "%d", &record);

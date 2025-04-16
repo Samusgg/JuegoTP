@@ -80,7 +80,9 @@ void libera_lista_balas ( NodoBala * cabecera ) {
 }
 
 /**
-
+    \brief Función que indica si una bala está fuera de la pantalla.
+    \param miBala Bala a comprobar.
+    \return 1 si está fuera de la pantalla. 0 si no.
 */
 int fueraPantalla(Bala miBala) {
     int x = get_x_bala(miBala);
@@ -92,6 +94,13 @@ int fueraPantalla(Bala miBala) {
     }
 }
 
+/**
+    \brief  Función que indica si una bala está fuera de la pantalla.
+    \param  miBala Bala a comprobar.
+    \param  xRef Coordenada X en la que se lanzó por primera vez la bala.
+    \param  yRef Coordenada Y en la que se lanzó por primera vez la bala.
+    \return 1 si está fuera del alcance estimado, 0 si no.
+*/
 int fueraAlcance(Bala miBala, int xRef, int yRef){
     int x = get_x_bala(miBala);
     int y = get_y_bala(miBala);
@@ -103,7 +112,8 @@ int fueraAlcance(Bala miBala, int xRef, int yRef){
 }
 /**
     \brief Mueve todas las balas de una estructura enlazada (lista).
-    \param cabecera Puntero cabecera de una lista de balas.
+    \param nodoActivo Puntero cabecera de una lista de balas.
+    \param e Escenario sobre el cual se va an a mover las balas.
     \return int Número de balas menos.
 */
 int mueve_lista_balas ( NodoBala * nodoActivo, Escenario e) {
@@ -228,6 +238,7 @@ void inserta_rafaga(Rafaga r, Bala b) {
     \brief Esta función mueve todas las balas contenidas en la ráfaga r
     y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
     \param r TDA Rafaga de balas
+    \param e Escenario sobre el cual se va an a mover las balas.
 */
 void mueve_rafaga(Rafaga r, Escenario e) {
     int nBalasMenos = mueve_lista_balas(r->listaBalas, e);
@@ -261,6 +272,7 @@ int longitud_rafaga(Rafaga r) {
     \param y Coordenada y esquina superior izquierda del rectángulo.
     \param w Anchura del rectángulo.
     \param h Altura del rectángulo.
+    \return 1 Si ha habido colisión, 0 si no.
 */
 int colision_rafaga(Rafaga r, int x, int y, int w, int h) {
     if(colision_lista_balas(r->listaBalas,x,y,w,h)) {

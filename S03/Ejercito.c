@@ -2,7 +2,6 @@
 #include "Ejercito.h"
 #include "Pantalla.h"
 #include "Colisiones.h"
-#define MAX 10 //Numero total de enemigos.
 
 /**
     ENEMIGO
@@ -24,6 +23,7 @@ typedef struct {
 */
 struct EjercitoTDA {
     EnemigoRep * enemigos;
+    int top;//Numero total de enemigos.
 };
 
 
@@ -167,8 +167,8 @@ int colision_enemigos_lista_balas (EnemigoRep enemigo [], int n, Rafaga listaBal
     con capacidad para almacenar hasta N enemigos. Decide y fija tú el valor de N.
     \return Ejercito de enemigos.
     **/
-Ejercito crea_ejercito(Escenario fondo) {
-    EnemigoRep * enemigos = malloc(sizeof(EnemigoRep)*MAX);
+Ejercito crea_ejercito(Escenario fondo, int top) {
+    EnemigoRep * enemigos = malloc(sizeof(EnemigoRep)*top);
     Imagen imaCriper = lee_imagen("./imagenes/criper.bmp",0);
 
     for(int i = 0; i<3; i++) {
@@ -179,7 +179,7 @@ Ejercito crea_ejercito(Escenario fondo) {
         } while(dentro_bloque(fondo,enemigos[i].x,enemigos[i].y,enemigos[i].wt,enemigos[i].ht,1));
     }
     //Inactivos
-    for(int i = 3; i<MAX; i++) {
+    for(int i = 3; i<top; i++) {
         do {
             enemigos[i] = (EnemigoRep) {
                 .x = rand()%737, .y = rand()%337, .vidas = 1, .wt = 32, .ht = 32, .imagen = imaCriper, .v = 2, .activo = 0,.dir = rand()%4
@@ -189,6 +189,7 @@ Ejercito crea_ejercito(Escenario fondo) {
 
     Ejercito e = malloc(sizeof(struct EjercitoTDA));
     e->enemigos = enemigos;
+    e->top = top;
     return e;
 }
 
@@ -199,18 +200,16 @@ Ejercito crea_ejercito(Escenario fondo) {
     **/
 void inserta_enemigo (Ejercito e, Escenario fondo) {
     int i = 0;
-    for(int i = 0; i<MAX; i++) {
+    for(int i = 0; i<e->top; i++) {
         if(e->enemigos[i].activo == 0) {
             e->enemigos[i].activo = 1;
             do {
                 e->enemigos[i].x = rand()%737;
-                e->enemigos[i].x = rand()%337;
-            } while(dentro_bloque(fondo,e->enemigos[i].x,e->enemigos[i].x,e->enemigos[i].wt,e->enemigos[i].ht,1));
+                e->enemigos[i].y = rand()%337;
+            } while(dentro_bloque(fondo,e->enemigos[i].x,e->enemigos[i].y,e->enemigos[i].wt,e->enemigos[i].ht,1));
             return;
         }
     }
-
-
 };
 
 /** \brief Mueve todos los enemigos contenidos en el ejército e.
@@ -219,7 +218,7 @@ void inserta_enemigo (Ejercito e, Escenario fondo) {
     \param yR Eje y de referencia.
 **/
 void mueve_ejercito(Ejercito e, Escenario fondo) {
-    mover_enemigos(e->enemigos,MAX,fondo);
+    mover_enemigos(e->enemigos,e->top,fondo);
 };
 
 /**
@@ -227,7 +226,7 @@ void mueve_ejercito(Ejercito e, Escenario fondo) {
     \param e Ejercito de enemigos.
 **/
 void dibuja_ejercito( Ejercito e) {
-    dibuja_enemigos(e->enemigos,MAX);
+    dibuja_enemigos(e->enemigos,e->top);
 };
 
 /**
@@ -242,7 +241,7 @@ void dibuja_ejercito( Ejercito e) {
     \return 1 Si se solapan, 0 si no.
 **/
 int colision_ejercito_objeto( Ejercito e, int x, int y, int w, int h ) {
-    return colision_enemigos_objeto(e->enemigos,MAX,x,y,w,h);
+    return colision_enemigos_objeto(e->enemigos,e->top,x,y,w,h);
 };
 
 /**
@@ -254,7 +253,7 @@ int colision_ejercito_objeto( Ejercito e, int x, int y, int w, int h ) {
     \return numero enemigos eliminados.
 **/
 int colision_ejercito_rafaga( Ejercito e, Rafaga r ) {
-    return colision_enemigos_lista_balas(e->enemigos,MAX,r);
+    return colision_enemigos_lista_balas(e->enemigos,e->top,r);
 };
 
 

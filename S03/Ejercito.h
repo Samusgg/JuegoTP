@@ -7,9 +7,11 @@ typedef struct EjercitoTDA * Ejercito;
 /**
     \brief Devuelve un nuevo ejército vacío, es decir, sin ningún enemigo, pero
     con capacidad para almacenar hasta N enemigos. Decide y fija tú el valor de N.
+    \param fondo Escenario sobre el cual van a aparecer los enemigos.
+    \param top Número máximo de enemigos (El mínimo es 3)
     \return Ejercito de enemigos.
     **/
-Ejercito crea_ejercito(Escenario fondo);
+Ejercito crea_ejercito(Escenario fondo, int top);
 
 /**
     \brief Libera toda la memoria asociada al ejército e.
@@ -21,6 +23,7 @@ void libera_ejercito( Ejercito e );
     h, y lo añade al grupo de enemigos que forma el ejército e, siempre que aún quede
     espacio libre.
     \param e Ejercito de enemigos
+    \param fondo Escenario sobre el cual se van insertar los enemigos.
     **/
 void inserta_enemigo (Ejercito e, Escenario fondo);
 
@@ -28,6 +31,7 @@ void inserta_enemigo (Ejercito e, Escenario fondo);
     \param e Ejercito de enemigos.
     \param xR Eje X de referencia.
     \param yR Eje y de referencia.
+    \param fondo Escenario sobre el cual se van a mover las balas.
 **/
 void mueve_ejercito(Ejercito e, Escenario fondo);
 
