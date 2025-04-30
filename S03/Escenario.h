@@ -2,6 +2,11 @@
 #define __Escenario_h__
 #include "Pantalla.h"
 
+/**
+   \file Escenario.h
+   \brief TDA que modela un mapa diviéndolo en bloques de distinto tipo.
+*/
+
 typedef struct EscenarioRep * Escenario;
 
 /**
@@ -11,7 +16,8 @@ typedef struct EscenarioRep * Escenario;
     \param fondo Imagen del fondo.
     \param anchoImagen Anchura de la imagen en pixeles.
     \param alturaImagen Altura de la imagen en pixeles.
-    \param tBloque Tamaño de los bloques que construyen la imagen en pixeles.
+    \param tBloque Tamaño de uno de los laterales de los bloques (cuadrados) en los que se
+    va a dividir la imagen (expresado en píxeles).
 */
 Escenario crea_escenario( Imagen fondo, int anchoImgen, int alturaImagen, int tBloque);
 

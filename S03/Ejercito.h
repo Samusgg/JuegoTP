@@ -5,6 +5,11 @@
 #include "Colisiones.h"
 #include "Escenario.h"
 
+/**
+   \file Ejercito.h
+   \brief TDA que modela a un ejército de enemigos.
+*/
+
 typedef struct EjercitoTDA * Ejercito;
 
 /**
@@ -17,11 +22,6 @@ typedef struct EjercitoTDA * Ejercito;
 Ejercito crea_ejercito(Escenario fondo, int top);
 
 /**
-    \brief Libera toda la memoria asociada al ejército e.
-    \param e Ejercito de enemigos **/
-void libera_ejercito( Ejercito e );
-
-/**
     \brief Crea un nuevo enemigo en las coordenadas en (x,y), anchura w y altura
     h, y lo añade al grupo de enemigos que forma el ejército e, siempre que aún quede
     espacio libre.
@@ -32,8 +32,6 @@ void inserta_enemigo (Ejercito e, Escenario fondo);
 
 /** \brief Mueve todos los enemigos contenidos en el ejército e.
     \param e Ejercito de enemigos.
-    \param xR Eje X de referencia.
-    \param yR Eje y de referencia.
     \param fondo Escenario sobre el cual se van a mover las balas.
 **/
 void mueve_ejercito(Ejercito e, Escenario fondo);
@@ -63,11 +61,13 @@ int colision_ejercito_objeto( Ejercito e, int x, int y, int w, int h );
     eliminados.
     \param e Ejercito de enemigos.
     \param r Rafaga de balas.
+    \return Número de enemigos eliminados.
 **/
 int colision_ejercito_rafaga( Ejercito e, Rafaga r );
 
 /**
-    \brief Libera toda la memoria asociada al ejercito.
+    \brief Libera toda la memoria asociada al ejercito
+    y se nulifica los enemigos del ejercito.
     \param e Ejercito de enemigos.
 */
 void libera_ejercito( Ejercito e);

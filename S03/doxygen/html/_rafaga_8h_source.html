@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>S03: Archivo de código fuente Rafaga.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">S03
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('_rafaga_8h_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Rafaga.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_rafaga_8h.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef __Rafaga_h__</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define __Rafaga_h__</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_bala_8h.html">Bala.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_colisiones_8h.html">Colisiones.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_escenario_8h.html">Escenario.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">typedef</span> <span class="keyword">struct </span>TDARafaga * Rafaga;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#afb40497b5d5f8695de626fb8e1b77e6b">   20</a></span>Rafaga <a class="code hl_function" href="_rafaga_8h.html#afb40497b5d5f8695de626fb8e1b77e6b">crea_rafaga</a>(<span class="keywordtype">int</span> alcance);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#a17c1675b704f463ff5c5881e279b6bd9">   27</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_rafaga_8h.html#a17c1675b704f463ff5c5881e279b6bd9">libera_rafaga</a>(Rafaga r);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#a488fd5717c40c8eecd0cea8dba135afa">   34</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_rafaga_8h.html#a488fd5717c40c8eecd0cea8dba135afa">inserta_rafaga</a>(Rafaga r, Bala b);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#a2fad222be7d2ab6dc963d0a8a3fd03af">   43</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_rafaga_8h.html#a2fad222be7d2ab6dc963d0a8a3fd03af">mueve_rafaga</a>(Rafaga r, Escenario e);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#a4741fedf88df71c9691fa32abd53186c">   49</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_rafaga_8h.html#a4741fedf88df71c9691fa32abd53186c">dibuja_rafaga</a>(Rafaga r);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#a106d98327d5209c9d31db78124aa696e">   56</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="_rafaga_8h.html#a106d98327d5209c9d31db78124aa696e">longitud_rafaga</a>(Rafaga r);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="_rafaga_8h.html#ac7dcbe7212666a9eed39d3b85c8890a2">   69</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="_rafaga_8h.html#ac7dcbe7212666a9eed39d3b85c8890a2">colision_rafaga</a>(Rafaga r, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif </span><span class="comment">// __Rafaga_h__</span></div>
+<div class="ttc" id="a_bala_8h_html"><div class="ttname"><a href="_bala_8h.html">Bala.h</a></div><div class="ttdoc">TDA Que modela el comportamiento de una bala.</div></div>
+<div class="ttc" id="a_colisiones_8h_html"><div class="ttname"><a href="_colisiones_8h.html">Colisiones.h</a></div><div class="ttdoc">Contiene un conjunto de funciones de colisiones que se usan en la aplicación.</div></div>
+<div class="ttc" id="a_escenario_8h_html"><div class="ttname"><a href="_escenario_8h.html">Escenario.h</a></div><div class="ttdoc">TDA que modela un mapa diviéndolo en bloques de distinto tipo.</div></div>
+<div class="ttc" id="a_rafaga_8h_html_a106d98327d5209c9d31db78124aa696e"><div class="ttname"><a href="_rafaga_8h.html#a106d98327d5209c9d31db78124aa696e">longitud_rafaga</a></div><div class="ttdeci">int longitud_rafaga(Rafaga r)</div><div class="ttdoc">Devuelve el número de balas que incluye la ráfaga r.</div></div>
+<div class="ttc" id="a_rafaga_8h_html_a17c1675b704f463ff5c5881e279b6bd9"><div class="ttname"><a href="_rafaga_8h.html#a17c1675b704f463ff5c5881e279b6bd9">libera_rafaga</a></div><div class="ttdeci">void libera_rafaga(Rafaga r)</div><div class="ttdoc">Libera toda la memoria asociada a la ráfaga r y las balas que contenga.</div></div>
+<div class="ttc" id="a_rafaga_8h_html_a2fad222be7d2ab6dc963d0a8a3fd03af"><div class="ttname"><a href="_rafaga_8h.html#a2fad222be7d2ab6dc963d0a8a3fd03af">mueve_rafaga</a></div><div class="ttdeci">void mueve_rafaga(Rafaga r, Escenario e)</div><div class="ttdoc">Mueve todas las balas contenidas en la ráfaga r y elimina todas las balas que, tras moverse,...</div></div>
+<div class="ttc" id="a_rafaga_8h_html_a4741fedf88df71c9691fa32abd53186c"><div class="ttname"><a href="_rafaga_8h.html#a4741fedf88df71c9691fa32abd53186c">dibuja_rafaga</a></div><div class="ttdeci">void dibuja_rafaga(Rafaga r)</div><div class="ttdoc">Muestra todas las balas contenidas en la ráfaga r.</div></div>
+<div class="ttc" id="a_rafaga_8h_html_a488fd5717c40c8eecd0cea8dba135afa"><div class="ttname"><a href="_rafaga_8h.html#a488fd5717c40c8eecd0cea8dba135afa">inserta_rafaga</a></div><div class="ttdeci">void inserta_rafaga(Rafaga r, Bala b)</div><div class="ttdoc">Añade a la ráfaga r la bala b.</div></div>
+<div class="ttc" id="a_rafaga_8h_html_ac7dcbe7212666a9eed39d3b85c8890a2"><div class="ttname"><a href="_rafaga_8h.html#ac7dcbe7212666a9eed39d3b85c8890a2">colision_rafaga</a></div><div class="ttdeci">int colision_rafaga(Rafaga r, int x, int y, int w, int h)</div><div class="ttdoc">Busca y elimina la primera bala incluida en la ráfaga r que se solape con el rectángulo con esquina s...</div></div>
+<div class="ttc" id="a_rafaga_8h_html_afb40497b5d5f8695de626fb8e1b77e6b"><div class="ttname"><a href="_rafaga_8h.html#afb40497b5d5f8695de626fb8e1b77e6b">crea_rafaga</a></div><div class="ttdeci">Rafaga crea_rafaga(int alcance)</div><div class="ttdoc">Devuelve una nueva ráfaga vacía, es decir, sin ninguna bala, pero lista para almacenar cualquier núme...</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="_rafaga_8h.html">Rafaga.h</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

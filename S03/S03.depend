@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1744844521 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1744855050 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	<time.h>
 	<stdlib.h>
 	<stdio.h>
@@ -418,23 +418,24 @@
 	"Ejercito.h"
 	"Escenario.h"
 
-1744834951 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
+1744855083 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
 	"Colisiones.h"
 	<stdlib.h>
 	<stdio.h>
+	<math.h>
 
-1744834956 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
+1744855050 c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.h
 
-1744844513 c:\users\megav\desktop\universidad\primero\programas\s03\bala.h
+1744854354 c:\users\megav\desktop\universidad\primero\programas\s03\bala.h
 	"Colisiones.h"
 	"Pantalla.h"
 
-1744844513 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
+1744855050 source:c:\users\megav\desktop\universidad\primero\programas\s03\bala.c
 	"Bala.h"
 	<stdlib.h>
 	<stdio.h>
 
-1744844285 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
+1744855381 c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.h
 	"Bala.h"
 	"Colisiones.h"
 	"Escenario.h"
@@ -444,16 +445,16 @@
 	<stdlib.h>
 	<stdio.h>
 
-1744835269 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
+1744855032 c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.h
 	"Rafaga.h"
 	"Pantalla.h"
 	"Colisiones.h"
 	"Escenario.h"
 
-1744835638 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
+1744855048 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
 	"Ejercito.h"
 
-1744836249 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
+1744855263 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
 	"Pantalla.h"
 
 1744836276 source:c:\users\megav\desktop\universidad\primero\programas\s03\escenario.c

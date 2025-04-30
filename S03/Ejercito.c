@@ -211,8 +211,7 @@ void inserta_enemigo (Ejercito e, Escenario fondo) {
 
 /** \brief Mueve todos los enemigos contenidos en el ejército e.
     \param e Ejercito de enemigos.
-    \param xR Eje X de referencia.
-    \param yR Eje y de referencia.
+    \param fondo Escenario sobre el cual se van a mover las balas.
 **/
 void mueve_ejercito(Ejercito e, Escenario fondo) {
     mover_enemigos(e->enemigos,e->top,fondo);
@@ -247,7 +246,7 @@ int colision_ejercito_objeto( Ejercito e, int x, int y, int w, int h ) {
     eliminados.
     \param e Ejercito de enemigos.
     \param r Rafaga de balas.
-    \return numero enemigos eliminados.
+    \return Número de enemigos eliminados.
 **/
 int colision_ejercito_rafaga( Ejercito e, Rafaga r ) {
     return colision_enemigos_lista_balas(e->enemigos,e->top,r);
@@ -272,6 +271,7 @@ void mod_aleatoria(Ejercito e) {
 */
 void libera_ejercito( Ejercito e ) {
     free(e->enemigos[0].imagen);
+    e->enemigos = NULL;
     free(e->enemigos);
     free(e);
 };

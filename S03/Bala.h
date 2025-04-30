@@ -3,6 +3,11 @@
 #include "Colisiones.h"
 #include "Pantalla.h"
 
+/**
+    \file  Bala.h
+    \brief TDA Que modela el comportamiento de una bala.
+*/
+
 typedef struct BalaRep * Bala;
 
 /**
@@ -32,7 +37,6 @@ void mueve_bala(Bala b);
 /**
     \brief Dibuja la bala.
     \param b Puntero a BalaRep
-    \param angulo Angulo de inclinación bala en sentido horario.
 
 */
 void dibuja_bala(Bala b);
@@ -75,6 +79,7 @@ int get_ht_bala(Bala b);
 /**
     \brief Cambia la dirección de la bala.
     \param b Puntero a BalaRep.
+    \param i Nueva dirección de la bala.
 */
 void set_dir_bala(Bala b, int i);
 

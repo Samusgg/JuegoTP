@@ -1,16 +1,17 @@
 #include "Colisiones.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 /**
     \brief Comprueba si un punto está dentro de un rectángulo.
     \param x Coordenada horizontal de la esquina superior izquierda del rectángulo.
-    \param y1 Coordenada vertical de la esquina superior izquierda del rectángulo.
+    \param y Coordenada vertical de la esquina superior izquierda del rectángulo.
     \param w Anchura del rectangulo.
     \param h Altura del rectangulo.
     \param px Coordenada x del punto.
     \param px Coordenada y del punto.
-    \return 1 Si hay está dentro, 0 en caso contrario.
+    \return 1 Si está dentro, 0 en caso contrario.
 */
 int dentroRectangulo(int x, int y, int h, int w, int px, int py){
    return (x<=px && px<x+w) && (y<=py && py<y+h);
@@ -35,13 +36,13 @@ double dPuntoPunto (double x2, double x1, double y2, double y1){
 
 /**
     \brief Comprueba si dos circulos colisionan entre si.
-    \param x2 Coordenada horizontal de la esquina superior izquierda.
-    \param x1 Coordenada horizontal de la esquina superior izquierda.
-    \param y1 Coordenada vertical de la esquina superior izquierda.
-    \param y2 Coordenada vertical de la esquina superior izquierda.
+    \param x1 Coordenada horizontal del centro del primer círculo.
+    \param x2 Coordenada horizontal del centro del segundo círculo.
+    \param y1 Coordenada vertical del centro del primer círculo.
+    \param y2 Coordenada vertical del centro del segundo círculo..
     \return 1 Si hay solape, 0 en caso contrario.
 */
-int colisionCirculos(int x2, int x1, int y1, int y2, int r1, int r2){
+int colisionCirculos(int x1,int x2, int y1, int y2, int r1, int r2){
     int d = dPuntoPunto(x2,x1,y2,y1);
     int sumaRa = r1 + r2;
     if(d < sumaRa){

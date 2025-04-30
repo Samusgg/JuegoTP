@@ -232,8 +232,9 @@ void inserta_rafaga(Rafaga r, Bala b) {
 
 
 /**
-    \brief Esta función mueve todas las balas contenidas en la ráfaga r
-    y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla.
+    \brief Mueve todas las balas contenidas en la ráfaga r
+    y elimina todas las balas que, tras moverse, quedan situadas fuera de la pantalla
+    o chocan con un obstáculo
     \param r TDA Rafaga de balas
     \param e Escenario sobre el cual se va an a mover las balas.
 */
