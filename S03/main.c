@@ -9,42 +9,55 @@
 #include "Ejercito.h"
 #include "Escenario.h"
 
-/**
-AMPLIACIONES REALIZADAS:
-1. #Alcance
-2. #MasEnemigos
-3. #EjercitoDinámico
-4. #Escenario
+
+/** \mainpage main
+    \brief Este es un proyecto para la asignatura de <i>Tecnologías de la
+    Programación</i> de la <strong>Universidad de Murcia</strong>.
+
+    Se trata de un videojuego ambientado en "Minecraft". El objetivo del mismo
+    es el de ir consiguiendo puntos a base de eliminar enemigos o recoger esmeraldas.
+    <p>
+    <strong> AMPLIACIONES REALIZADAS:</strong>
+        <ol>
+            <li>\#Alcance</li>
+            <li>\#MasEnemigos</li>
+            <li>\#EjercitoDinámico</li>
+            <li>\#Escenario</li>
+        </ol>
+    </p>
+    \author Samuel Espín Santos
 **/
+
 
 #define TBloque 32 //Tamaño de bloques de los escenarios.
 
 /**
-    TESORO
+    \struct TesoroStr
+    \brief  Almacena los datos referente a las esmeraldas.
 */
 struct TesoroStr {
-    int x;  //Eje x
-    int y;  //Eje Y
-    int wt; //Anchura
-    int ht; //Altura
-    Imagen imagen;
+    int x;  /*!< Coordenada horizontal esquina superior izquierda. */
+    int y;  /*!< Coordenada vertical esquina superior izquierda. */
+    int wt; /*!< Anchura de la imagen */
+    int ht; /*!< Altura de la imagen*/
+    Imagen imagen; /*!< Imagen */
 };
 typedef struct TesoroStr * Tesoro;
 
 
 /**
-    HEROE
+    \struct HeroeStr
+    \brief  Almacena la información referente al jugador.
 */
 struct HeroeStr {
-    int x;  //Eje x
-    int y;  //Eje Y
-    int wt; //Anchura
-    int ht; //Altura
-    int vidas;
-    Imagen imagen;
-    int v; //Velocidad
-    int puntos;
-    int activo;
+    int x;          /*!< Coordenada horizontal esquina superior izquierda. */
+    int y;          /*!< Coordenada vertical superior izquierda. */
+    int wt;         /*!< Anchura de la imagen del jugador. */
+    int ht;         /*!< Altura de la imagen del jugador. */
+    int vidas;      /*!< Vidas del jugador. */
+    Imagen imagen;  /*!< Imagen del Jugador */
+    int v;          /*!< Velocidad del héroe. */
+    int puntos;     /*!< Puntos del jugador. */
 };
 typedef struct HeroeStr * Heroe;
 
@@ -74,8 +87,8 @@ void dibuja_info(int puntos, int vidas, int nBalas) {
 
     color_trazo(255,255,255,255);
     dibuja_texto(textoV,0,0);
-    dibuja_texto(textoP,100,0);
-    dibuja_texto(textoB,200,0);
+    dibuja_texto(textoB,100,0);
+    dibuja_texto(textoP,200,0);
 }
 
 /**
@@ -91,10 +104,6 @@ void dibuja_tesoro(Tesoro tesoro) {
 //*****************************************
 //          Funciones HEROE
 //*****************************************
-
-
-
-
 
 
 /**
@@ -228,7 +237,7 @@ int partida () {
     Escenario fondo = crea_escenario(lee_imagen("./imagenes/map.bmp",0),800,480,TBloque);
     iniciar_obstaculos(fondo);
     struct TesoroStr tesoroStr = {.x = 23*TBloque, .y = 13*TBloque, .wt = TBloque, .ht = TBloque, .imagen = lee_imagen("./imagenes/esmerald.bmp",1)};
-    struct HeroeStr heroeStr = {.x = 2*TBloque, .y = 2*TBloque, .vidas = 3, .wt = TBloque, .ht = TBloque, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0,.activo = 1};
+    struct HeroeStr heroeStr = {.x = 2*TBloque, .y = 2*TBloque, .vidas = 3, .wt = TBloque, .ht = TBloque, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0};
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
 
@@ -240,7 +249,7 @@ int partida () {
 
     //**
 
-    int fin = 0, iteracion = 0;
+    int fin = 0, iteracion = 0, contFlecha = 0;
     while(pantalla_activa() && !fin) {
 
         dibuja_escenario(fondo);
@@ -250,23 +259,28 @@ int partida () {
 
 
         //PROGRAMAS LISTA DE BALAS.
-        if(tecla_pulsada(SDL_SCANCODE_W)) {
-            bAux = crea_bala(heroe->x,heroe->y,7,7);
+        if(tecla_pulsada(SDL_SCANCODE_W) && contFlecha >= 4) {
+            contFlecha = 0;
+            bAux = crea_bala(heroe->x,heroe->y,9,9);
             set_dir_bala(bAux,0);
             inserta_rafaga(listaBalas,bAux);
         }
-        if(tecla_pulsada(SDL_SCANCODE_A)) {
-            bAux = crea_bala(heroe->x,heroe->y,7,7);
+        if(tecla_pulsada(SDL_SCANCODE_A) && contFlecha >= 4) {
+            contFlecha = 0;
+            bAux = crea_bala(heroe->x,heroe->y,9,9);
             set_dir_bala(bAux,1);
             inserta_rafaga(listaBalas,bAux);
         }
-        if(tecla_pulsada(SDL_SCANCODE_D)) {
-            bAux = crea_bala(heroe->x,heroe->y,7,7);
+        if(tecla_pulsada(SDL_SCANCODE_D) && contFlecha >= 4) {
+            contFlecha = 0;
+            bAux = crea_bala(heroe->x,heroe->y,9,9);
             set_dir_bala(bAux,2);
             inserta_rafaga(listaBalas,bAux);
         }
-        if(tecla_pulsada(SDL_SCANCODE_S)) {
-            bAux = crea_bala(heroe->x,heroe->y,7,7);
+
+        if(tecla_pulsada(SDL_SCANCODE_S) && contFlecha >= 4) {
+            contFlecha = 0;
+            bAux = crea_bala(heroe->x,heroe->y,9,9);
             set_dir_bala(bAux,3);
             inserta_rafaga(listaBalas,bAux);
         }
@@ -297,6 +311,8 @@ int partida () {
                 do {
                     heroe->x = rand()%737;
                     heroe->y = rand()%337;
+
+                    //Para que nazca en un sitio que se pueda traspasar.
                 } while(dentro_bloque(fondo,heroe->x,heroe->y,heroe->wt,heroe->ht,1));
 
             } else {
@@ -308,6 +324,9 @@ int partida () {
         actualiza_pantalla();
         espera(40);
 
+        if(contFlecha<4) {
+            contFlecha++;
+        }
         if(iteracion == 25) {
             mod_aleatoria(enemigos);
             mod_aleatoria(enemigos);
@@ -356,23 +375,28 @@ void ayuda() {
 
 //*****************
 //*****************
+//MENU
+//******
+
 /**
-    \brief Sirve para controlar el dibujado del boton.
+    \brief Sirve para modelar el comportamiento de un boton.
     \param boton Imagen del boton.
-    \param dentro Si el ratón está dentro o no.
     \param x Coordenada horizontal del boton.
     \param y Coordenada vertical del boton.
     \param h Altura del boton.
     \param w Anchura del boton.
 */
-void dibujar_boton(Imagen boton,int dentro,int x, int y, int h, int w) {
-    if(dentro) {
+int evento_boton(Imagen boton, int x, int y, int h, int w) {
+    int dBoton = dentroRectangulo(x,y,h,w,x_raton(),y_raton());
+    if(dBoton) {
         dibuja_imagen(boton,x-2,y-1,w+4,h+2);
-    } else {
-        dibuja_imagen(boton,x,y,w,h);
+        if(boton_raton_pulsado(SDL_BUTTON_LEFT)){
+            return 1;
+        }
     }
+    dibuja_imagen(boton,x,y,w,h);
+    return 0;
 }
-
 
 /**
     \brief Muestra un menú del juego con las diferentes opciones.
@@ -385,32 +409,21 @@ int menu() {
     Imagen boton2 =  lee_imagen("./imagenes/botonAyuda.bmp",0);
     Imagen boton3 =  lee_imagen("./imagenes/botonSalir.bmp",0);
 
-    int fin = 0, opcion = 0, dBoton1 = 0, dBoton2 = 0, dBoton3 = 0;
-    while(pantalla_activa() && !fin) {
+    int opcion = 0;
+    while(pantalla_activa() && opcion==0) {
         dibuja_imagen(menuImagen,0,0,800,480);
 
         //Boton 1
-        dBoton1 = dentroRectangulo(300,220,50,200,x_raton(),y_raton());
-        dibujar_boton(boton1,dBoton1,300,220,50,200);
-        if(dBoton1 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+        if(evento_boton(boton1,300,220,50,200)) {
             opcion = 1;
-            fin = 1;
         }
-
         //Boton 2
-        dBoton2 = dentroRectangulo(300,290,50,200,x_raton(),y_raton());
-        dibujar_boton(boton2,dBoton2,300,290,50,200);
-        if(dBoton2 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+        if(evento_boton(boton2,300,290,50,200)) {
             opcion = 2;
-            fin = 1;
         }
-
         //Boton 3
-        dBoton3 = dentroRectangulo(300,360,50,200,x_raton(),y_raton());
-        dibujar_boton(boton3,dBoton3,300,360,50,200);
-        if(dBoton3 && boton_raton_pulsado(SDL_BUTTON_LEFT)) {
+        if(evento_boton(boton3,300,360,50,200)) {
             opcion = 3;
-            fin = 1;
         }
 
         actualiza_pantalla();
@@ -423,7 +436,11 @@ int menu() {
     return opcion;
 };
 
-
+//************************************
+//************************************
+//************************************
+//MAIN
+//*********
 int main(int argc, char *argv[]) {
     srand(time(NULL));//Establecemos semilla aleatoria.
 

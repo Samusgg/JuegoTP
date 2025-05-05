@@ -24,9 +24,13 @@
 */
 var menudata={children:[
 {text:"Página principal",url:"index.html"},
+{text:"Páginas relacionadas",url:"pages.html"},
 {text:"Estructuras de datos",url:"annotated.html",children:[
 {text:"Estructuras de datos",url:"annotated.html"},
-{text:"Índice de estructuras de datos",url:"classes.html"}]},
+{text:"Índice de estructuras de datos",url:"classes.html"},
+{text:"Campos de datos",url:"functions.html",children:[
+{text:"Todos",url:"functions.html"},
+{text:"Variables",url:"functions_vars.html"}]}]},
 {text:"Archivos",url:"files.html",children:[
 {text:"Lista de archivos",url:"files.html"},
 {text:"Globales",url:"globals.html",children:[

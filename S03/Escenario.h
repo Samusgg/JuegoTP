@@ -1,6 +1,16 @@
 #ifndef __Escenario_h__
 #define __Escenario_h__
 #include "Pantalla.h"
+/**
+    \page Escenario
+    La forma de utilizar este TDA es la siguiente:
+    1. Creamos un escenario a través de la función crea_escenario().
+    2. Modelamos el mapa categorizandolo por distintos tipos de bloques
+    a través de la función inserta_obstaculo().
+    3. Movemos las entidades comprobando los bloques por donde nos movemos
+    a través de funciones como tipo_bloque(), colH_lateral() y dentro_bloque().
+    4. Terminamos de dibujar el mapa utilizando la función dibuja_escenario()
+*/
 
 /**
    \file Escenario.h
@@ -11,7 +21,7 @@ typedef struct EscenarioRep * Escenario;
 
 /**
     \brief Crea un escenario vacío y le asocia una imagen de fondo para que la use al dibujarlo.
-    PreRequisitos: Para que funcione correctamente es necesario que el ancho y la altura de la imagen
+    \pre Para que funcione correctamente es necesario que el ancho y la altura de la imagen
     sean múltiplos del tamaño de bloque.
     \param fondo Imagen del fondo.
     \param anchoImagen Anchura de la imagen en pixeles.
@@ -29,9 +39,9 @@ void libera_escenario( Escenario e );
 
 /**
     \brief Añade un obstáculo definido mediante el rectángulo x,y,w,h.
-    PreRequisitos: Para que funcione correctamente es necesario que las coordenadas y tamaños del obstáculo
+    \pre Para que funcione correctamente es necesario que las coordenadas y tamaños del obstáculo
     den múltiplos del tamaño de bloque.
-    Nota: Los obstáculos se pueden ir superponer hasta terminar de modelar las colisiones
+    \note Los obstáculos se pueden ir superponiendo hasta terminar de modelar las colisiones
     en el mapa como se quiera. Tiene mayor orden de importancia siempre el último obstáculo
     añadido.
     \param e Escenario al cual se le va a añadir un obstáculo.
@@ -88,6 +98,7 @@ int colH_lateral(Escenario e, int x, int y, int x2, int y2,int tipoB);
     \param wt Anchura del rectángulo.
     \param ht Altura del rectángulo.
     \param tipoB Tipo de bloque del escenario.
+    \return 1 si choca, 0 si no.
 */
 int dentro_bloque(Escenario e, int x, int y, int wt, int ht, int tipoB);
 

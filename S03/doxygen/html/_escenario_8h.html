@@ -118,13 +118,13 @@ typedef struct EscenarioRep *&#160;</td><td class="memItemRight" valign="bottom"
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Funciones</h2></td></tr>
 <tr class="memitem:afc44285bd4d8846bc5a83f1b56d05d6e" id="r_afc44285bd4d8846bc5a83f1b56d05d6e"><td class="memItemLeft" align="right" valign="top">Escenario&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc44285bd4d8846bc5a83f1b56d05d6e">crea_escenario</a> (<a class="el" href="_pantalla_8h.html#a768e3409329f2389c63495f1a1684379">Imagen</a> fondo, int anchoImgen, int alturaImagen, int tBloque)</td></tr>
-<tr class="memdesc:afc44285bd4d8846bc5a83f1b56d05d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crea un escenario vacío y le asocia una imagen de fondo para que la use al dibujarlo. PreRequisitos: Para que funcione correctamente es necesario que el ancho y la altura de la imagen sean múltiplos del tamaño de bloque.  <br /></td></tr>
+<tr class="memdesc:afc44285bd4d8846bc5a83f1b56d05d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crea un escenario vacío y le asocia una imagen de fondo para que la use al dibujarlo.  <br /></td></tr>
 <tr class="separator:afc44285bd4d8846bc5a83f1b56d05d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95ec38bb2c534392ba2fe7969d31abfe" id="r_a95ec38bb2c534392ba2fe7969d31abfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95ec38bb2c534392ba2fe7969d31abfe">libera_escenario</a> (Escenario e)</td></tr>
 <tr class="memdesc:a95ec38bb2c534392ba2fe7969d31abfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libera la memoria del escenario.  <br /></td></tr>
 <tr class="separator:a95ec38bb2c534392ba2fe7969d31abfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a080fac4f41dab197b1ddc7d9af3d4464" id="r_a080fac4f41dab197b1ddc7d9af3d4464"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a080fac4f41dab197b1ddc7d9af3d4464">inserta_obstaculo</a> (Escenario e, int tipoObstaculo, int x, int y, int w, int h)</td></tr>
-<tr class="memdesc:a080fac4f41dab197b1ddc7d9af3d4464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Añade un obstáculo definido mediante el rectángulo x,y,w,h. PreRequisitos: Para que funcione correctamente es necesario que las coordenadas y tamaños del obstáculo den múltiplos del tamaño de bloque. Nota: Los obstáculos se pueden ir superponer hasta terminar de modelar las colisiones en el mapa como se quiera. Tiene mayor orden de importancia siempre el último obstáculo añadido.  <br /></td></tr>
+<tr class="memdesc:a080fac4f41dab197b1ddc7d9af3d4464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Añade un obstáculo definido mediante el rectángulo x,y,w,h.  <br /></td></tr>
 <tr class="separator:a080fac4f41dab197b1ddc7d9af3d4464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23f57006bf0215c36b20082622c7d2f0" id="r_a23f57006bf0215c36b20082622c7d2f0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23f57006bf0215c36b20082622c7d2f0">tipo_bloque</a> (Escenario e, int x, int y)</td></tr>
 <tr class="memdesc:a23f57006bf0215c36b20082622c7d2f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que te dice el tipo de bloque en el que se encuentra unas coordenadas. El tipo de bloque nos indica si se puede traspasar el bloque o si por el contrario "es un muro".  <br /></td></tr>
@@ -226,7 +226,8 @@ Funciones</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Crea un escenario vacío y le asocia una imagen de fondo para que la use al dibujarlo. PreRequisitos: Para que funcione correctamente es necesario que el ancho y la altura de la imagen sean múltiplos del tamaño de bloque. </p>
+<p>Crea un escenario vacío y le asocia una imagen de fondo para que la use al dibujarlo. </p>
+<dl class="section pre"><dt>Precondición</dt><dd>Para que funcione correctamente es necesario que el ancho y la altura de la imagen sean múltiplos del tamaño de bloque. </dd></dl>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
     <tr><td class="paramname">fondo</td><td><a class="el" href="_pantalla_8h.html#a768e3409329f2389c63495f1a1684379" title="TDA Imagen.">Imagen</a> del fondo. </td></tr>
@@ -357,7 +358,9 @@ Funciones</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Añade un obstáculo definido mediante el rectángulo x,y,w,h. PreRequisitos: Para que funcione correctamente es necesario que las coordenadas y tamaños del obstáculo den múltiplos del tamaño de bloque. Nota: Los obstáculos se pueden ir superponer hasta terminar de modelar las colisiones en el mapa como se quiera. Tiene mayor orden de importancia siempre el último obstáculo añadido. </p>
+<p>Añade un obstáculo definido mediante el rectángulo x,y,w,h. </p>
+<dl class="section pre"><dt>Precondición</dt><dd>Para que funcione correctamente es necesario que las coordenadas y tamaños del obstáculo den múltiplos del tamaño de bloque. </dd></dl>
+<dl class="section note"><dt>Nota</dt><dd>Los obstáculos se pueden ir superponiendo hasta terminar de modelar las colisiones en el mapa como se quiera. Tiene mayor orden de importancia siempre el último obstáculo añadido. </dd></dl>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
     <tr><td class="paramname">e</td><td>Escenario al cual se le va a añadir un obstáculo. </td></tr>

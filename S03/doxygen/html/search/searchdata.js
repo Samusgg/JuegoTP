@@ -1,11 +1,12 @@
 var indexSectionsWithContent =
 {
-  0: "abcdeghilmprstxy",
+  0: "abcdeghilmprstvwxy",
   1: "ht",
   2: "bcepr",
   3: "abcdegilmprstxy",
-  4: "i",
-  5: "p"
+  4: "hipvwxy",
+  5: "i",
+  6: "emp"
 };
 
 var indexSectionNames =
@@ -14,8 +15,9 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "typedefs",
-  5: "pages"
+  4: "variables",
+  5: "typedefs",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -24,7 +26,8 @@ var indexSectionLabels =
   1: "Estructuras de datos",
   2: "Archivos",
   3: "Funciones",
-  4: "typedefs",
-  5: "Páginas"
+  4: "Variables",
+  5: "typedefs",
+  6: "Páginas"
 };
 

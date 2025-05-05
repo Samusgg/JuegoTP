@@ -3,8 +3,7 @@
 
 #include "SDL2/SDL.h"
 
-/**
-\mainpage Pantalla
+/** \page Pantalla
 
 La biblioteca pantalla es un wrapper de la biblioteca SDL 2.0.
 Permite la escritura de programas gráficos interactivos sin necesidad de conocer muchos de los

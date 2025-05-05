@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pantalla_0',['Pantalla',['../index.html',1,'']]]
+  ['escenario_0',['Escenario',['../_escenario.html',1,'']]]
 ];

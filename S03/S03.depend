@@ -6,7 +6,7 @@
 	<stdio.h>
 	<math.h>
 
-1739135558 c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.h
+1746391844 c:\users\megav\desktop\universidad\primero\programas\s03\pantalla.h
 	"SDL2/SDL.h"
 
 1739019733 c:\sdl2-devel-2.26.2-mingw\sdl2-2.26.2\x86_64-w64-mingw32\include\sdl2\sdl.h
@@ -407,7 +407,7 @@
 	"Pantalla.h"
 	<stdlib.h>
 
-1744855050 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
+1746407522 source:c:\users\megav\desktop\universidad\primero\programas\s03\main.c
 	<time.h>
 	<stdlib.h>
 	<stdio.h>
@@ -418,7 +418,7 @@
 	"Ejercito.h"
 	"Escenario.h"
 
-1744855083 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
+1744855160 source:c:\users\megav\desktop\universidad\primero\programas\s03\colisiones.c
 	"Colisiones.h"
 	<stdlib.h>
 	<stdio.h>
@@ -440,7 +440,7 @@
 	"Colisiones.h"
 	"Escenario.h"
 
-1744844555 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
+1744855406 source:c:\users\megav\desktop\universidad\primero\programas\s03\rafaga.c
 	"Rafaga.h"
 	<stdlib.h>
 	<stdio.h>
@@ -454,7 +454,7 @@
 1744855048 source:c:\users\megav\desktop\universidad\primero\programas\s03\ejercito.c
 	"Ejercito.h"
 
-1744855263 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
+1746406776 c:\users\megav\desktop\universidad\primero\programas\s03\escenario.h
 	"Pantalla.h"
 
 1744836276 source:c:\users\megav\desktop\universidad\primero\programas\s03\escenario.c

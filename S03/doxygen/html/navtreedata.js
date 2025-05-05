@@ -25,10 +25,16 @@
 var NAVTREE =
 [
   [ "S03", "index.html", [
-    [ "Pantalla", "index.html", null ],
+    [ "main", "index.html", null ],
+    [ "Escenario", "_escenario.html", null ],
+    [ "Pantalla", "_pantalla.html", null ],
     [ "Estructuras de datos", "annotated.html", [
       [ "Estructuras de datos", "annotated.html", "annotated_dup" ],
-      [ "Índice de estructuras de datos", "classes.html", null ]
+      [ "Índice de estructuras de datos", "classes.html", null ],
+      [ "Campos de datos", "functions.html", [
+        [ "Todos", "functions.html", null ],
+        [ "Variables", "functions_vars.html", null ]
+      ] ]
     ] ],
     [ "Archivos", "files.html", [
       [ "Lista de archivos", "files.html", "files_dup" ],

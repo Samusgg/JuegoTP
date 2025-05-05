@@ -4,13 +4,13 @@ C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Colisiones.h:33: warnin
 C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Colisiones.h:11: warning: argument 'px' from the argument list of dentroRectangulo has multiple @param documentation sections
 C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Colisiones.h:11: warning: The following parameter of dentroRectangulo(int x, int y, int h, int w, int px, int py) is not documented:
   parameter 'py'
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:16: warning: argument 'anchoImagen' of command @param is not found in the argument list of crea_escenario(Imagen fondo, int anchoImgen, int alturaImagen, int tBloque)
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:16: warning: The following parameter of crea_escenario(Imagen fondo, int anchoImgen, int alturaImagen, int tBloque) is not documented:
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:24: warning: argument 'anchoImagen' of command @param is not found in the argument list of crea_escenario(Imagen fondo, int anchoImgen, int alturaImagen, int tBloque)
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:24: warning: The following parameter of crea_escenario(Imagen fondo, int anchoImgen, int alturaImagen, int tBloque) is not documented:
   parameter 'anchoImgen'
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:54: warning: The following parameter of tipo_bloque(Escenario e, int x, int y) is not documented:
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Escenario.h:64: warning: The following parameter of tipo_bloque(Escenario e, int x, int y) is not documented:
   parameter 'e'
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:200: warning: argument 'st' of command @param is not found in the argument list of dibuja_texto(char texto[], int x, int y)
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:200: warning: The following parameter of dibuja_texto(char texto[], int x, int y) is not documented:
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:199: warning: argument 'st' of command @param is not found in the argument list of dibuja_texto(char texto[], int x, int y)
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:199: warning: The following parameter of dibuja_texto(char texto[], int x, int y) is not documented:
   parameter 'texto'
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:208: warning: argument 'x' of command @param is not found in the argument list of lee_texto(char titulo[])
-C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:208: warning: argument 'y' of command @param is not found in the argument list of lee_texto(char titulo[])
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:207: warning: argument 'x' of command @param is not found in the argument list of lee_texto(char titulo[])
+C:/Users/megav/Desktop/UNIVERSIDAD/Primero/Programas/S03/Pantalla.h:207: warning: argument 'y' of command @param is not found in the argument list of lee_texto(char titulo[])
