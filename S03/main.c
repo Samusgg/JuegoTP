@@ -178,6 +178,55 @@ void iniciar_obstaculos(Escenario fondo) {
     inserta_obstaculo(fondo,2,12*TBloque,5*TBloque,TBloque,5*TBloque);
 }
 
+//*****************************************
+//          Funciones RAFAGA
+//*****************************************
+
+/**
+    \brief Comprueba si hay algún tipo de tecla pulsada (W,A,S,D)
+    y si la hay devuelve un número identificando al evento. Si
+    no hay evento devuelve -1.
+    \return Identificador del evento.
+*/
+int evento_tecla() {
+    if(tecla_pulsada(SDL_SCANCODE_W)) {
+        return 0;
+    }
+    if(tecla_pulsada(SDL_SCANCODE_A)) {
+        return 1;
+    }
+    if(tecla_pulsada(SDL_SCANCODE_D)) {
+        return 2;
+    }
+    if(tecla_pulsada(SDL_SCANCODE_S)) {
+        return 3;
+    }
+    return -1;
+}
+
+/**
+    \brief Introduce una nueva bala en la lista en caso de suceder cierto
+    evento.
+    \param contFlecha Es un contador para regular la frecuencia de la generación
+    de balas.
+    \param x Coordenada x esquina superior izquierda de la nueva Bala.
+    \param y Coordenada y esquina superior izquierda de la nueva Bala.
+    \param listaBalas Lista de balas a las que añadirle nueva Bala.
+    \return 1 si ha sucedido si hay nueva bala, 0 si no.
+*/
+int escucha_bala(int contFlecha, int x, int y, Rafaga listaBalas) {
+    Bala bAux = NULL;
+
+    int dir = evento_tecla();
+    if(dir != -1 && contFlecha>=4) {
+        bAux = crea_bala(x,y,10,10);
+        set_dir_bala(bAux,dir);
+        inserta_rafaga(listaBalas,bAux);
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 /*
 ******************************************************************
@@ -239,7 +288,10 @@ void pantalla_record(int record) {
     libera_imagen(imaRecord2);
 }
 
-
+//*****************
+//*****************
+//PARTIDA
+//******
 /**
     \brief Partida principal del jugador.
     \return Puntos obtenidos por el héroe.
@@ -252,7 +304,6 @@ int partida () {
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
     Rafaga listaBalas = crea_rafaga(150);
-    Bala bAux = NULL;
 
     //ENEMIGOS
     Ejercito enemigos = crea_ejercito(fondo,10);
@@ -262,46 +313,18 @@ int partida () {
     int fin = 0, iteracion = 0, contFlecha = 0;
     while(pantalla_activa() && !fin) {
 
-
-        //PROGRAMAS LISTA DE BALAS.
-        //Arriba
-        if(tecla_pulsada(SDL_SCANCODE_W) && contFlecha >= 4) {
+        //EVENTO DE BALA
+        if(escucha_bala(contFlecha,heroe->x,heroe->y,listaBalas)) {
             contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,10,10);
-            set_dir_bala(bAux,0);
-            inserta_rafaga(listaBalas,bAux);
         }
-        //Izquierda
-        if(tecla_pulsada(SDL_SCANCODE_A) && contFlecha >= 4) {
-            contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,10,10);
-            set_dir_bala(bAux,1);
-            inserta_rafaga(listaBalas,bAux);
-        }
-        //Derecha
-        if(tecla_pulsada(SDL_SCANCODE_D) && contFlecha >= 4) {
-            contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,10,10);
-            set_dir_bala(bAux,2);
-            inserta_rafaga(listaBalas,bAux);
-        }
-        //Abajo
-        if(tecla_pulsada(SDL_SCANCODE_S) && contFlecha >= 4) {
-            contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,10,10);
-            set_dir_bala(bAux,3);
-            inserta_rafaga(listaBalas,bAux);
-        }
-
+        //MOVIMIENTO
         mueve_rafaga(listaBalas,fondo);
-
-
         mover_heroe(heroe, fondo);
-
         mueve_ejercito(enemigos,fondo);
 
 
-        //Colision con tesoro.
+        //COLISIONES
+        //Tesoro
         if(solape_rectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht)) {
             heroe->puntos = heroe->puntos + 5;
             do {
@@ -310,10 +333,10 @@ int partida () {
             } while(dentro_bloque(fondo,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht,1)||
                     dentro_bloque(fondo,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht,2));
         }
-
+        //Enemigos-Balas
         heroe->puntos = heroe->puntos + colision_ejercito_rafaga(enemigos,listaBalas);
 
-        //Se encarga de controlar la vida del heroe en funcion de las colisiones.
+        //Enemigos-Heroe
         if(colision_ejercito_objeto(enemigos,heroe->x,heroe->y,heroe->wt,heroe->ht)) {
             heroe->vidas --;
             if(heroe->vidas>0) {
@@ -340,9 +363,11 @@ int partida () {
         actualiza_pantalla();
         espera(40);
 
+        //Contador de la frecuencia de las flechas.
         if(contFlecha<4) {
             contFlecha++;
         }
+        //Modificación aleatoria de la dirección de 3 enemigos
         if(iteracion == 25) {
             mod_aleatoria(enemigos);
             mod_aleatoria(enemigos);
@@ -368,6 +393,10 @@ int partida () {
     return heroe->puntos;
 }
 
+//*****************
+//*****************
+//AYUDA
+//******
 /**
     \brief Muestra una imagen con la explicación del juego.
 */
