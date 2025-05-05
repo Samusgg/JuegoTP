@@ -9,11 +9,13 @@ var searchData=
   ['dibuja_5fescenario_6',['dibuja_escenario',['../_escenario_8h.html#a0ecf196fc4853bdd660277214958b754',1,'Escenario.h']]],
   ['dibuja_5fimagen_7',['dibuja_imagen',['../_pantalla_8h.html#a5ea1cccb008c2064cd96d63f9ddad747',1,'Pantalla.h']]],
   ['dibuja_5fimagen_5ftransformada_8',['dibuja_imagen_transformada',['../_pantalla_8h.html#a2eae1d8f697d814fd52578ec32acb7ab',1,'Pantalla.h']]],
-  ['dibuja_5flinea_9',['dibuja_linea',['../_pantalla_8h.html#a6b3493e7e386a0418a851762d65894a6',1,'Pantalla.h']]],
-  ['dibuja_5fpunto_10',['dibuja_punto',['../_pantalla_8h.html#ac2f266e1bf8bcfb7f47afac72b665ecb',1,'Pantalla.h']]],
-  ['dibuja_5frafaga_11',['dibuja_rafaga',['../_rafaga_8h.html#a4741fedf88df71c9691fa32abd53186c',1,'Rafaga.h']]],
-  ['dibuja_5frectangulo_12',['dibuja_rectangulo',['../_pantalla_8h.html#af4fad9a7d7ef19e91a3b01866fbaf491',1,'Pantalla.h']]],
-  ['dibuja_5ftexto_13',['dibuja_texto',['../_pantalla_8h.html#aba7abd59ae101762bfaecd1fcabd12a5',1,'Pantalla.h']]],
-  ['dibuja_5ftriangulo_14',['dibuja_triangulo',['../_pantalla_8h.html#a1f0722403da5ae782f2bbcf217b1378d',1,'Pantalla.h']]],
-  ['dpuntopunto_15',['dPuntoPunto',['../_colisiones_8h.html#acfffb33937f105043d9c02be8b7f5806',1,'Colisiones.h']]]
+  ['dibuja_5finfo_9',['dibuja_info',['../main_8c.html#abb33f30301dd80dcbcc5263ccf197b38',1,'main.c']]],
+  ['dibuja_5flinea_10',['dibuja_linea',['../_pantalla_8h.html#a6b3493e7e386a0418a851762d65894a6',1,'Pantalla.h']]],
+  ['dibuja_5fpunto_11',['dibuja_punto',['../_pantalla_8h.html#ac2f266e1bf8bcfb7f47afac72b665ecb',1,'Pantalla.h']]],
+  ['dibuja_5frafaga_12',['dibuja_rafaga',['../_rafaga_8h.html#a4741fedf88df71c9691fa32abd53186c',1,'Rafaga.h']]],
+  ['dibuja_5frectangulo_13',['dibuja_rectangulo',['../_pantalla_8h.html#af4fad9a7d7ef19e91a3b01866fbaf491',1,'Pantalla.h']]],
+  ['dibuja_5ftesoro_14',['dibuja_tesoro',['../main_8c.html#a9cfb88aa752d854208b48914944d56eb',1,'main.c']]],
+  ['dibuja_5ftexto_15',['dibuja_texto',['../_pantalla_8h.html#aba7abd59ae101762bfaecd1fcabd12a5',1,'Pantalla.h']]],
+  ['dibuja_5ftriangulo_16',['dibuja_triangulo',['../_pantalla_8h.html#a1f0722403da5ae782f2bbcf217b1378d',1,'Pantalla.h']]],
+  ['dpuntopunto_17',['dPuntoPunto',['../_colisiones_8h.html#acfffb33937f105043d9c02be8b7f5806',1,'Colisiones.h']]]
 ];

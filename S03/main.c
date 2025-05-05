@@ -28,6 +28,10 @@
     \author Samuel Espín Santos
 **/
 
+/**
+   \file  main.c
+   \brief Archivo principal de ejecución del proyecto.
+*/
 
 #define TBloque 32 //Tamaño de bloques de los escenarios.
 
@@ -86,9 +90,9 @@ void dibuja_info(int puntos, int vidas, int nBalas) {
 
 
     color_trazo(255,255,255,255);
-    dibuja_texto(textoV,0,0);
-    dibuja_texto(textoB,100,0);
-    dibuja_texto(textoP,200,0);
+    dibuja_texto(textoV,0,0);   //Vidas
+    dibuja_texto(textoB,100,0); //Balas
+    dibuja_texto(textoP,200,0); //Puntos
 }
 
 /**
@@ -104,7 +108,14 @@ void dibuja_tesoro(Tesoro tesoro) {
 //*****************************************
 //          Funciones HEROE
 //*****************************************
-
+/**
+    \brief Dibuja al Héroe.
+    \param heroe Puntero a estructura HeroeStr.
+*/
+void dibuja_heroe(Heroe heroe) {
+    //Dibuja tesoro
+    dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
+}
 
 /**
     \brief Mueve al heroe.
@@ -139,8 +150,6 @@ void mover_heroe(Heroe heroe, Escenario e) {
             !colH_lateral(e,xW + heroe->v,y,xW + heroe->v,yH,2)) {
         heroe->x = heroe->x + heroe->v;
     }
-    dibuja_imagen(heroe -> imagen,heroe -> x,heroe -> y,heroe -> wt,heroe -> ht);
-
 }
 
 //*****************************************
@@ -204,6 +213,7 @@ void pantalla_record(int record) {
 
     int fin = 0, contador = 0, animacion = 0;
     while(pantalla_activa() && !fin) {
+        //Mini animación del texto
         if(animacion) {
             dibuja_imagen(imaRecord2,0,0,800,480);
         } else {
@@ -229,6 +239,7 @@ void pantalla_record(int record) {
     libera_imagen(imaRecord2);
 }
 
+
 /**
     \brief Partida principal del jugador.
     \return Puntos obtenidos por el héroe.
@@ -240,7 +251,6 @@ int partida () {
     struct HeroeStr heroeStr = {.x = 2*TBloque, .y = 2*TBloque, .vidas = 3, .wt = TBloque, .ht = TBloque, .imagen =  lee_imagen("./imagenes/steve.bmp",0),.v = 4, .puntos = 0};
     Tesoro tesoro = &tesoroStr;
     Heroe heroe = &heroeStr;
-
     Rafaga listaBalas = crea_rafaga(150);
     Bala bAux = NULL;
 
@@ -252,45 +262,44 @@ int partida () {
     int fin = 0, iteracion = 0, contFlecha = 0;
     while(pantalla_activa() && !fin) {
 
-        dibuja_escenario(fondo);
-        dibuja_info(heroe->puntos,heroe->vidas,longitud_rafaga(listaBalas));
-        //Dibuja Tesoro
-        dibuja_tesoro(tesoro);
-
 
         //PROGRAMAS LISTA DE BALAS.
+        //Arriba
         if(tecla_pulsada(SDL_SCANCODE_W) && contFlecha >= 4) {
             contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,9,9);
+            bAux = crea_bala(heroe->x,heroe->y,10,10);
             set_dir_bala(bAux,0);
             inserta_rafaga(listaBalas,bAux);
         }
+        //Izquierda
         if(tecla_pulsada(SDL_SCANCODE_A) && contFlecha >= 4) {
             contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,9,9);
+            bAux = crea_bala(heroe->x,heroe->y,10,10);
             set_dir_bala(bAux,1);
             inserta_rafaga(listaBalas,bAux);
         }
+        //Derecha
         if(tecla_pulsada(SDL_SCANCODE_D) && contFlecha >= 4) {
             contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,9,9);
+            bAux = crea_bala(heroe->x,heroe->y,10,10);
             set_dir_bala(bAux,2);
             inserta_rafaga(listaBalas,bAux);
         }
-
+        //Abajo
         if(tecla_pulsada(SDL_SCANCODE_S) && contFlecha >= 4) {
             contFlecha = 0;
-            bAux = crea_bala(heroe->x,heroe->y,9,9);
+            bAux = crea_bala(heroe->x,heroe->y,10,10);
             set_dir_bala(bAux,3);
             inserta_rafaga(listaBalas,bAux);
         }
 
         mueve_rafaga(listaBalas,fondo);
-        dibuja_rafaga(listaBalas);
+
 
         mover_heroe(heroe, fondo);
+
         mueve_ejercito(enemigos,fondo);
-        dibuja_ejercito(enemigos);
+
 
         //Colision con tesoro.
         if(solape_rectangulos(heroe->x,heroe->y,heroe->wt,heroe->ht,tesoro->x,tesoro->y,tesoro->wt,tesoro->ht)) {
@@ -320,6 +329,13 @@ int partida () {
             }
         }
 
+        //Dibujos
+        dibuja_escenario(fondo);
+        dibuja_info(heroe->puntos,heroe->vidas,longitud_rafaga(listaBalas));
+        dibuja_tesoro(tesoro);
+        dibuja_rafaga(listaBalas);
+        dibuja_heroe(heroe);
+        dibuja_ejercito(enemigos);
 
         actualiza_pantalla();
         espera(40);
@@ -390,7 +406,7 @@ int evento_boton(Imagen boton, int x, int y, int h, int w) {
     int dBoton = dentroRectangulo(x,y,h,w,x_raton(),y_raton());
     if(dBoton) {
         dibuja_imagen(boton,x-2,y-1,w+4,h+2);
-        if(boton_raton_pulsado(SDL_BUTTON_LEFT)){
+        if(boton_raton_pulsado(SDL_BUTTON_LEFT)) {
             return 1;
         }
     }

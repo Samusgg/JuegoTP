@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>S03: Referencia del archivo main.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">S03
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('main_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Estructuras de datos</a> &#124;
+<a href="#define-members">defines</a> &#124;
+<a href="#typedef-members">typedefs</a> &#124;
+<a href="#func-members">Funciones</a>  </div>
+  <div class="headertitle"><div class="title">Referencia del archivo main.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Archivo principal de ejecución del proyecto.  
+<a href="#details">Más...</a></p>
+<div class="textblock"><code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="_pantalla_8h_source.html">Pantalla.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_colisiones_8h_source.html">Colisiones.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_bala_8h_source.html">Bala.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_rafaga_8h_source.html">Rafaga.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_ejercito_8h_source.html">Ejercito.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_escenario_8h_source.html">Escenario.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Estructuras de datos</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_tesoro_str.html">TesoroStr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Almacena los datos referente a las esmeraldas.  <a href="struct_tesoro_str.html#details">Más...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_heroe_str.html">HeroeStr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Almacena la información referente al jugador.  <a href="struct_heroe_str.html#details">Más...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+defines</h2></td></tr>
+<tr class="memitem:adf3351428f705ab129f2ff65ea2347ed" id="r_adf3351428f705ab129f2ff65ea2347ed"><td class="memItemLeft" align="right" valign="top"><a id="adf3351428f705ab129f2ff65ea2347ed" name="adf3351428f705ab129f2ff65ea2347ed"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TBloque</b>&#160;&#160;&#160;32</td></tr>
+<tr class="separator:adf3351428f705ab129f2ff65ea2347ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+typedefs</h2></td></tr>
+<tr class="memitem:a1b02bcbc7da35efed9c60c99521551d8" id="r_a1b02bcbc7da35efed9c60c99521551d8"><td class="memItemLeft" align="right" valign="top"><a id="a1b02bcbc7da35efed9c60c99521551d8" name="a1b02bcbc7da35efed9c60c99521551d8"></a>
+typedef struct <a class="el" href="struct_tesoro_str.html">TesoroStr</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>Tesoro</b></td></tr>
+<tr class="separator:a1b02bcbc7da35efed9c60c99521551d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef449fa69bd88bf8723ecf386e257e1c" id="r_aef449fa69bd88bf8723ecf386e257e1c"><td class="memItemLeft" align="right" valign="top"><a id="aef449fa69bd88bf8723ecf386e257e1c" name="aef449fa69bd88bf8723ecf386e257e1c"></a>
+typedef struct <a class="el" href="struct_heroe_str.html">HeroeStr</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>Heroe</b></td></tr>
+<tr class="separator:aef449fa69bd88bf8723ecf386e257e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6632ad623f75536771c18bb938393187" id="r_a6632ad623f75536771c18bb938393187"><td class="memItemLeft" align="right" valign="top"><a id="a6632ad623f75536771c18bb938393187" name="a6632ad623f75536771c18bb938393187"></a>
+typedef FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>Archivo</b></td></tr>
+<tr class="separator:a6632ad623f75536771c18bb938393187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funciones</h2></td></tr>
+<tr class="memitem:abb33f30301dd80dcbcc5263ccf197b38" id="r_abb33f30301dd80dcbcc5263ccf197b38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb33f30301dd80dcbcc5263ccf197b38">dibuja_info</a> (int puntos, int vidas, int nBalas)</td></tr>
+<tr class="memdesc:abb33f30301dd80dcbcc5263ccf197b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dibuja informacion sobre los puntos y las vidas.  <br /></td></tr>
+<tr class="separator:abb33f30301dd80dcbcc5263ccf197b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cfb88aa752d854208b48914944d56eb" id="r_a9cfb88aa752d854208b48914944d56eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cfb88aa752d854208b48914944d56eb">dibuja_tesoro</a> (<a class="el" href="struct_tesoro_str.html">Tesoro</a> tesoro)</td></tr>
+<tr class="memdesc:a9cfb88aa752d854208b48914944d56eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dibuja el tesoro.  <br /></td></tr>
+<tr class="separator:a9cfb88aa752d854208b48914944d56eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8facebaeb56ee81fd4ed1e9fa627cf5e" id="r_a8facebaeb56ee81fd4ed1e9fa627cf5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8facebaeb56ee81fd4ed1e9fa627cf5e">mover_heroe</a> (<a class="el" href="struct_heroe_str.html">Heroe</a> heroe, Escenario e)</td></tr>
+<tr class="memdesc:a8facebaeb56ee81fd4ed1e9fa627cf5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mueve al heroe.  <br /></td></tr>
+<tr class="separator:a8facebaeb56ee81fd4ed1e9fa627cf5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61442bad3798b128e93b069e4ba0e7ce" id="r_a61442bad3798b128e93b069e4ba0e7ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61442bad3798b128e93b069e4ba0e7ce">iniciar_obstaculos</a> (Escenario fondo)</td></tr>
+<tr class="memdesc:a61442bad3798b128e93b069e4ba0e7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que inserta todos los obstáculos dentro de un escenario.  <br /></td></tr>
+<tr class="separator:a61442bad3798b128e93b069e4ba0e7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50400107b19de0bc48b75c4cc9e94da9" id="r_a50400107b19de0bc48b75c4cc9e94da9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50400107b19de0bc48b75c4cc9e94da9">pantalla_record</a> (int record)</td></tr>
+<tr class="memdesc:a50400107b19de0bc48b75c4cc9e94da9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función que muestra por pantalla un record conseguido por parte del jugador.  <br /></td></tr>
+<tr class="separator:a50400107b19de0bc48b75c4cc9e94da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93dbbfb30c7ecc842cacba82fe13f532" id="r_a93dbbfb30c7ecc842cacba82fe13f532"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93dbbfb30c7ecc842cacba82fe13f532">partida</a> ()</td></tr>
+<tr class="memdesc:a93dbbfb30c7ecc842cacba82fe13f532"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partida principal del jugador.  <br /></td></tr>
+<tr class="separator:a93dbbfb30c7ecc842cacba82fe13f532"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a175c86f6344de24bf92052a3f57d9547" id="r_a175c86f6344de24bf92052a3f57d9547"><td class="memItemLeft" align="right" valign="top"><a id="a175c86f6344de24bf92052a3f57d9547" name="a175c86f6344de24bf92052a3f57d9547"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ayuda</b> ()</td></tr>
+<tr class="memdesc:a175c86f6344de24bf92052a3f57d9547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra una imagen con la explicación del juego. <br /></td></tr>
+<tr class="separator:a175c86f6344de24bf92052a3f57d9547"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59595e9e8d369c82e2a9eb3b121bc278" id="r_a59595e9e8d369c82e2a9eb3b121bc278"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59595e9e8d369c82e2a9eb3b121bc278">evento_boton</a> (<a class="el" href="_pantalla_8h.html#a768e3409329f2389c63495f1a1684379">Imagen</a> boton, int x, int y, int h, int w)</td></tr>
+<tr class="memdesc:a59595e9e8d369c82e2a9eb3b121bc278"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sirve para modelar el comportamiento de un boton.  <br /></td></tr>
+<tr class="separator:a59595e9e8d369c82e2a9eb3b121bc278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae83fcdbeb2b6757fc741ae953b633ee1" id="r_ae83fcdbeb2b6757fc741ae953b633ee1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae83fcdbeb2b6757fc741ae953b633ee1">menu</a> ()</td></tr>
+<tr class="memdesc:ae83fcdbeb2b6757fc741ae953b633ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra un menú del juego con las diferentes opciones.  <br /></td></tr>
+<tr class="separator:ae83fcdbeb2b6757fc741ae953b633ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top"><a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (int argc, char *argv[])</td></tr>
+<tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Descripción detallada</h2>
+<div class="textblock"><p>Archivo principal de ejecución del proyecto. </p>
+</div><h2 class="groupheader">Documentación de funciones</h2>
+<a id="abb33f30301dd80dcbcc5263ccf197b38" name="abb33f30301dd80dcbcc5263ccf197b38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb33f30301dd80dcbcc5263ccf197b38">&#9670;&#160;</a></span>dibuja_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dibuja_info </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>puntos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>vidas</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>nBalas</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dibuja informacion sobre los puntos y las vidas. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">puntos</td><td>Puntuacion. </td></tr>
+    <tr><td class="paramname">vidas</td><td>Vidas del heroe restantes. </td></tr>
+    <tr><td class="paramname">nBalas</td><td>Número de balas en activo. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9cfb88aa752d854208b48914944d56eb" name="a9cfb88aa752d854208b48914944d56eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cfb88aa752d854208b48914944d56eb">&#9670;&#160;</a></span>dibuja_tesoro()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dibuja_tesoro </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_tesoro_str.html">Tesoro</a></td>          <td class="paramname"><span class="paramname"><em>tesoro</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dibuja el tesoro. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tesoro</td><td>Puntero a estructura <a class="el" href="struct_tesoro_str.html" title="Almacena los datos referente a las esmeraldas.">TesoroStr</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a59595e9e8d369c82e2a9eb3b121bc278" name="a59595e9e8d369c82e2a9eb3b121bc278"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59595e9e8d369c82e2a9eb3b121bc278">&#9670;&#160;</a></span>evento_boton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int evento_boton </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_pantalla_8h.html#a768e3409329f2389c63495f1a1684379">Imagen</a></td>          <td class="paramname"><span class="paramname"><em>boton</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>h</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>w</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sirve para modelar el comportamiento de un boton. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">boton</td><td><a class="el" href="_pantalla_8h.html#a768e3409329f2389c63495f1a1684379" title="TDA Imagen.">Imagen</a> del boton. </td></tr>
+    <tr><td class="paramname">x</td><td>Coordenada horizontal del boton. </td></tr>
+    <tr><td class="paramname">y</td><td>Coordenada vertical del boton. </td></tr>
+    <tr><td class="paramname">h</td><td>Altura del boton. </td></tr>
+    <tr><td class="paramname">w</td><td>Anchura del boton. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a61442bad3798b128e93b069e4ba0e7ce" name="a61442bad3798b128e93b069e4ba0e7ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61442bad3798b128e93b069e4ba0e7ce">&#9670;&#160;</a></span>iniciar_obstaculos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void iniciar_obstaculos </td>
+          <td>(</td>
+          <td class="paramtype">Escenario</td>          <td class="paramname"><span class="paramname"><em>fondo</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que inserta todos los obstáculos dentro de un escenario. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fondo</td><td>Escenario sobre el cual se va a poner obstáculos. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae83fcdbeb2b6757fc741ae953b633ee1" name="ae83fcdbeb2b6757fc741ae953b633ee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae83fcdbeb2b6757fc741ae953b633ee1">&#9670;&#160;</a></span>menu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int menu </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Muestra un menú del juego con las diferentes opciones. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>Opción elegida. </dd></dl>
+
+</div>
+</div>
+<a id="a8facebaeb56ee81fd4ed1e9fa627cf5e" name="a8facebaeb56ee81fd4ed1e9fa627cf5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8facebaeb56ee81fd4ed1e9fa627cf5e">&#9670;&#160;</a></span>mover_heroe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mover_heroe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_heroe_str.html">Heroe</a></td>          <td class="paramname"><span class="paramname"><em>heroe</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Escenario</td>          <td class="paramname"><span class="paramname"><em>e</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mueve al heroe. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">heroe</td><td>Puntero a estructura <a class="el" href="struct_heroe_str.html" title="Almacena la información referente al jugador.">HeroeStr</a>. </td></tr>
+    <tr><td class="paramname">e</td><td>Escenario sobre el que se va a mover el héroe. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a50400107b19de0bc48b75c4cc9e94da9" name="a50400107b19de0bc48b75c4cc9e94da9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50400107b19de0bc48b75c4cc9e94da9">&#9670;&#160;</a></span>pantalla_record()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pantalla_record </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>record</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Función que muestra por pantalla un record conseguido por parte del jugador. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>Record que se va a mostrar por pantalla. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a93dbbfb30c7ecc842cacba82fe13f532" name="a93dbbfb30c7ecc842cacba82fe13f532"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93dbbfb30c7ecc842cacba82fe13f532">&#9670;&#160;</a></span>partida()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int partida </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Partida principal del jugador. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>Puntos obtenidos por el héroe. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="main_8c.html">main.c</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>
